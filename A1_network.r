@@ -17,6 +17,7 @@ library(network)
 library(GGally)
 library(ggplot2)
 
+library(dplyr)
 library(readr)
 
 d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
@@ -32,20 +33,25 @@ if(!file.exists("model/network.rda")) {
   # sanity check
   stopifnot(length(followers_m) == length(filesList))
 
-  cat("Building adjacency matrix of",
-      length(filesList), "x", length(userlist), "\n")
+  cat(date(), ": building adjacency matrix of",
+      length(filesList), "politicians x", length(userlist), "users...\n")
 
-  M = matrix(ncol = length(userlist), nrow = 0)
+  M = list()
 
-  for(i in length(followers_m):1)
-    M = rbind(M, as.numeric(userlist %in% followers_m[[i]]))
+  for(i in 1:length(followers_m))
+    M[[i]] = as.numeric(userlist %in% followers_m[[i]])
 
-  rownames(M) = rev(filesList) # because we read the previous object backwards
-  rownames(M) = gsub("followers/|\\.rda", "", rownames(M))
-  colnames(M) = userlist
+  M = sapply(M, rbind)
+  
+  colnames(M) = gsub("followers/|\\.rda", "", filesList)
+  rownames(M) = userlist
+
+  cat(date(), ": collapsing two-mode to one-mode...\n")
 
   # collapse to one-mode (politicians)
-  m = M %*% t(M)
+  m = t(M) %*% M
+
+  cat(date(), ": building weighted edge list...\n")
 
   e = data.frame()
   for(i in nrow(m):1) {
@@ -62,6 +68,8 @@ if(!file.exists("model/network.rda")) {
   # remove self-loops and null ties
   e = filter(e, w < 1 & n != 0)
 
+  cat(date(), ": building network object...\n")
+
   n = network(e[, 1:2 ], directed = TRUE)
   set.edge.attribute(n, "count", e[, 3])
   set.edge.attribute(n, "weight", e[, 4])
@@ -71,6 +79,8 @@ if(!file.exists("model/network.rda")) {
   n %v% "party" = as.character(tw[ network.vertex.names(n) ])
 
   save(M, m, n, e, file = "model/network.rda")
+
+  cat(date(), ": done.\n")
 
 } else {
 
@@ -99,8 +109,8 @@ colors = c(
 # plot high tie strength networks
 for(w in c(.66, .5)) {
 
-  edges = e[ e$w > w, ] # e$n >= quantile(e$n[ e$w > w ], .25) &
-  net = network(edges[, 1:2 ], directed = TRUE) # 722 nodes
+  edges = e[ e$w > w, ]
+  net = network(edges[, 1:2 ], directed = TRUE)
   set.edge.attribute(net, "count", edges[ , 3])
   set.edge.attribute(net, "weight", edges[ , 4])
 
