@@ -1,0 +1,287 @@
+ville,departement,region,pop2011
+"Paris","Paris","Île-de-France",2249975
+"Marseille","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",850636
+"Lyon","Métropole de Lyon","Rhône-Alpes",491268
+"Toulouse","Haute-Garonne","Midi-Pyrénées",447340
+"Nice","Alpes-Maritimes","Provence-Alpes-Côte d'Azur",344064
+"Nantes","Loire-Atlantique","Pays de la Loire",287845
+"Strasbourg","Bas-Rhin","Alsace",272222
+"Montpellier","Hérault","Languedoc-Roussillon",264538
+"Bordeaux","Gironde","Aquitaine",239399
+"Lille","Nord","Nord-Pas-de-Calais",227533
+"Rennes","Ille-et-Vilaine","Bretagne",208033
+"Reims","Marne","Champagne-Ardenne",180752
+"Le Havre","Seine-Maritime","Haute-Normandie",174156
+"Saint-Étienne","Loire","Rhône-Alpes",170049
+"Toulon","Var","Provence-Alpes-Côte d'Azur",163974
+"Grenoble","Isère","Rhône-Alpes",157424
+"Dijon","Côte-d'Or","Bourgogne",151672
+"Angers","Maine-et-Loire","Pays de la Loire",148803
+"Nîmes","Gard","Languedoc-Roussillon",144940
+"Villeurbanne","Métropole de Lyon","Rhône-Alpes",145034
+"Saint-Denis","La Réunion","La Réunion",145347
+"Le Mans","Sarthe","Pays de la Loire",143240
+"Clermont-Ferrand","Puy-de-Dôme","Auvergne",140957
+"Aix-en-Provence","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",140684
+"Brest","Finistère","Bretagne",140547
+"Limoges","Haute-Vienne","Limousin",137758
+"Tours","Indre-et-Loire","Centre-Val de Loire",134633
+"Amiens","Somme","Picardie",133327
+"Perpignan","Pyrénées-Orientales","Languedoc-Roussillon",118238
+"Metz","Moselle","Lorraine",119962
+"Boulogne-Billancourt","Hauts-de-Seine","Île-de-France",116220
+"Besançon","Doubs","Franche-Comté",115879
+"Orléans","Loiret","Centre-Val de Loire",114185
+"Rouen","Seine-Maritime","Haute-Normandie",111553
+"Mulhouse","Haut-Rhin","Alsace",110351
+"Caen","Calvados","Basse-Normandie",108793
+"Saint-Denis","Seine-Saint-Denis","Île-de-France",107762
+"Nancy","Meurthe-et-Moselle","Lorraine",105382
+"Argenteuil","Val-d'Oise","Île-de-France",104282
+"Saint-Paul","La Réunion","La Réunion",103916
+"Montreuil","Seine-Saint-Denis","Île-de-France",103068
+"Roubaix","Nord","Nord-Pas-de-Calais",94186
+"Tourcoing","Nord","Nord-Pas-de-Calais",92018
+"Dunkerque","Nord","Nord-Pas-de-Calais",91386
+"Nanterre","Hauts-de-Seine","Île-de-France",89476
+"Créteil","Val-de-Marne","Île-de-France",90528
+"Avignon","Vaucluse","Provence-Alpes-Côte d'Azur",90194
+"Vitry-sur-Seine","Val-de-Marne","Île-de-France",86375
+"Poitiers","Vienne","Poitou-Charentes",87906
+"Courbevoie","Hauts-de-Seine","Île-de-France",88530
+"Fort-de-France","Martinique","Martinique",86753
+"Versailles","Yvelines","Île-de-France",86307
+"Colombes","Hauts-de-Seine","Île-de-France",85102
+"Asnières-sur-Seine","Hauts-de-Seine","Île-de-France",83376
+"Aulnay-sous-Bois","Seine-Saint-Denis","Île-de-France",81880
+"Saint-Pierre","La Réunion","La Réunion",80356
+"Rueil-Malmaison","Hauts-de-Seine","Île-de-France",79855
+"Pau","Pyrénées-Atlantiques","Aquitaine",79798
+"Aubervilliers","Seine-Saint-Denis","Île-de-France",75598
+"Champigny-sur-Marne","Val-de-Marne","Île-de-France",75800
+"Le Tampon","La Réunion","La Réunion",74998
+"Antibes","Alpes-Maritimes","Provence-Alpes-Côte d'Azur",75176
+"Saint-Maur-des-Fossés","Val-de-Marne","Île-de-France",74818
+"La Rochelle","Charente-Maritime","Poitou-Charentes",74880
+"Cannes","Alpes-Maritimes","Provence-Alpes-Côte d'Azur",72607
+"Béziers","Hérault","Languedoc-Roussillon",71432
+"Calais","Pas-de-Calais","Nord-Pas-de-Calais",72915
+"Saint-Nazaire","Loire-Atlantique","Pays de la Loire",67097
+"Colmar","Haut-Rhin","Alsace",67409
+"Drancy","Seine-Saint-Denis","Île-de-France",66635
+"Bourges","Cher","Centre-Val de Loire",66602
+"Mérignac","Gironde","Aquitaine",65882
+"Ajaccio","Corse-du-Sud","Corse",66809
+"Issy-les-Moulineaux","Hauts-de-Seine","Île-de-France",65326
+"Levallois-Perret","Hauts-de-Seine","Île-de-France",64629
+"La Seyne-sur-Mer","Var","Provence-Alpes-Côte d'Azur",62640
+"Quimper","Finistère","Bretagne",63235
+"Noisy-le-Grand","Seine-Saint-Denis","Île-de-France",62970
+"Valence","Drôme","Rhône-Alpes",63148
+"Villeneuve-d'Ascq","Nord","Nord-Pas-de-Calais",62681
+"Neuilly-sur-Seine","Hauts-de-Seine","Île-de-France",61797
+"Antony","Hauts-de-Seine","Île-de-France",62012
+"Vénissieux","Métropole de Lyon","Rhône-Alpes",60159
+"Cergy","Val-d'Oise","Île-de-France",58341
+"Troyes","Aube","Champagne-Ardenne",60013
+"Clichy","Hauts-de-Seine","Île-de-France",59458
+"Pessac","Gironde","Aquitaine",58743
+"Les Abymes","Guadeloupe","Guadeloupe",59311
+"Ivry-sur-Seine","Val-de-Marne","Île-de-France",58185
+"Chambéry","Savoie","Rhône-Alpes",58437
+"Lorient","Morbihan","Bretagne",57408
+"Niort","Deux-Sèvres","Poitou-Charentes",57813
+"Sarcelles","Val-d'Oise","Île-de-France",58398
+"Montauban","Tarn-et-Garonne","Midi-Pyrénées",56536
+"Villejuif","Val-de-Marne","Île-de-France",55923
+"Saint-Quentin","Aisne","Picardie",56278
+"Hyères","Var","Provence-Alpes-Côte d'Azur",54527
+"Cayenne","Guyane","Guyane",57229
+"Épinay-sur-Seine","Seine-Saint-Denis","Île-de-France",54540
+"Saint-André","La Réunion","La Réunion",55090
+"Beauvais","Oise","Picardie",54189
+"Maisons-Alfort","Val-de-Marne","Île-de-France",53265
+"Cholet","Maine-et-Loire","Pays de la Loire",54421
+"Meaux","Seine-et-Marne","Île-de-France",52225
+"Chelles","Seine-et-Marne","Île-de-France",52817
+"Pantin","Seine-Saint-Denis","Île-de-France",53797
+"Fontenay-sous-Bois","Val-de-Marne","Île-de-France",52723
+"La Roche-sur-Yon","Vendée","Pays de la Loire",52773
+"Bondy","Seine-Saint-Denis","Île-de-France",53051
+"Vannes","Morbihan","Bretagne",52784
+"Saint-Louis","La Réunion","La Réunion",52523
+"Fréjus","Var","Provence-Alpes-Côte d'Azur",52344
+"Arles","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",52510
+"Clamart","Hauts-de-Seine","Île-de-France",52731
+"Évry","Essonne","Île-de-France",52184
+"Le Blanc-Mesnil","Seine-Saint-Denis","Île-de-France",51916
+"Narbonne","Aude","Languedoc-Roussillon",51546
+"Sartrouville","Yvelines","Île-de-France",51431
+"Grasse","Alpes-Maritimes","Provence-Alpes-Côte d'Azur",51631
+"Annecy","Haute-Savoie","Rhône-Alpes",51012
+"Laval","Mayenne","Pays de la Loire",50843
+"Belfort","Territoire de Belfort","Franche-Comté",50128
+"Vincennes","Val-de-Marne","Île-de-France",48649
+"Charleville-Mézières","Ardennes","Champagne-Ardenne",49433
+"Évreux","Eure","Haute-Normandie",49359
+"Sevran","Seine-Saint-Denis","Île-de-France",50053
+"Albi","Tarn","Midi-Pyrénées",49179
+"Montrouge","Hauts-de-Seine","Île-de-France",48710
+"Bobigny","Seine-Saint-Denis","Île-de-France",47224
+"Martigues","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",47614
+"Saint-Ouen","Seine-Saint-Denis","Île-de-France",47783
+"Brive-la-Gaillarde","Corrèze","Limousin",48267
+"Suresnes","Hauts-de-Seine","Île-de-France",46876
+"Carcassonne","Aude","Languedoc-Roussillon",47268
+"Cagnes-sur-Mer","Alpes-Maritimes","Provence-Alpes-Côte d'Azur",46632
+"Corbeil-Essonnes","Essonne","Île-de-France",44223
+"Saint-Brieuc","Côtes-d'Armor","Bretagne",46173
+"Blois","Loir-et-Cher","Centre-Val de Loire",46390
+"Bayonne","Pyrénées-Atlantiques","Aquitaine",44331
+"Aubagne","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",45800
+"Châlons-en-Champagne","Marne","Champagne-Ardenne",45153
+"Meudon","Hauts-de-Seine","Île-de-France",45010
+"Châteauroux","Indre","Centre-Val de Loire",45521
+"Saint-Malo","Ille-et-Vilaine","Bretagne",45201
+"Chalon-sur-Saône","Saône-et-Loire","Bourgogne",44847
+"Sète","Hérault","Languedoc-Roussillon",43408
+"Puteaux","Hauts-de-Seine","Île-de-France",44683
+"Alfortville","Val-de-Marne","Île-de-France",44550
+"Salon-de-Provence","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",42812
+"Massy","Essonne","Île-de-France",43006
+"Mantes-la-Jolie","Yvelines","Île-de-France",42727
+"Bastia","Haute-Corse","Corse",42912
+"Vaulx-en-Velin","Métropole de Lyon","Rhône-Alpes",42726
+"Saint-Herblain","Loire-Atlantique","Pays de la Loire",43082
+"Le Cannet","Alpes-Maritimes","Provence-Alpes-Côte d'Azur",42754
+"Valenciennes","Nord","Nord-Pas-de-Calais",43471
+"Istres","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",42943
+"Gennevilliers","Hauts-de-Seine","Île-de-France",41930
+"Boulogne-sur-Mer","Pas-de-Calais","Nord-Pas-de-Calais",42680
+"Livry-Gargan","Seine-Saint-Denis","Île-de-France",42036
+"Saint-Priest","Métropole de Lyon","Rhône-Alpes",42535
+"Rosny-sous-Bois","Seine-Saint-Denis","Île-de-France",41254
+"Caluire-et-Cuire","Métropole de Lyon","Rhône-Alpes",41357
+"Angoulême","Charente","Poitou-Charentes",41776
+"Douai","Nord","Nord-Pas-de-Calais",41915
+"Tarbes","Hautes-Pyrénées","Midi-Pyrénées",42888
+"Wattrelos","Nord","Nord-Pas-de-Calais",41538
+"Castres","Tarn","Midi-Pyrénées",42222
+"Choisy-le-Roi","Val-de-Marne","Île-de-France",41355
+"Talence","Gironde","Aquitaine",40763
+"Thionville","Moselle","Lorraine",40951
+"Arras","Pas-de-Calais","Nord-Pas-de-Calais",41322
+"Alès","Gard","Languedoc-Roussillon",40851
+"Garges-lès-Gonesse","Val-d'Oise","Île-de-France",39730
+"Gap","Hautes-Alpes","Provence-Alpes-Côte d'Azur",40654
+"Saint-Laurent-du-Maroni","Guyane","Guyane",40462
+"Melun","Seine-et-Marne","Île-de-France",39497
+"Bourg-en-Bresse","Ain","Rhône-Alpes",39882
+"Noisy-le-Sec","Seine-Saint-Denis","Île-de-France",40232
+"Compiègne","Oise","Picardie",39517
+"La Courneuve","Seine-Saint-Denis","Île-de-France",38789
+"Le Lamentin","Martinique","Martinique",39458
+"Marcq-en-Barœul","Nord","Nord-Pas-de-Calais",39591
+"Saint-Germain-en-Laye","Yvelines","Île-de-France",40653
+"Rezé","Loire-Atlantique","Pays de la Loire",38932
+"Bron","Métropole de Lyon","Rhône-Alpes",38881
+"Anglet","Pyrénées-Atlantiques","Aquitaine",38581
+"Gagny","Seine-Saint-Denis","Île-de-France",39378
+"Chartres","Eure-et-Loir","Centre-Val de Loire",39273
+"Bagneux","Hauts-de-Seine","Île-de-France",38002
+"Saint-Martin-d'Hères","Isère","Rhône-Alpes",37126
+"Montluçon","Allier","Auvergne",38166
+"Pontault-Combault","Seine-et-Marne","Île-de-France",36458
+"Poissy","Yvelines","Île-de-France",37662
+"Draguignan","Var","Provence-Alpes-Côte d'Azur",37501
+"Joué-lès-Tours","Indre-et-Loire","Centre-Val de Loire",36554
+"Savigny-sur-Orge","Essonne","Île-de-France",37132
+"Cherbourg-Octeville","Manche","Basse-Normandie",37754
+"Saint-Joseph","La Réunion","La Réunion",36401
+"Le Port","La Réunion","La Réunion",37558
+"Colomiers","Haute-Garonne","Midi-Pyrénées",35784
+"Saint-Martin","Saint-Martin","",36622
+"Villefranche-sur-Saône","Rhône","Rhône-Alpes",35640
+"Stains","Seine-Saint-Denis","Île-de-France",34830
+"Saint-Benoît","La Réunion","La Réunion",35733
+"Échirolles","Isère","Rhône-Alpes",35995
+"Villepinte","Seine-Saint-Denis","Île-de-France",35850
+"Roanne","Loire","Rhône-Alpes",36147
+"Montélimar","Drôme","Rhône-Alpes",35372
+"Saint-Chamond","Loire","Rhône-Alpes",35419
+"Nevers","Nièvre","Bourgogne",36210
+"Conflans-Sainte-Honorine","Yvelines","Île-de-France",35582
+"Auxerre","Yonne","Bourgogne",35534
+"Sainte-Geneviève-des-Bois","Essonne","Île-de-France",34771
+"Châtillon","Hauts-de-Seine","Île-de-France",33405
+"Bagnolet","Seine-Saint-Denis","Île-de-France",34513
+"Vitrolles","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",34827
+"Thonon-les-Bains","Haute-Savoie","Rhône-Alpes",33928
+"Neuilly-sur-Marne","Seine-Saint-Denis","Île-de-France",34005
+"Haguenau","Bas-Rhin","Alsace",34619
+"Marignane","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",34393
+"Saint-Raphaël","Var","Provence-Alpes-Côte d'Azur",33624
+"Tremblay-en-France","Seine-Saint-Denis","Île-de-France",34452
+"La Ciotat","Bouches-du-Rhône","Provence-Alpes-Côte d'Azur",33738
+"Six-Fours-les-Plages","Var","Provence-Alpes-Côte d'Azur",34275
+"Creil","Oise","Picardie",33741
+"Agen","Lot-et-Garonne","Aquitaine",33620
+"Romans-sur-Isère","Drôme","Rhône-Alpes",33613
+"Montigny-le-Bretonneux","Yvelines","Île-de-France",33567
+"Le Perreux-sur-Marne","Val-de-Marne","Île-de-France",33214
+"Franconville","Val-d'Oise","Île-de-France",33512
+"Annemasse","Haute-Savoie","Rhône-Alpes",32657
+"Villeneuve-Saint-Georges","Val-de-Marne","Île-de-France",32767
+"Saint-Leu","La Réunion","La Réunion",31837
+"Mâcon","Saône-et-Loire","Bourgogne",33730
+"Cambrai","Nord","Nord-Pas-de-Calais",32770
+"Lens","Pas-de-Calais","Nord-Pas-de-Calais",34190
+"Houilles","Yvelines","Île-de-France",31952
+"Épinal","Vosges","Lorraine",32734
+"Châtenay-Malabry","Hauts-de-Seine","Île-de-France",32083
+"Schiltigheim","Bas-Rhin","Alsace",31633
+"Sainte-Marie","La Réunion","La Réunion",29962
+"Liévin","Pas-de-Calais","Nord-Pas-de-Calais",31790
+"Châtellerault","Vienne","Poitou-Charentes",31902
+"Meyzieu","Métropole de Lyon","Rhône-Alpes",31090
+"Goussainville","Val-d'Oise","Île-de-France",31129
+"Viry-Châtillon","Essonne","Île-de-France",31655
+"Dreux","Eure-et-Loir","Centre-Val de Loire",30536
+"L'Haÿ-les-Roses","Val-de-Marne","Île-de-France",30574
+"Plaisir","Yvelines","Île-de-France",31074
+"Mont-de-Marsan","Landes","Aquitaine",31188
+"Maubeuge","Nord","Nord-Pas-de-Calais",31103
+"Nogent-sur-Marne","Val-de-Marne","Île-de-France",31795
+"Les Mureaux","Yvelines","Île-de-France",30739
+"Clichy-sous-Bois","Seine-Saint-Denis","Île-de-France",29835
+"La Possession","La Réunion","La Réunion",30911
+"Dieppe","Seine-Maritime","Haute-Normandie",31148
+"Chatou","Yvelines","Île-de-France",30281
+"Vandœuvre-lès-Nancy","Meurthe-et-Moselle","Lorraine",30646
+"Malakoff","Hauts-de-Seine","Île-de-France",30768
+"Palaiseau","Essonne","Île-de-France",30316
+"Pontoise","Val-d'Oise","Île-de-France",29885
+"Charenton-le-Pont","Val-de-Marne","Île-de-France",29562
+"Rillieux-la-Pape","Métropole de Lyon","Rhône-Alpes",29966
+"Baie-Mahault","Guadeloupe","Guadeloupe",30201
+"Saint-Laurent-du-Var","Alpes-Maritimes","Provence-Alpes-Côte d'Azur",29942
+"Athis-Mons","Essonne","Île-de-France",29831
+"Périgueux","Dordogne","Aquitaine",29811
+"Trappes","Yvelines","Île-de-France",29563
+"Vienne","Isère","Rhône-Alpes",28800
+"Sotteville-lès-Rouen","Seine-Maritime","Haute-Normandie",28679
+"Soissons","Aisne","Picardie",28551
+"Saint-Étienne-du-Rouvray","Seine-Maritime","Haute-Normandie",28118
+"Vallauris","Alpes-Maritimes","Provence-Alpes-Côte d'Azur",27411
+"Aurillac","Cantal","Auvergne",27338
+"Saumur","Maine-et-Loire","Pays de la Loire",27093
+"Vierzon","Cher","Centre-Val de Loire",26743
+"Alençon","Orne","Basse-Normandie",26300
+"Montbéliard","Doubs","Franche-Comté",25974
+"Biarritz","Pyrénées-Atlantiques","Aquitaine",25903
+"Vichy","Allier","Auvergne",24992
+"Saint-Dizier","Haute-Marne","Champagne-Ardenne",24825
+"Le Grand-Quevilly","Seine-Maritime","Haute-Normandie",24637
+"Bruay-la-Buissière","Pas-de-Calais","Nord-Pas-de-Calais",23441
+"Le Creusot","Saône-et-Loire","Bourgogne",22620
+"Orly","Val-de-Marne","Île-de-France",21312
