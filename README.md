@@ -1,4 +1,4 @@
-Code to estimate Bayesian ideal points for French politicians from Twitter data. Forked from @pablobarbera's code at [`twitter_ideology`](https://github.com/pablobarbera/twitter_ideology/). Edits by @briatte and @3wen.
+Code to estimate Bayesian ideal points for French politicians from Twitter data. Forked from [pablobarbera](https://github.com/pablobarbera)'s code at [`twitter_ideology`](https://github.com/pablobarbera/twitter_ideology/). Edits by [briatte](https://github.com/briatte) and [3wen](https://github.com/3wen).
 
 # HOWTO
 
@@ -33,10 +33,11 @@ Then run the scripts in R, in the following order:
 - `02_followers.r` retrieves their followers and creates the adjacency matrix
 - `03_users.r` retrieves Twitter user information on the followers
 - `04_select.r` selects followers based on their activity and geographical location
-<!-- - `05_geocode.r` draws maps of the followers located in metropolitan France
+- `05_map.r` draws maps of the followers located in metropolitan France
 - `06_model_stage1.r` runs the first stage of the model from selected users
-- `05_model_functions.r` prepares the second stage of the model
-- `06_model_stage2.r` runs the second stage of the model on all users -->
+
+<!-- - `07_model_functions.r` prepares the second stage of the model -->
+<!-- - `08_model_stage2.r` runs the second stage of the model on all users -->
 
 `data/politicians.csv` contains edited results of script 01 as of March 2015, with additional accounts retrieved either by parsing the followers and appending all verified accounts that corresponded to individual politicians, or by adding them manually after checking the friends of selected Twitter accounts. The code to find politicians in the verified accounts was:
 
@@ -67,13 +68,14 @@ filter(u, verified &
 - `rvest` and `stringr` to scrape and extract details
 - `ROAuth` and `rjson` to access and parse Twitter data
 - `rstan` for the first stage of the model
-<!-- - `arm`, `parallel` and `R2WinBUGS` for the second stage -->
 - `ggplot2` for graphs and `ggmap` for maps
+
+<!-- - `arm`, `parallel` and `R2WinBUGS` for the second stage -->
 
 # SEEALSO
 
-- [This paper](https://files.nyu.edu/pba220/public/barbera_twitter_ideal_points.pdf) by @pablobarbera explains the nuts and bolts of the model.
-- [This blog post](http://blogs.lse.ac.uk/europpblog/2014/12/09/political-discussions-on-twitter-during-elections-are-dominated-by-those-with-extreme-views/) by @pablobarbera and @griverorz explains how to measure partisan polarisation on Twitter.
+- [This paper](https://files.nyu.edu/pba220/public/barbera_twitter_ideal_points.pdf) by [pablobarbera](https://github.com/pablobarbera) explains the nuts and bolts of the model.
+- [This blog post](http://blogs.lse.ac.uk/europpblog/2014/12/09/political-discussions-on-twitter-during-elections-are-dominated-by-those-with-extreme-views/) by [pablobarbera](https://github.com/pablobarbera) and [griverorz](https://github.com/griverorz) explains how to measure partisan polarisation on Twitter.
 - [This blog post](http://politbistro.hypotheses.org/2589) (in French) explains how to plot the data as a network.
 - [This blog post](http://stats2u.blogspot.fr/2015/03/ideologia-de-politicos-usando-o-twitter.html) does something similar with Brazilian politicians.
 - [This paper](http://dx.doi.org/10.1017/S0003055414000525) does something similar with Facebook likes.
