@@ -12,6 +12,7 @@
 source('00_functions.r')
 
 library(dplyr)
+library(knitr)
 library(readr)
 
 if(!file.exists("data/politicians.csv")) {
@@ -206,7 +207,7 @@ print(group_by(d, party) %>%
         mutate(ratio = round(m / f, 1), percent = round(100 * n / nrow(d), 1)) %>%
         arrange(-percent) %>%
         select(party, n, m, f, ratio, percent) %>%
-        knitr::kable(.))
+        kable(.))
 
 # check for unique names
 stopifnot(!is.na(d$name))

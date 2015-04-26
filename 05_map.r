@@ -22,6 +22,8 @@ library(rgdal)
 library(maptools)
 
 library(dplyr)
+library(knitr)
+
 library(readr)
 library(stringr)
 
@@ -387,7 +389,7 @@ for(i in c("0_19", "20_39", "40_59", "60_74", "75")) {
     rho = as.numeric(cor(pop[, paste0("pop", i) ], pop$users))
   ))
 }
-print(corr, digits = 2)
+print(kable(corr, digits = 2))
 
 # Taux d'inscription sur les listes électorales (2013)
 # https://www.data.gouv.fr/fr/datasets/taux-d-inscription-sur-les-listes-electorales-rdl/
