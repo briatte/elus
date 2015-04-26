@@ -75,7 +75,7 @@ filter(u, verified &
 # SEEALSO
 
 - [This paper](https://files.nyu.edu/pba220/public/barbera_twitter_ideal_points.pdf) by [pablobarbera](https://github.com/pablobarbera) explains the nuts and bolts of the model.
-- [This blog post](http://blogs.lse.ac.uk/europpblog/2014/12/09/political-discussions-on-twitter-during-elections-are-dominated-by-those-with-extreme-views/) by [pablobarbera](https://github.com/pablobarbera) and [griverorz](https://github.com/griverorz) explains how to measure partisan polarisation on Twitter.
+- [This blog post](http://blogs.lse.ac.uk/europpblog/2014/12/09/political-discussions-on-twitter-during-elections-are-dominated-by-those-with-extreme-views/) by [pablobarbera](https://github.com/pablobarbera) and [griverorz](https://github.com/griverorz) discusses the measure of partisan polarisation on Twitter.
 - [This blog post](http://politbistro.hypotheses.org/2589) (in French) explains how to plot the data as a network.
-- [This blog post](http://stats2u.blogspot.fr/2015/03/ideologia-de-politicos-usando-o-twitter.html) does something similar with Brazilian politicians.
+- [This blog post](http://stats2u.blogspot.fr/2015/03/ideologia-de-politicos-usando-o-twitter.html) (in Portuguese) does something similar with Brazilian politicians.
 - [This paper](http://dx.doi.org/10.1017/S0003055414000525) does something similar with Facebook likes.
