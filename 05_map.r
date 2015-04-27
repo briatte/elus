@@ -1,15 +1,14 @@
 #==============================================================================
 #
-# 05_map.r
+# 05_map.r -- plot maps of followers located in metropolitan France
 #
-# Purpose: - geocode all available locations provided by the Twitter followers
-#          - plot maps of the followers, including relative to total population
-#          - correlate followers with age groups and voter registration rates
+# The script geocodes all available locations provided by the Twitter followers,
+# plots maps of the followers, and correlates the number of followers with age
+# groups and voter registration rates at the level of each département.
 #
-# Details: - geocodes from Google Maps
-#          - list of French administrative units from Insee, 2012/2014
-#          - population figures for age groups from Irdes and Insee, 2014
-#          - voter registration figures from Conseil général de Gironde, 2013
+# Geocodes are taken from Google Maps, French administrative units from Insee,
+# population figures for age groups from Irdes and Insee, 2014, and voter
+# registration figures from the Ministère de l'Intérieur, 2013.
 #
 #==============================================================================
 

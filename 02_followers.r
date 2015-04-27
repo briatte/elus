@@ -2,15 +2,15 @@
 #
 # 02_followers.r -- download lists of Twitter users who follow politicians
 #
-# The script selects all users who follow 4+ of these accounts (n ~ 725,000) to
-# create the [ 725390 followers x 1008 politicians ] adjacency matrix, and sets
-# the starting values for the model based on the politicians' party affiliation
+# The script selects all users who follow 4+ of these accounts to create the
+# [ 725390 followers x 1008 politicians ] adjacency matrix, and sets the
+# starting values for the model based on the politicians' party affiliation
 # (-1 for leftwing, +1 for rightwing, 0 for independents).
 #
-# Follower lists are stored in the "followers" folder as .rda files, selected
-# followers are saved to model/userlist.rda, the adjacency matrix is saved to
-# model/matrix.rda, and starting values are saved to model/startingvalues.rda.
-# The runtime depends mostly on how many Twitter credentials are used.
+# The complete follower lists of all politicians are stored in the "followers"
+# folder as .rda files, selected followers are saved to model/userlist.rda,
+# the adjacency matrix is saved to model/matrix.rda, and the starting values of
+# politicians are saved to model/startingvalues.rda.
 #
 # Author: Pablo Barberá, with minor edits
 # Source: https://github.com/pablobarbera/twitter_ideology/tree/master/code

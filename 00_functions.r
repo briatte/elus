@@ -321,7 +321,6 @@ getTweetsLimitRate <- function(my_oauth) {
 #' Retrieve information on Twitter account.
 get_nfo <- function(z, y) {
 
-  cat("- Reading field", y, "\n")
   y = sapply(z, function(x) x[y])
   return(get_vector(y))
 
@@ -332,7 +331,6 @@ get_nfo <- function(z, y) {
 #' Retrieve information on last Twitter status.
 get_status <- function(z, y) {
 
-  cat("- Reading status field", y, "\n")
   y = sapply(z, function(x) x$status[y])
   return(get_vector(y))
 

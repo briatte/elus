@@ -1,7 +1,6 @@
-# 1. Creating Twitter credentials
+# 1. Storing Twitter credentials
 
-Create a `credentials` folder and use it to save your Twitter credentials as
-`my_oauth` objects stored in `rda` files:
+Create a `credentials` folder and use it to save your credentials to the [Twitter REST API](https://dev.twitter.com/) as `my_oauth` objects stored in `rda` files:
 
 ```{r}
 library(ROAuth)
@@ -34,12 +33,15 @@ Then run the scripts in R, in the following order:
 - `03_users.r` retrieves Twitter user information on the followers
 - `04_select.r` selects followers based on their activity and geographical location
 - `05_map.r` draws maps of the followers located in metropolitan France
-- `06_model_stage1.r` runs the first stage of the model from selected users
+- `06_tweets.r` downloads the most recent tweets from the selected followers
+- `07_model_stage1.r` runs the first stage of the model from selected users
 
 <!-- - `07_model_functions.r` prepares the second stage of the model -->
 <!-- - `08_model_stage2.r` runs the second stage of the model on all users -->
 
-`data/politicians.csv` contains edited results of script 01 as of March 2015, with additional accounts retrieved either by parsing the followers and appending all verified accounts that corresponded to individual politicians, or by adding them manually after checking the friends of selected Twitter accounts. The code to find politicians in the verified accounts was:
+`data/politicians.csv` contains edited results of script 01 as of March 2015, with additional accounts retrieved either by parsing the followers and appending all verified accounts that corresponded to individual politicians, or by adding them manually after checking the friends of selected Twitter accounts.
+
+The code to find politicians in the verified accounts was:
 
 ```{r}
 library(dplyr)
@@ -54,4 +56,8 @@ filter(u, verified &
   write_csv(., "additions.csv")
 ```
 
-Please let use know if you produce a better sample of politicians!
+Please let use know if you improve the contents of that file!
+
+# 3. Updating the code
+
+The current version of the code draws very directly on the functions published by [pablobarbera](https://github.com/pablobarbera) to download Twitter data. In parallel to these, we also ran a set of different functions that achieve identical results using the `twitteR` and `RTwitterAPI` packages: see the `00_functions-updated.r` file.
