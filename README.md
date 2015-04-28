@@ -6,7 +6,6 @@ Code to estimate Bayesian ideal points for French politicians from Twitter data.
 - Follower maps based on French administrative units from Insee via [Wikipedia Francophone](https://fr.wikipedia.org/wiki/), geocodes from [Google Maps](https://developers.google.com/maps/), and GEOFLA shapefiles from [IGN](http://professionnels.ign.fr/geofla).
 - List of French first names by [Mike Campbell and Boris New](http://www.lexique.org/public/prenoms.php).
 - Population age group figures by [Irdes](https://www.data.gouv.fr/fr/datasets/population-par-tranche-d-age-et-sexe-estimations-localisees-de-population/).
-- Voter registration figures by [Conseil général de Gironde](https://www.data.gouv.fr/fr/datasets/taux-d-inscription-sur-les-listes-electorales-rdl/).
 
 # DEPENDENCIES
 

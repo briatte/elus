@@ -389,29 +389,3 @@ for(i in c("0_19", "20_39", "40_59", "60_74", "75")) {
   ))
 }
 print(kable(corr, digits = 2))
-
-# Taux d'inscription sur les listes électorales (2013)
-# https://www.data.gouv.fr/fr/datasets/taux-d-inscription-sur-les-listes-electorales-rdl/
-particip = read_csv("data/inscriptions2013.csv")
-
-particip$id = as.numeric(particip$CODE)
-particip$id[ nchar(particip$id) < 2 ] = paste0("0", particip$id[ nchar(particip$id) < 2 ])
-particip$id[ particip$LB_DEPARTEMENT == "CORSE SUD" ] = "2A"
-particip$id[ particip$LB_DEPARTEMENT == "HAUTE CORSE" ] = "2B"
-particip$inscrits = gsub("%", "", gsub(",", ".", particip$TAUX_INSCIPTION))
-particip$inscrits = as.numeric(particip$inscrits)
-particip = inner_join(select(particip, id, inscrits), select(g, id, users, pop2011))
-
-# # remove Seine-Saint-Denis because missing city of Saint-Denis
-# qplot(data = filter(particip, id != 93), y = users, x = inscrits,
-#       size = log10(pop2011)) +
-#   geom_text(aes(label = id, size = log10(pop2011) / 3), color = "white") +
-#   scale_size_area(max_size = 9) +
-#   scale_y_log10() +
-#   geom_smooth(se = FALSE, lty = "dashed") +
-#   theme_bw() +
-#   theme(#panel.background = element_blank(),
-#     legend.position = "none") +
-#   labs(y = "Followers (log-10 scale)\n", x = "\nVoting registration rate (%)")
-
-with(filter(particip, id != 93), cor(log10(1 + users), inscrits)) # -.62
