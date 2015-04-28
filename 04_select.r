@@ -182,8 +182,34 @@ u$gender = ifelse(name %in% c("m", "f"), name, NA)
 cat("-", round(100 * sum(!is.na(u$gender), na.rm = TRUE) / nrow(u), 1),
     "% of users assigned a gender\n")
 
-cat("-", round(100 * sum(u$gender == "m", na.rm = TRUE) / sum(!is.na(u$gender)), 1),
-    "% of users are males\n")
+cat("- Male-to-female ratios:\n  -",
+    round(sum(u$gender == "m", na.rm = TRUE) / sum(u$gender == "f", na.rm = TRUE), 1),
+    "among all selected followers\n")
+
+# load politicians and their followers lists
+d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
+load("model/userlist.rda")
+
+# compute politician-level gender ratios
+gnd = data.frame()
+for(i in 1:length(followers_m)) {
+
+  g = na.omit(u$gender[ u$id %in% followers_m[[ i ]] ])
+  gnd = rbind(gnd, data.frame(
+    twitter = gsub("followers/|\\.rda", "", filesList[ i ]),
+    ratio = sum(g == "m") / sum(g == "f"),
+    stringsAsFactors = FALSE))
+
+}
+
+gnd = left_join(gnd, select(d, twitter, gender), by = "twitter") %>%
+  filter(!is.infinite(ratio))
+
+cat("  -", round(mean(gnd$ratio, na.rm = TRUE), 1),
+    "(politicians' accounts)\n  -",
+    round(mean(gnd$ratio[ gnd$gender == "m" ], na.rm = TRUE), 1), "(male politicians)\n  -",
+    round(mean(gnd$ratio[ gnd$gender == "f" ], na.rm = TRUE), 1), "(female politicians)\n  -",
+    "t-test:", t.test(gnd$ratio[ gnd$gender == "m" ], gnd$ratio[ gnd$gender == "f" ])$statistic)
 
 write_csv(u, "data/users.csv")
 
@@ -204,8 +230,6 @@ stopifnot(u$id %in% rownames(y))
 y = y[ rownames(y) %in% as.character(na.omit(u$id[ u$sample ])), ]
 
 cat("- Selected", sum(u$sample, na.rm = TRUE), "users:\n")
-
-d = read_csv("data/politicians.csv")
 
 # subsample 1: ignore independents (for now)
 cat("  - removing", sum(d$party == "IND"), "unaffiliated politicians\n")
