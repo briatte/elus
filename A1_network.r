@@ -42,7 +42,7 @@ if(!file.exists("model/network.rda")) {
     M[[i]] = as.numeric(userlist %in% followers_m[[i]])
 
   M = sapply(M, rbind)
-  
+
   colnames(M) = gsub("followers/|\\.rda", "", filesList)
   rownames(M) = userlist
 
@@ -119,9 +119,11 @@ for(w in c(.66, .5)) {
   net %v% "party" = as.character(a[ network.vertex.names(net) ])
 
   g = ggnet(net, node.group = net %v% "party", node.color = colors,
-            segment.alpha = .5, size = 3, label.nodes = FALSE, label.size = 3) +
+            segment.alpha = .5, size = 3, label.nodes = FALSE) +
     scale_color_manual("", values = colors, limits = names(colors)) +
-    theme(legend.key = element_blank())
+    theme(text = element_text(size = 14),
+          legend.key = element_blank(),
+          legend.justification = c(1, 1), legend.position = c(1, 1))
 
   ggsave(paste0("plots/network_", w, "_", network.size(net), "_nodes.pdf"),
          g, width = 10, height = 9)

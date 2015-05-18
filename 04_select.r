@@ -16,6 +16,7 @@
 
 source("00_functions.r")
 
+library(dplyr)
 library(readr)
 library(stringr)
 
@@ -191,19 +192,34 @@ d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 load("model/userlist.rda")
 
 # compute politician-level gender ratios
-gnd = data.frame()
-for(i in 1:length(followers_m)) {
+if(!file.exists("data/gender_ratios.csv")) {
 
-  g = na.omit(u$gender[ u$id %in% followers_m[[ i ]] ])
-  gnd = rbind(gnd, data.frame(
-    twitter = gsub("followers/|\\.rda", "", filesList[ i ]),
-    ratio = sum(g == "m") / sum(g == "f"),
-    stringsAsFactors = FALSE))
+  gnd = data.frame()
+  for(i in 1:length(followers_m)) {
+
+    f = followers_m[[ i ]]
+    g = u$gender[ u$id %in% f ]
+    s = na.omit(g)
+    gnd = rbind(gnd, data.frame(
+      twitter = gsub("followers/|\\.rda", "", filesList[ i ]),
+      followers = length(f),
+      users = length(g),
+      gendered = length(s),
+      males = sum(s == "m"),
+      females = sum(s == "f"),
+      stringsAsFactors = FALSE))
+
+  }
+
+  gnd$ratio = gnd$males / gnd$females
+  gnd = inner_join(select(d, twitter, gender), gnd, by = "twitter") %>%
+    filter(!is.infinite(ratio), !is.na(ratio))
+
+  write_csv(gnd, "data/gender_ratios.csv")
 
 }
 
-gnd = left_join(gnd, select(d, twitter, gender), by = "twitter") %>%
-  filter(!is.infinite(ratio))
+gnd = read_csv("data/gender_ratios.csv")
 
 cat("  -", round(mean(gnd$ratio, na.rm = TRUE), 1),
     "(politicians' accounts)\n  -",

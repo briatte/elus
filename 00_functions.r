@@ -234,7 +234,7 @@ getUsersLimit <- function(my_oauth) {
 #' getTweets
 #'
 #' Get tweets.
-getTweets <- function(user_id, oauth_folder, max_id = NULL) {
+getTweets <- function(user_id, oauth_folder, max_id = NULL, since_id = NULL) {
 
   # open a random credential
   creds = list.files(oauth_folder, full.names = TRUE)
@@ -281,6 +281,10 @@ getTweets <- function(user_id, oauth_folder, max_id = NULL) {
   # start further away if requested
   if(!is.null(max_id))
     params = c(params, max_id = max_id)
+
+  # start closer if requested
+  if(!is.null(since_id))
+    params = c(params, since_id = since_id)
 
   url.data = my_oauth$OAuthRequest(URL = url, params = params, method = "GET",
                                    cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))

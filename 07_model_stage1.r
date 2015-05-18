@@ -23,25 +23,6 @@ n.iter = 250
 n.warmup = 100
 thin = 1
 
-# J = dim(y)[1]
-#
-# # choosing a sample of 10,000 "informative" users who follow 10 or more
-# # politicians, and then subsetting politicians followed by > 200 of these
-#
-# if(J > 10000) {
-#
-#   J = 10000
-#   inform = which(rowSums(y) > 10)
-#   set.seed(83398)
-#   subset.i = sample(inform, J)
-#   y = y[ subset.i, ]
-#   start.phi = start.phi[ which(colSums(y) > 200) ]
-#   y = y[, which(colSums(y) > 200) ]
-#
-# }
-#
-# save(y, file = "model/matrix_sample.rda")
-
 # show sample
 cat(date(), ": fitting", nrow(y), "x", ncol(y), "matrix...\n")
 timing = Sys.time()
