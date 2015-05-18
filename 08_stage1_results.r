@@ -261,12 +261,11 @@ qplot(data = melt(examples, "iteration") %>%
 ggsave("plots/stage1_heidelberger.pdf", width = 10, height = 10)
 ggsave("plots/stage1_heidelberger.png", width = 10, height = 10)
 
-# non-stationary chains
+# non-stationary chains according to Heidelberger test
 hd_pol = apply(phis[[1]], 2, heidel.diag)
 table(hd_pol[4, ], exclude = NULL)
 
-# problematic politicians:
-# @jnguerini and @olivierfalorni
+# problematic politicians: @jnguerini and @olivierfalorni
 colnames(y)[ which(hd_pol[4, ] != 1) ]
 
 rm(list = ls())
