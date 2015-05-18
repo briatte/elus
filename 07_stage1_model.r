@@ -1,6 +1,6 @@
 #==============================================================================
 #
-# 06_model_stage1.r -- first stage of Bayesian Spatial Following model
+# 07_stage1_model.r -- first stage of Bayesian Spatial Following model
 #
 # Fits the first stage of the model presented in Pablo Barberá's paper "Birds of
 # the Same Feather Tweet Together: Bayesian Ideal Point Estimation Using Twitter
