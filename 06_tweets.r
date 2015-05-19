@@ -246,13 +246,6 @@ t = lapply(files, read_csv, col_types = "ccclliccccccccccc") %>%
 t$date = as.POSIXct(t$date, format = "%a %b %d %H:%M:%S %z %Y")
 t$date = as.Date(t$date)
 
-td = group_by(t, id) %>%
-  summarise(n_tweets = n(),
-            earliest = min(date),
-            latest = max(date))
-
-td$earliest[ td$earliest < as.Date("2015-01-01") ] = as.Date("2015-01-01")
-
 save(t, file = "tweets.rda")
 
 rm(list = ls())
