@@ -202,12 +202,15 @@ if("keep" %in% names(d))
   d = filter(d, keep == "yes")
 
 # politicians sample
-print(group_by(d, party) %>%
-        summarise(n = n(), m = sum(gender == "m"), f = sum(gender == "f")) %>%
-        mutate(ratio = round(m / f, 1), percent = round(100 * n / nrow(d), 1)) %>%
-        arrange(-percent) %>%
-        select(party, n, m, f, ratio, percent) %>%
-        kable(.))
+tbl = group_by(d, party) %>%
+  summarise(n = n(), m = sum(gender == "m"), f = sum(gender == "f")) %>%
+  mutate(ratio = round(m / f, 1), percent = round(100 * n / nrow(d), 1)) %>%
+  arrange(-percent) %>%
+  select(party, n, m, f, ratio, percent)
+
+tbl = select(tbl, Party = party, Accounts = n, Males = m, Females = f, `Sample weight (%)` = percent)
+tbl = xtable(tbl, digits = 1, caption = "Politicians sample, by party affiliation.", label = "tbl:sample")
+print(tbl, booktabs = TRUE, include.rownames = FALSE, file = "tables/sample.tex")
 
 # check for unique names
 stopifnot(!is.na(d$name))
