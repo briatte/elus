@@ -183,15 +183,21 @@ u$gender = ifelse(name %in% c("m", "f"), name, NA)
 cat("-", round(100 * sum(!is.na(u$gender), na.rm = TRUE) / nrow(u), 1),
     "% of users assigned a gender\n")
 
-cat("- Male-to-female ratios:\n  -",
+cat("- Overall male-to-female ratio:",
     round(sum(u$gender == "m", na.rm = TRUE) / sum(u$gender == "f", na.rm = TRUE), 1),
-    "among all selected followers\n")
+    "\n")
+
+# save all users
+write_csv(u, "data/users.csv")
+
+#==============================================================================
+# GENDER RATIOS
+#==============================================================================
 
 # load politicians and their followers lists
 d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 load("model/userlist.rda")
 
-# compute politician-level gender ratios
 if(!file.exists("data/gender_ratios.csv")) {
 
   gnd = data.frame()
@@ -199,35 +205,49 @@ if(!file.exists("data/gender_ratios.csv")) {
 
     f = followers_m[[ i ]]
     g = u$gender[ u$id %in% f ]
-    s = na.omit(g)
+    s = u$gender[ u$id[ u$sample ] %in% f ]
+
     gnd = rbind(gnd, data.frame(
       twitter = gsub("followers/|\\.rda", "", filesList[ i ]),
       followers = length(f),
       users = length(g),
-      gendered = length(s),
-      males = sum(s == "m"),
-      females = sum(s == "f"),
+      gendered = length(na.omit(g)),
+      males = sum(na.omit(g) == "m"),
+      females = sum(na.omit(g) == "f"),
+      sample = length(s),
+      gendered_sample = length(na.omit(s)),
+      males_sample = sum(na.omit(s) == "m"),
+      females_sample = sum(na.omit(s) == "f"),
       stringsAsFactors = FALSE))
 
   }
 
   gnd$ratio = gnd$males / gnd$females
-  gnd = inner_join(select(d, twitter, gender), gnd, by = "twitter") %>%
-    filter(!is.infinite(ratio), !is.na(ratio))
+  gnd$ratio_sample = gnd$males_sample / gnd$females_sample
+  gnd = left_join(select(d, twitter, gender, party), gnd, by = "twitter")
 
   write_csv(gnd, "data/gender_ratios.csv")
 
 }
 
 gnd = read_csv("data/gender_ratios.csv")
+gnd = filter(gnd, !is.infinite(ratio), !is.infinite(ratio_sample))
 
-cat("  -", round(mean(gnd$ratio, na.rm = TRUE), 1),
-    "(politicians' accounts)\n  -",
-    round(mean(gnd$ratio[ gnd$gender == "m" ], na.rm = TRUE), 1), "(male politicians)\n  -",
-    round(mean(gnd$ratio[ gnd$gender == "f" ], na.rm = TRUE), 1), "(female politicians)\n  -",
-    "t-test:", t.test(gnd$ratio[ gnd$gender == "m" ], gnd$ratio[ gnd$gender == "f" ])$statistic)
+# average gender ratios
+round(mean(gnd$ratio, na.rm = TRUE), 1)
+round(mean(gnd$ratio_sample, na.rm = TRUE), 1)
 
-write_csv(u, "data/users.csv")
+# gender ratios of male politicians
+round(mean(gnd$ratio[ gnd$gender == "m" ], na.rm = TRUE), 1)
+round(mean(gnd$ratio_sample[ gnd$gender == "m" ], na.rm = TRUE), 1)
+
+# gender ratios of female politicians
+round(mean(gnd$ratio[ gnd$gender == "f" ], na.rm = TRUE), 1)
+round(mean(gnd$ratio_sample[ gnd$gender == "f" ], na.rm = TRUE), 1)
+
+# t-tests
+t.test(gnd$ratio[ gnd$gender == "m" ], gnd$ratio[ gnd$gender == "f" ])
+t.test(gnd$ratio_sample[ gnd$gender == "m" ], gnd$ratio_sample[ gnd$gender == "f" ])
 
 #==============================================================================
 # SELECT "INFORMATIVE" USERS
