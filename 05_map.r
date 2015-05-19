@@ -12,19 +12,33 @@
 #
 #==============================================================================
 
-# density curve map
 library(ggmap)
 library(ggplot2)
+library(gridExtra)
 
-# choropleth map
 library(rgdal)
+library(rgeos)
 library(maptools)
 
 library(dplyr)
 library(knitr)
-
 library(readr)
 library(stringr)
+
+# map theme
+theme_mapped = theme_bw(14) +
+  theme(panel.grid = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        strip.text = element_text(size = rel(1)),
+        strip.background = element_rect(fill = "grey90"),
+        legend.title = element_text(size = rel(1)),
+        legend.text = element_text(size = rel(1)),
+        legend.position = "bottom")
+
+# calls rgeos
+gpclibPermit()
+gpclibPermitStatus()
 
 dir.create("plots", showWarnings = FALSE)
 
@@ -118,12 +132,9 @@ ggmap(fr, darken = c(.5, "white")) +
   scale_size_area("Followers", max_size = 12,
                   breaks = 1:3, labels = 10^(1:3)) +
   labs(y = NULL, x = NULL) +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        legend.key = element_blank(),
-        legend.position = "bottom")
+  theme_mapped
 
-ggsave("plots/map1_cities.png", width = 12, height = 12)
+ggsave("plots/map_by_cities.png", width = 12, height = 12)
 
 #==============================================================================
 # MAP 2: CHOROPLETH
@@ -276,7 +287,7 @@ g = inner_join(g, select(n, ville, total), by = "ville") %>%
   summarise(users = sum(total)) %>%
   arrange(id)
 
-# correct the numbers to match the map data
+# correct the departement numbers to match the map data
 g$id[ nchar(g$id) < 2 ] = paste0("0", g$id[ nchar(g$id) < 2 ])
 
 # log10 tiles
@@ -288,22 +299,12 @@ dept = depts[, c("numero", "pop2011") ]
 names(dept)[1] = "id"
 dept$id[ nchar(dept$id) < 2 ] = paste0("0", dept$id[ nchar(dept$id) < 2 ])
 
-# compute users per 1,000 inhabitants
+# % of total users located in each departement
 g = inner_join(g, dept, by = "id") %>%
   mutate(ratio = 1000 * users / pop2011, users_ratio = 100 * users / sum(users)) %>%
   arrange(-ratio)
 
-# map theme
-theme_mapped = theme_minimal() +
-  theme(panel.grid = element_blank(),
-        axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        legend.position = "bottom")
-
-gpclibPermit()
-gpclibPermitStatus()
-
-# http://professionnels.ign.fr/geofla#tab-3
+# IGN shapefiles: http://professionnels.ign.fr/geofla
 depmap = readOGR(dsn = "GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2014-12-05/GEOFLA/1_DONNEES_LIVRAISON_2014-12-00068/GEOFLA_2-0_SHP_LAMB93_FR-ED141/DEPARTEMENT", layer = "DEPARTEMENT")
 depggm = fortify(depmap, region = "CODE_DEPT")
 
@@ -319,7 +320,7 @@ ggplot(depggm, aes(map_id = id)) +
   theme_mapped +
   labs(y = NULL, x = NULL)
 
-ggsave("plots/map2_country.png", width = 12, height = 12)
+ggsave("plots/map_by_departements.png", width = 12, height = 12)
 
 #==============================================================================
 # MAPS 3 AND 4: FOLLOWERS AND POPULATION RATIOS
@@ -327,9 +328,11 @@ ggsave("plots/map2_country.png", width = 12, height = 12)
 
 dep = select(depts, departement, id = numero, pop_ratio = pop2011) %>%
   filter(nchar(id) < 3)
+
+# % of population located in each departement (excluding Paris)
 dep$pop_ratio = 100 * dep$pop_ratio / sum(dep$pop_ratio)
 
-# correct the numbers to match the map data
+# correct the departement numbers to match the map data
 dep$id[ nchar(dep$id) < 2 ] = paste0("0", dep$id[ nchar(dep$id) < 2 ])
 
 # add to map data
@@ -344,29 +347,37 @@ depggm = left_join(depggm, dep, by = "id")
 #   guides(color = FALSE) +
 #   coord_equal()
 
+scaler <- function(x) {
+  q = quantile(x)
+  cut(x, q, include.lowest = TRUE, right = FALSE,
+      labels = paste("<", round(q[ -1 ], 1)))
+}
+
+depggm$panel = "% of French population"
 g1 = ggplot(depggm, aes(map_id = id)) +
-  geom_map(aes(fill = cut(pop_ratio, quantile(pop_ratio), include.lowest = TRUE, dig.lab = 2)),
-           map = depggm, color = "white", size = 1) +
-  expand_limits(x = depggm$long,
-                y = depggm$lat) +
-  scale_fill_brewer("Percentage quartiles", palette = "Greys") +
+  geom_map(aes(fill = scaler(pop_ratio)), map = depggm, color = "white", size = 1) +
+  expand_limits(x = depggm$long, y = depggm$lat) +
+  scale_fill_brewer("", palette = "Greys") +
   coord_equal() +
+  facet_grid(. ~ panel) +
   theme_mapped +
-  labs(y = NULL, x = NULL, title = "Distribution of French population")
+  theme(plot.margin = unit(c(0.5, -1, 0.5, 0.5), "cm")) +
+  labs(y = NULL, x = NULL)
 
-ggsave("plots/map3_ratio_population.png", g1, width = 9, height = 9)
-
+depggm$panel = "% of sampled followers"
 g2 = ggplot(depggm, aes(map_id = id)) +
-  geom_map(aes(fill = cut(users_ratio, quantile(users_ratio), include.lowest = TRUE, dig.lab = 2)),
-           map = depggm, color = "white", size = 1) +
-  expand_limits(x = depggm$long,
-                y = depggm$lat) +
-  scale_fill_brewer("Percentage quartiles", palette = "Greys") +
+  geom_map(aes(fill = scaler(users_ratio)), map = depggm, color = "white", size = 1) +
+  expand_limits(x = depggm$long, y = depggm$lat) +
+  scale_fill_brewer("", palette = "Greys") +
   coord_equal() +
+  facet_grid(. ~ panel) +
   theme_mapped +
-  labs(y = NULL, x = NULL, title = "Distribution of selected followers")
+  theme(plot.margin = unit(c(0.5, 0.5, 0.5, -1), "cm")) +
+  labs(y = NULL, x = NULL)
 
-ggsave("plots/map4_ratio_followers.png", g2, width = 9, height = 9)
+png("plots/map_ratios.png", width = 10, height = 5, units = "in", res = 300)
+grid.arrange(g1, g2, ncol = 2)
+dev.off()
 
 #==============================================================================
 # POPULATION CORRELATES
@@ -375,6 +386,7 @@ ggsave("plots/map4_ratio_followers.png", g2, width = 9, height = 9)
 # Overall population distribution
 corr = unique(depggm[, c("id", "users_ratio", "pop_ratio") ])
 with(corr, cor(users_ratio, pop_ratio)) # rho ~ .46 (main outlier: Paris)
+with(corr[ corr$id != 75, ], cor(users_ratio, pop_ratio))
 
 # Population estimée par tranche d'âge (Irdes)
 # https://www.data.gouv.fr/fr/datasets/population-par-tranche-d-age-et-sexe-estimations-localisees-de-population/
