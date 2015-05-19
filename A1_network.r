@@ -143,4 +143,19 @@ E = ergm(net ~ edges +
            gwidegree(decay = 1, fixed = TRUE) +
            gwodegree(decay = 1, fixed = TRUE))
 
+# export
+coefs = gsub("nodefactor.party.", "Main effect: ", names(coef(E)))
+coefs[ coefs == "edges" ] = "Edges"
+coefs[ coefs == "nodematch.party" ] = "Same party"
+coefs[ coefs == "mutual" ] = "Mutual ties"
+coefs[ coefs == "gwesp.fixed.1" ] = "GWESP"
+coefs[ coefs == "gwdsp.fixed.1" ] = "GWDSP"
+coefs[ coefs == "gwidegree" ] = "GW in-degree"
+coefs[ coefs == "gwodegree" ] = "GW out-degree"
+
+texreg(E, single.row = TRUE, custom.model.names = "ERGM",
+       custom.coef.names = coefs,
+       file = "tables/ergm.tex", caption = "Exponential random graph model of the shared followers network. Alpha and decay parameters set at 1 for the geometrically weighted terms.",
+       label = "tbl:ergm", booktabs = TRUE, dcolumn = TRUE)
+
 save(edges, w, E, net, file = "model/ergm.rda")
