@@ -1,6 +1,11 @@
 #==============================================================================
 #
-# 09_activity.r -- model user activity by ideological positions
+# 09_activity.r -- model user activity and mentions by ideological positions
+#
+# This scripts produces ordinary least squares regressions of Twitter activity
+# as a function of estimated ideology. See also the results obtained by Pablo
+# Barberá and Gonzalo Rivero in their paper "Understanding the political
+# representativeness of Twitter users", Social Science Computer Review (2014).
 #
 #==============================================================================
 
@@ -9,6 +14,8 @@ library(reshape2)
 
 library(dplyr)
 library(readr)
+
+library(lubridate)
 library(stringr)
 
 library(rstan)
@@ -17,6 +24,8 @@ library(texreg)
 dir.create("tables", showWarnings = FALSE)
 
 load('draft/stanfit/stanfit.rda')
+load('draft/stanfit/matrix_selected.rda')
+
 load('tweets_april.rda')
 
 theme_paper =  theme_bw(14) +
@@ -33,7 +42,6 @@ theme_paper =  theme_bw(14) +
 #==============================================================================
 
 # sanity check: all users should appear in initial matrix
-load('draft/stanfit/matrix_selected.rda')
 table(unique(t$id) %in% rownames(y))
 
 # month-week breakdown of tweets in year 2015
@@ -47,6 +55,7 @@ qplot(data = filter(t, year == 2015) %>%
         summarise(n_users = n_distinct(id)),
       x = factor(week), y = n_users) +
   facet_wrap(~ month, scales = "free_x") +
+  labs(y = "Number of Twitter users who tweeted that week\n", x = "\nWeek") +
   theme_paper
 
 # percentage of users who tweeted each week
@@ -55,8 +64,10 @@ qplot(data = filter(t, year == 2015) %>%
         group_by(month, week) %>%
         summarise(p_users = n_distinct(id) / total),
       x = factor(week), y = p_users) +
+  scale_y_continuous(labels = scales::percent_format()) +
   geom_hline(y = c(1/3, 1/2, 2/3), lty = "dashed") +
   facet_wrap(~ month, scales = "free_x") +
+  labs(y = "Percentage of Twitter users who tweeted\n", x = "\nWeek") +
   theme_paper
 
 # sample: keep year 2015 weeks 1-16
@@ -97,7 +108,9 @@ chrono$n_tweets = tt$n_tweets[ tt$date %in% chrono$date ]
 # number of tweets per user
 qplot(data = tt, x = date, y = n_tweets / n_users, geom = "line") +
   geom_point(data = chrono) +
-  geom_text(data = chrono, aes(y = 1.05 * n_tweets / n_users, label = event))
+  geom_text(data = chrono, aes(y = 1.05 * n_tweets / n_users, label = event)) +
+  labs(y = "Number of tweets per user\n", x = "\nMonth") +
+  theme_paper
 
 #==============================================================================
 # POLITICIAN MENTIONS
@@ -162,6 +175,44 @@ s = group_by(s, id) %>%
             n_ind = sum(n_ind)) %>%
   inner_join(., est, by = "id")
 
+# colors of partisan mentions
+p = read_csv("data/parties.csv")
+colors = p$color
+names(colors) = p$party
+
+# fractions of partisan mentions
+p = filter(s, n_mentions > 0) %>%
+  mutate(n_fdg = n_fdg / n_mentions,
+         n_eelv = n_eelv / n_mentions,
+         n_ps = n_ps / n_mentions,
+         n_prg = n_prg / n_mentions,
+         n_dvg = n_dvg / n_mentions,
+         n_dvd = n_dvd / n_mentions,
+         n_modem = n_modem / n_mentions,
+         n_udi = n_udi / n_mentions,
+         n_ump = n_ump / n_mentions,
+         n_fn = n_fn / n_mentions,
+         n_ind = n_ind / n_mentions,
+         ntile = floor(phat / sd(phat))) %>%
+  group_by(ntile) %>%
+  summarise(n = n(),
+            FDG = mean(n_fdg), EELV = mean(n_eelv), PS = mean(n_ps),
+            PRG = mean(n_prg), DVG = mean(n_dvg), DVD = mean(n_dvd),
+            UMP = mean(n_ump), MODEM = mean(n_modem), UDI = mean(n_udi),
+            FN = mean(n_fn), IND = mean(n_ind))
+
+qplot(data = melt(p, c("ntile", "n")), x = ntile, y = value,
+      color = variable, fill = variable, geom = "area") +
+  scale_fill_manual("", values = colors) +
+  scale_color_manual("", values = colors) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(y = "Partisan mentions\n",
+       x = "\nStandardized Twitter-based ideal point") +
+  theme_paper
+
+ggsave("plots/mentions.pdf", width = 10, height = 5)
+ggsave("plots/mentions.png", width = 10, height = 5)
+
 # merge 2: user tweet counts and ideal points with gender and creation date
 u = read_csv("data/users.csv", col_types = list(id = col_character()))
 s = left_join(s, select(u, id, age, gender, followers), by = "id")
@@ -171,42 +222,67 @@ s$position[ s$phat < mean(s$phat) - sd(s$phat) ] = -1 # ~ 0 - 1 = -1
 s$position[ s$phat > mean(s$phat) + sd(s$phat) ] = 1  # ~ 0 + 1 = +1
 table(s$position)
 
-# baselines
-s$position = factor(s$position)
-s$position = relevel(s$position, ref = 2)
-
 #==============================================================================
 # LINEAR REGRESSIONS (equivalent to Barberá and Rivero 2014, Table 3)
 #==============================================================================
 
+# baselines
+s$position = factor(s$position)
+s$position = relevel(s$position, ref = 2)
+
+# comparisons of means
+tapply(s$n_tweets, s$position, mean)
+tapply(s$followers, s$position, mean)
+tapply(s$n_retweets, s$position, mean)
+tapply(s$n_mentions, s$position, mean)
+
 # ACTIVITY: tweets, followers, retweets and mentions
-M1 = lm(log10(1 + n_tweets) ~ position + age + gender, data = s)
-M2 = lm(log10(1 + followers) ~ log10(1 + n_tweets) + position + age + gender, data = s)
+M1 = lm(log10(1 + n_tweets)   ~ position + age + gender, data = s)
+M2 = lm(log10(1 + followers)  ~ log10(1 + n_tweets) + position + age + gender, data = s)
 M3 = lm(log10(1 + n_retweets) ~ log10(1 + n_tweets) + position + age + gender, data = s)
 M4 = lm(log10(1 + n_mentions) ~ log10(1 + n_tweets) + position + age + gender, data = s)
 
-screenreg(list(M1, M2, M3, M4),
-          custom.model.names = c("Statuses", "Followers", "Retweets", "Mentions"),
-          custom.coef.names = c("Intercept", "Far-left", "Far-right", "Account age", "Male user", "Tweets"),
+# check: run on full sample without the gender variable
+F1 = lm(log10(1 + n_tweets)   ~ position + age , data = s)
+F2 = lm(log10(1 + followers)  ~ log10(1 + n_tweets) + position + age, data = s)
+F3 = lm(log10(1 + n_retweets) ~ log10(1 + n_tweets) + position + age, data = s)
+F4 = lm(log10(1 + n_mentions) ~ log10(1 + n_tweets) + position + age, data = s)
+
+screenreg(list(M1, F1, M2, F2, M3, F3, M4, F4),
+          custom.model.names = c("S", "S", "F", "F", "R", "R", "M", "M"),
+          custom.coef.names = c("Intercept", "Far-left", "Far-right",
+                                "Account age", "Male user", "Tweets"),
           include.rsquared = FALSE)
 
 texreg(list(M1, M2, M3, M4),
-       custom.model.names = c("Statuses", "Followers", "Retweets", "Mentions"),
-       custom.coef.names = c("Intercept", "Far-left", "Far-right", "Account age", "Male user", "Tweets"),
-       include.rsquared = FALSE, include.adjrs = FALSE, file = "tables/ols_activity.tex")
+       custom.model.names = c("Tweets", "Followers", "Retweets", "Mentions"),
+       custom.coef.names = c("Intercept", "Far-left", "Far-right",
+                             "Account age", "Male user", "Tweets (log-10)"),
+       include.rsquared = FALSE, include.adjrs = FALSE,
+       file = "tables/ols_activity.tex", label = "tbl:ols_activity",
+       caption = "Regression estimates of Twitter activity by ideological status, with standard errors in brackets. All dependent variables are logged at base 10.",
+       booktabs = TRUE, dcolumn = TRUE)
 
 # MENTIONS: Greens, Socialists, Conservatives, Extreme-Right
 P1 = lm(log10(1 + n_eelv) ~ log10(1 + n_mentions) + position + age + gender, data = s)
-P2 = lm(log10(1 + n_ps) ~ log10(1 + n_mentions) + position + age + gender, data = s)
-P3 = lm(log10(1 + n_ump) ~ log10(1 + n_mentions) + position + age + gender, data = s)
-P4 = lm(log10(1 + n_fn) ~ log10(1 + n_mentions) + position + age + gender, data = s)
+P2 = lm(log10(1 + n_ps)   ~ log10(1 + n_mentions) + position + age + gender, data = s)
+P3 = lm(log10(1 + n_ump)  ~ log10(1 + n_mentions) + position + age + gender, data = s)
+P4 = lm(log10(1 + n_fn)   ~ log10(1 + n_mentions) + position + age + gender, data = s)
 
-screenreg(list(P1, P2, P3, P4),
-          custom.model.names = c("EELV", "PS", "UMP", "FN"),
-          custom.coef.names = c("Intercept", "Far-left", "Far-right", "Account age", "Male user", "Tweets"),
+# check: run on full sample without the gender variable
+F1 = lm(log10(1 + n_eelv) ~ log10(1 + n_mentions) + position + age, data = s)
+F2 = lm(log10(1 + n_ps)   ~ log10(1 + n_mentions) + position + age, data = s)
+F3 = lm(log10(1 + n_ump)  ~ log10(1 + n_mentions) + position + age, data = s)
+F4 = lm(log10(1 + n_fn)   ~ log10(1 + n_mentions) + position + age, data = s)
+
+screenreg(list(P1, F1, P2, F2, P3, F3, P4, F4),
+          custom.coef.names = c("Intercept", "Mentions", "Far-left", "Far-right", "Account age", "Male user"),
           include.rsquared = FALSE)
 
 texreg(list(P1, P2, P3, P4),
        custom.model.names = c("EELV", "PS", "UMP", "FN"),
-       custom.coef.names = c("Intercept", "Far-left", "Far-right", "Account age", "Male user", "Tweets"),
-       include.rsquared = FALSE, include.adjrs = FALSE, file = "tables/ols_mentions.tex")
+       custom.coef.names = c("Intercept", "Far-left", "Far-right", "Account age", "Male user", "Tweets (log-10)"),
+       include.rsquared = FALSE, include.adjrs = FALSE,
+       file = "tables/ols_mentions.tex", label = "tbl:ols_mentions",
+       caption = "Regression estimates of Twitter mentions by ideological status, with standard errors in brackets. All dependent variables are logged at base 10.",
+       booktabs = TRUE, dcolumn = TRUE)
