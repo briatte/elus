@@ -218,11 +218,11 @@ g = by(data = ideal, INDICES = ideal$panel, FUN = function(data) {
   g
 })
 
-pdf("plots/ideal_points_elite_mass.pdf", height = 5, width = 10)
+pdf("plots/ideal_points_elite_mass.pdf", width = 10, height = 5)
 grid.arrange(g[[1]], g[[2]], ncol = 2)
 dev.off()
 
-png("plots/ideal_points_elite_mass.png", height = 5, width = 10, units = "in", res = 300)
+png("plots/ideal_points_elite_mass.png", width = 10, height = 5, units = "in", res = 300)
 grid.arrange(g[[1]], g[[2]], ncol = 2)
 dev.off()
 
@@ -244,28 +244,28 @@ examples = data.frame(
   random_user = thetas[[1]][, sample(1:ncol(thetas[[1]]), 1) ]
 )
 
-# Heidelberger tests
+# Heidelberger and Welch's convergence diagnostic
 heidelberger = apply(examples[, -1], 2, heidel.diag)[4, ]
 heidelberger = heidelberger == 1
 
 qplot(data = melt(examples, "iteration") %>%
         mutate(heidelberger = heidelberger[ variable ]),
-      y = value, x = iteration, color = heidelberger, geom = "line") +
+      y = value, x = iteration, lty = heidelberger, geom = "line") +
   facet_grid(variable ~ ., scales = "free_y") +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 1)) +
-  scale_color_manual(values = c("TRUE" = "darkgreen", "FALSE" = "darkred")) +
-  guides(color = FALSE) +
+  scale_linetype_manual(values = c("TRUE" = "solid", "FALSE" = "dashed")) +
+  guides(linetype = FALSE) +
   labs(y = "Twitter-based ideal point\n", x = "\nIteration (after thinning)") +
   theme_paper
 
 ggsave("plots/stage1_heidelberger.pdf", width = 10, height = 10)
 ggsave("plots/stage1_heidelberger.png", width = 10, height = 10)
 
-# non-stationary chains according to Heidelberger test
+# identify all non-stationary chains
 hd_pol = apply(phis[[1]], 2, heidel.diag)
 table(hd_pol[4, ], exclude = NULL)
 
-# problematic politicians: @jnguerini and @olivierfalorni
+# problems: @jnguerini and @olivierfalorni
 colnames(y)[ which(hd_pol[4, ] != 1) ]
 
 rm(list = ls())
