@@ -361,7 +361,7 @@ g1 = ggplot(depggm, aes(map_id = id)) +
   coord_equal() +
   facet_grid(. ~ panel) +
   theme_mapped +
-  theme(plot.margin = unit(c(0.5, -1, 0.5, 0.5), "cm")) +
+  theme(plot.margin = unit(c(0.5, -1, 0.5, 0), "cm")) +
   labs(y = NULL, x = NULL)
 
 depggm$panel = "% of sampled followers"
@@ -372,7 +372,7 @@ g2 = ggplot(depggm, aes(map_id = id)) +
   coord_equal() +
   facet_grid(. ~ panel) +
   theme_mapped +
-  theme(plot.margin = unit(c(0.5, 0.5, 0.5, -1), "cm")) +
+  theme(plot.margin = unit(c(0.5, 0, 0.5, -1), "cm")) +
   labs(y = NULL, x = NULL)
 
 png("plots/map_ratios.png", width = 10, height = 5, units = "in", res = 300)
