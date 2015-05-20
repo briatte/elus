@@ -14,6 +14,7 @@ source('00_functions.r')
 library(dplyr)
 library(knitr)
 library(readr)
+library(xtable)
 
 if(!file.exists("data/politicians.csv")) {
 
@@ -208,6 +209,7 @@ tbl = group_by(d, party) %>%
   arrange(-percent) %>%
   select(party, n, m, f, ratio, percent)
 
+# export table
 tbl = select(tbl, Party = party, Accounts = n, Males = m, Females = f, `Sample weight (%)` = percent)
 tbl = xtable(tbl, digits = 1, caption = "Politicians sample, by party affiliation.", label = "tbl:sample")
 print(tbl, booktabs = TRUE, include.rownames = FALSE, file = "tables/sample.tex")
