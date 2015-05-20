@@ -1,0 +1,1071 @@
+"id","side","nom","vote"
+"01","Left","JOLY",2.26
+"01","Right","LE PEN",20.71
+"01","Right","SARKOZY",30.41
+"01","Left","MÉLENCHON",9.61
+"01","Left","POUTOU",1.03
+"01","Left","ARTHAUD",0.56
+"01",NA,"CHEMINADE",0.27
+"01","Right","BAYROU",10.16
+"01","Right","DUPONT-AIGNAN",2.24
+"01","Left","HOLLANDE",22.75
+"10","Left","JOLY",1.41
+"10","Right","LE PEN",25.12
+"10","Right","SARKOZY",30.33
+"10","Left","MÉLENCHON",7.93
+"10","Left","POUTOU",1.01
+"10","Left","ARTHAUD",0.61
+"10",NA,"CHEMINADE",0.25
+"10","Right","BAYROU",8.37
+"10","Right","DUPONT-AIGNAN",2.17
+"10","Left","HOLLANDE",22.79
+"11","Left","JOLY",2.09
+"11","Right","LE PEN",23.22
+"11","Right","SARKOZY",21.63
+"11","Left","MÉLENCHON",13.15
+"11","Left","POUTOU",1.26
+"11","Left","ARTHAUD",0.52
+"11",NA,"CHEMINADE",0.21
+"11","Right","BAYROU",6.04
+"11","Right","DUPONT-AIGNAN",1.47
+"11","Left","HOLLANDE",30.41
+"12","Left","JOLY",2.34
+"12","Right","LE PEN",14.1
+"12","Right","SARKOZY",25.51
+"12","Left","MÉLENCHON",12.26
+"12","Left","POUTOU",1.33
+"12","Left","ARTHAUD",0.53
+"12",NA,"CHEMINADE",0.24
+"12","Right","BAYROU",12.55
+"12","Right","DUPONT-AIGNAN",1.7
+"12","Left","HOLLANDE",29.44
+"13","Left","JOLY",2.11
+"13","Right","LE PEN",23.38
+"13","Right","SARKOZY",27.5
+"13","Left","MÉLENCHON",13.43
+"13","Left","POUTOU",0.8
+"13","Left","ARTHAUD",0.35
+"13",NA,"CHEMINADE",0.22
+"13","Right","BAYROU",6.35
+"13","Right","DUPONT-AIGNAN",1.35
+"13","Left","HOLLANDE",24.51
+"14","Left","JOLY",2.13
+"14","Right","LE PEN",16.22
+"14","Right","SARKOZY",27.34
+"14","Left","MÉLENCHON",10.56
+"14","Left","POUTOU",1.34
+"14","Left","ARTHAUD",0.66
+"14",NA,"CHEMINADE",0.25
+"14","Right","BAYROU",10.1
+"14","Right","DUPONT-AIGNAN",2.05
+"14","Left","HOLLANDE",29.34
+"15","Left","JOLY",1.56
+"15","Right","LE PEN",15.12
+"15","Right","SARKOZY",28.61
+"15","Left","MÉLENCHON",8.98
+"15","Left","POUTOU",1.24
+"15","Left","ARTHAUD",0.6
+"15",NA,"CHEMINADE",0.24
+"15","Right","BAYROU",11.16
+"15","Right","DUPONT-AIGNAN",1.66
+"15","Left","HOLLANDE",30.84
+"16","Left","JOLY",1.83
+"16","Right","LE PEN",17.72
+"16","Right","SARKOZY",23.06
+"16","Left","MÉLENCHON",11.32
+"16","Left","POUTOU",1.47
+"16","Left","ARTHAUD",0.7
+"16",NA,"CHEMINADE",0.25
+"16","Right","BAYROU",8.81
+"16","Right","DUPONT-AIGNAN",2.04
+"16","Left","HOLLANDE",32.79
+"17","Left","JOLY",2.21
+"17","Right","LE PEN",17.45
+"17","Right","SARKOZY",28.1
+"17","Left","MÉLENCHON",10.38
+"17","Left","POUTOU",1.42
+"17","Left","ARTHAUD",0.57
+"17",NA,"CHEMINADE",0.23
+"17","Right","BAYROU",9.08
+"17","Right","DUPONT-AIGNAN",2.09
+"17","Left","HOLLANDE",28.47
+"18","Left","JOLY",1.58
+"18","Right","LE PEN",19.73
+"18","Right","SARKOZY",24.96
+"18","Left","MÉLENCHON",13.81
+"18","Left","POUTOU",1.22
+"18","Left","ARTHAUD",0.76
+"18",NA,"CHEMINADE",0.24
+"18","Right","BAYROU",8.84
+"18","Right","DUPONT-AIGNAN",2.11
+"18","Left","HOLLANDE",26.76
+"19","Left","JOLY",1.38
+"19","Right","LE PEN",13.31
+"19","Right","SARKOZY",21.59
+"19","Left","MÉLENCHON",10.55
+"19","Left","POUTOU",1.01
+"19","Left","ARTHAUD",0.42
+"19",NA,"CHEMINADE",0.18
+"19","Right","BAYROU",6.93
+"19","Right","DUPONT-AIGNAN",1.65
+"19","Left","HOLLANDE",42.97
+"02","Left","JOLY",1.16
+"02","Right","LE PEN",26.33
+"02","Right","SARKOZY",24.2
+"02","Left","MÉLENCHON",10.19
+"02","Left","POUTOU",1.3
+"02","Left","ARTHAUD",0.84
+"02",NA,"CHEMINADE",0.25
+"02","Right","BAYROU",6.68
+"02","Right","DUPONT-AIGNAN",1.96
+"02","Left","HOLLANDE",27.1
+"21","Left","JOLY",2.1
+"21","Right","LE PEN",18.84
+"21","Right","SARKOZY",28.57
+"21","Left","MÉLENCHON",9.51
+"21","Left","POUTOU",1.06
+"21","Left","ARTHAUD",0.56
+"21",NA,"CHEMINADE",0.24
+"21","Right","BAYROU",9.37
+"21","Right","DUPONT-AIGNAN",1.95
+"21","Left","HOLLANDE",27.79
+"22","Left","JOLY",2.78
+"22","Right","LE PEN",13.58
+"22","Right","SARKOZY",23.86
+"22","Left","MÉLENCHON",12.2
+"22","Left","POUTOU",1.33
+"22","Left","ARTHAUD",0.67
+"22",NA,"CHEMINADE",0.24
+"22","Right","BAYROU",10.6
+"22","Right","DUPONT-AIGNAN",1.71
+"22","Left","HOLLANDE",33.02
+"23","Left","JOLY",1.76
+"23","Right","LE PEN",16.27
+"23","Right","SARKOZY",22.23
+"23","Left","MÉLENCHON",13.01
+"23","Left","POUTOU",1.49
+"23","Left","ARTHAUD",0.72
+"23",NA,"CHEMINADE",0.25
+"23","Right","BAYROU",8.33
+"23","Right","DUPONT-AIGNAN",1.93
+"23","Left","HOLLANDE",34.02
+"24","Left","JOLY",2.13
+"24","Right","LE PEN",17.01
+"24","Right","SARKOZY",22.93
+"24","Left","MÉLENCHON",13.71
+"24","Left","POUTOU",1.37
+"24","Left","ARTHAUD",0.57
+"24",NA,"CHEMINADE",0.24
+"24","Right","BAYROU",8.07
+"24","Right","DUPONT-AIGNAN",1.87
+"24","Left","HOLLANDE",32.09
+"25","Left","JOLY",2.35
+"25","Right","LE PEN",19.19
+"25","Right","SARKOZY",28.49
+"25","Left","MÉLENCHON",10.96
+"25","Left","POUTOU",1.18
+"25","Left","ARTHAUD",0.65
+"25",NA,"CHEMINADE",0.26
+"25","Right","BAYROU",8.8
+"25","Right","DUPONT-AIGNAN",1.84
+"25","Left","HOLLANDE",26.28
+"26","Left","JOLY",2.87
+"26","Right","LE PEN",20.96
+"26","Right","SARKOZY",26.12
+"26","Left","MÉLENCHON",12.1
+"26","Left","POUTOU",1.11
+"26","Left","ARTHAUD",0.71
+"26",NA,"CHEMINADE",0.26
+"26","Right","BAYROU",8.88
+"26","Right","DUPONT-AIGNAN",1.94
+"26","Left","HOLLANDE",25.05
+"27","Left","JOLY",1.66
+"27","Right","LE PEN",22.75
+"27","Right","SARKOZY",27.78
+"27","Left","MÉLENCHON",10.34
+"27","Left","POUTOU",1.37
+"27","Left","ARTHAUD",0.65
+"27",NA,"CHEMINADE",0.27
+"27","Right","BAYROU",8.41
+"27","Right","DUPONT-AIGNAN",2.11
+"27","Left","HOLLANDE",24.65
+"28","Left","JOLY",1.6
+"28","Right","LE PEN",20.72
+"28","Right","SARKOZY",29.39
+"28","Left","MÉLENCHON",8.96
+"28","Left","POUTOU",1.22
+"28","Left","ARTHAUD",0.67
+"28",NA,"CHEMINADE",0.26
+"28","Right","BAYROU",9.22
+"28","Right","DUPONT-AIGNAN",2.24
+"28","Left","HOLLANDE",25.71
+"29","Left","JOLY",2.95
+"29","Right","LE PEN",11.98
+"29","Right","SARKOZY",24.46
+"29","Left","MÉLENCHON",11.52
+"29","Left","POUTOU",1.48
+"29","Left","ARTHAUD",0.6
+"29",NA,"CHEMINADE",0.27
+"29","Right","BAYROU",11.27
+"29","Right","DUPONT-AIGNAN",1.78
+"29","Left","HOLLANDE",33.7
+"2A","Left","JOLY",2.23
+"2A","Right","LE PEN",25.71
+"2A","Right","SARKOZY",31.83
+"2A","Left","MÉLENCHON",9.69
+"2A","Left","POUTOU",1.18
+"2A","Left","ARTHAUD",0.3
+"2A",NA,"CHEMINADE",0.22
+"2A","Right","BAYROU",5.48
+"2A","Right","DUPONT-AIGNAN",1.07
+"2A","Left","HOLLANDE",22.29
+"2B","Left","JOLY",2.33
+"2B","Right","LE PEN",23.26
+"2B","Right","SARKOZY",31.06
+"2B","Left","MÉLENCHON",9.99
+"2B","Left","POUTOU",1.16
+"2B","Left","ARTHAUD",0.33
+"2B",NA,"CHEMINADE",0.2
+"2B","Right","BAYROU",4.6
+"2B","Right","DUPONT-AIGNAN",1.07
+"2B","Left","HOLLANDE",25.99
+"03","Left","JOLY",1.57
+"03","Right","LE PEN",18.32
+"03","Right","SARKOZY",24.02
+"03","Left","MÉLENCHON",13.58
+"03","Left","POUTOU",1.25
+"03","Left","ARTHAUD",0.72
+"03",NA,"CHEMINADE",0.22
+"03","Right","BAYROU",8.65
+"03","Right","DUPONT-AIGNAN",1.98
+"03","Left","HOLLANDE",29.68
+"30","Left","JOLY",2.12
+"30","Right","LE PEN",25.51
+"30","Right","SARKOZY",24.86
+"30","Left","MÉLENCHON",13.33
+"30","Left","POUTOU",1.01
+"30","Left","ARTHAUD",0.47
+"30",NA,"CHEMINADE",0.23
+"30","Right","BAYROU",6.91
+"30","Right","DUPONT-AIGNAN",1.46
+"30","Left","HOLLANDE",24.11
+"31","Left","JOLY",3.04
+"31","Right","LE PEN",15.31
+"31","Right","SARKOZY",22.84
+"31","Left","MÉLENCHON",13.38
+"31","Left","POUTOU",1.11
+"31","Left","ARTHAUD",0.41
+"31",NA,"CHEMINADE",0.25
+"31","Right","BAYROU",9.32
+"31","Right","DUPONT-AIGNAN",1.53
+"31","Left","HOLLANDE",32.83
+"32","Left","JOLY",2.25
+"32","Right","LE PEN",15.9
+"32","Right","SARKOZY",24.14
+"32","Left","MÉLENCHON",12.06
+"32","Left","POUTOU",1.23
+"32","Left","ARTHAUD",0.54
+"32",NA,"CHEMINADE",0.25
+"32","Right","BAYROU",9.95
+"32","Right","DUPONT-AIGNAN",1.82
+"32","Left","HOLLANDE",31.86
+"33","Left","JOLY",2.43
+"33","Right","LE PEN",15.61
+"33","Right","SARKOZY",24.84
+"33","Left","MÉLENCHON",11.74
+"33","Left","POUTOU",1.66
+"33","Left","ARTHAUD",0.45
+"33",NA,"CHEMINADE",0.23
+"33","Right","BAYROU",9.68
+"33","Right","DUPONT-AIGNAN",1.6
+"33","Left","HOLLANDE",31.75
+"34","Left","JOLY",2.52
+"34","Right","LE PEN",22.28
+"34","Right","SARKOZY",25.31
+"34","Left","MÉLENCHON",13.27
+"34","Left","POUTOU",1.03
+"34","Left","ARTHAUD",0.4
+"34",NA,"CHEMINADE",0.23
+"34","Right","BAYROU",6.86
+"34","Right","DUPONT-AIGNAN",1.4
+"34","Left","HOLLANDE",26.69
+"35","Left","JOLY",3.17
+"35","Right","LE PEN",12.39
+"35","Right","SARKOZY",26.02
+"35","Left","MÉLENCHON",10.35
+"35","Left","POUTOU",1.22
+"35","Left","ARTHAUD",0.67
+"35",NA,"CHEMINADE",0.24
+"35","Right","BAYROU",12.35
+"35","Right","DUPONT-AIGNAN",1.83
+"35","Left","HOLLANDE",31.77
+"36","Left","JOLY",1.45
+"36","Right","LE PEN",19.55
+"36","Right","SARKOZY",24.16
+"36","Left","MÉLENCHON",11.26
+"36","Left","POUTOU",1.43
+"36","Left","ARTHAUD",0.86
+"36",NA,"CHEMINADE",0.28
+"36","Right","BAYROU",8.98
+"36","Right","DUPONT-AIGNAN",2.17
+"36","Left","HOLLANDE",29.87
+"37","Left","JOLY",2.23
+"37","Right","LE PEN",15.98
+"37","Right","SARKOZY",28.24
+"37","Left","MÉLENCHON",10.93
+"37","Left","POUTOU",1.28
+"37","Left","ARTHAUD",0.68
+"37",NA,"CHEMINADE",0.27
+"37","Right","BAYROU",10.27
+"37","Right","DUPONT-AIGNAN",2.01
+"37","Left","HOLLANDE",28.1
+"38","Left","JOLY",3.03
+"38","Right","LE PEN",18.97
+"38","Right","SARKOZY",24.96
+"38","Left","MÉLENCHON",12.4
+"38","Left","POUTOU",1.03
+"38","Left","ARTHAUD",0.52
+"38",NA,"CHEMINADE",0.26
+"38","Right","BAYROU",9.1
+"38","Right","DUPONT-AIGNAN",1.9
+"38","Left","HOLLANDE",27.84
+"39","Left","JOLY",2.4
+"39","Right","LE PEN",20.41
+"39","Right","SARKOZY",25.83
+"39","Left","MÉLENCHON",12.55
+"39","Left","POUTOU",1.32
+"39","Left","ARTHAUD",0.7
+"39",NA,"CHEMINADE",0.28
+"39","Right","BAYROU",9.62
+"39","Right","DUPONT-AIGNAN",2.29
+"39","Left","HOLLANDE",24.6
+"04","Left","JOLY",2.91
+"04","Right","LE PEN",20.71
+"04","Right","SARKOZY",25.47
+"04","Left","MÉLENCHON",15.15
+"04","Left","POUTOU",1.38
+"04","Left","ARTHAUD",0.48
+"04",NA,"CHEMINADE",0.28
+"04","Right","BAYROU",7.42
+"04","Right","DUPONT-AIGNAN",1.83
+"04","Left","HOLLANDE",24.36
+"40","Left","JOLY",1.83
+"40","Right","LE PEN",14.1
+"40","Right","SARKOZY",24.56
+"40","Left","MÉLENCHON",12.51
+"40","Left","POUTOU",1.48
+"40","Left","ARTHAUD",0.48
+"40",NA,"CHEMINADE",0.21
+"40","Right","BAYROU",10.43
+"40","Right","DUPONT-AIGNAN",1.64
+"40","Left","HOLLANDE",32.75
+"41","Left","JOLY",1.73
+"41","Right","LE PEN",20.88
+"41","Right","SARKOZY",28.35
+"41","Left","MÉLENCHON",9.85
+"41","Left","POUTOU",1.31
+"41","Left","ARTHAUD",0.7
+"41",NA,"CHEMINADE",0.26
+"41","Right","BAYROU",9.76
+"41","Right","DUPONT-AIGNAN",2.14
+"41","Left","HOLLANDE",25.01
+"42","Left","JOLY",1.96
+"42","Right","LE PEN",21.55
+"42","Right","SARKOZY",25.07
+"42","Left","MÉLENCHON",11.18
+"42","Left","POUTOU",1.08
+"42","Left","ARTHAUD",0.61
+"42",NA,"CHEMINADE",0.23
+"42","Right","BAYROU",9.75
+"42","Right","DUPONT-AIGNAN",2.11
+"42","Left","HOLLANDE",26.46
+"43","Left","JOLY",2.1
+"43","Right","LE PEN",20.4
+"43","Right","SARKOZY",24.42
+"43","Left","MÉLENCHON",11.17
+"43","Left","POUTOU",1.33
+"43","Left","ARTHAUD",0.74
+"43",NA,"CHEMINADE",0.22
+"43","Right","BAYROU",11.17
+"43","Right","DUPONT-AIGNAN",2.08
+"43","Left","HOLLANDE",26.36
+"44","Left","JOLY",3.15
+"44","Right","LE PEN",12.18
+"44","Right","SARKOZY",26.07
+"44","Left","MÉLENCHON",11.65
+"44","Left","POUTOU",1.25
+"44","Left","ARTHAUD",0.58
+"44",NA,"CHEMINADE",0.23
+"44","Right","BAYROU",11.3
+"44","Right","DUPONT-AIGNAN",1.84
+"44","Left","HOLLANDE",31.76
+"45","Left","JOLY",1.89
+"45","Right","LE PEN",20.58
+"45","Right","SARKOZY",29.31
+"45","Left","MÉLENCHON",9.53
+"45","Left","POUTOU",1.01
+"45","Left","ARTHAUD",0.56
+"45",NA,"CHEMINADE",0.25
+"45","Right","BAYROU",9.31
+"45","Right","DUPONT-AIGNAN",2.11
+"45","Left","HOLLANDE",25.45
+"46","Left","JOLY",2.67
+"46","Right","LE PEN",13.48
+"46","Right","SARKOZY",21.43
+"46","Left","MÉLENCHON",14.38
+"46","Left","POUTOU",1.45
+"46","Left","ARTHAUD",0.55
+"46",NA,"CHEMINADE",0.26
+"46","Right","BAYROU",9.33
+"46","Right","DUPONT-AIGNAN",1.94
+"46","Left","HOLLANDE",34.51
+"47","Left","JOLY",1.92
+"47","Right","LE PEN",21.41
+"47","Right","SARKOZY",25.32
+"47","Left","MÉLENCHON",11.69
+"47","Left","POUTOU",1.37
+"47","Left","ARTHAUD",0.5
+"47",NA,"CHEMINADE",0.23
+"47","Right","BAYROU",8.85
+"47","Right","DUPONT-AIGNAN",1.79
+"47","Left","HOLLANDE",26.91
+"48","Left","JOLY",2.61
+"48","Right","LE PEN",17.3
+"48","Right","SARKOZY",27.77
+"48","Left","MÉLENCHON",12.41
+"48","Left","POUTOU",1.29
+"48","Left","ARTHAUD",0.53
+"48",NA,"CHEMINADE",0.24
+"48","Right","BAYROU",11.01
+"48","Right","DUPONT-AIGNAN",1.69
+"48","Left","HOLLANDE",25.15
+"49","Left","JOLY",2.36
+"49","Right","LE PEN",13.88
+"49","Right","SARKOZY",29.93
+"49","Left","MÉLENCHON",9.35
+"49","Left","POUTOU",1.39
+"49","Left","ARTHAUD",0.75
+"49",NA,"CHEMINADE",0.26
+"49","Right","BAYROU",12.77
+"49","Right","DUPONT-AIGNAN",2.21
+"49","Left","HOLLANDE",27.1
+"05","Left","JOLY",3.63
+"05","Right","LE PEN",17.7
+"05","Right","SARKOZY",26.11
+"05","Left","MÉLENCHON",14.03
+"05","Left","POUTOU",1.33
+"05","Left","ARTHAUD",0.56
+"05",NA,"CHEMINADE",0.24
+"05","Right","BAYROU",9.86
+"05","Right","DUPONT-AIGNAN",2.05
+"05","Left","HOLLANDE",24.49
+"50","Left","JOLY",1.83
+"50","Right","LE PEN",16.64
+"50","Right","SARKOZY",28.82
+"50","Left","MÉLENCHON",9.85
+"50","Left","POUTOU",1.35
+"50","Left","ARTHAUD",0.72
+"50",NA,"CHEMINADE",0.29
+"50","Right","BAYROU",11.2
+"50","Right","DUPONT-AIGNAN",2.27
+"50","Left","HOLLANDE",27.04
+"51","Left","JOLY",1.51
+"51","Right","LE PEN",22.44
+"51","Right","SARKOZY",29.87
+"51","Left","MÉLENCHON",8.52
+"51","Left","POUTOU",1.19
+"51","Left","ARTHAUD",0.66
+"51",NA,"CHEMINADE",0.24
+"51","Right","BAYROU",9.5
+"51","Right","DUPONT-AIGNAN",2.03
+"51","Left","HOLLANDE",24.05
+"52","Left","JOLY",1.38
+"52","Right","LE PEN",25.26
+"52","Right","SARKOZY",27.99
+"52","Left","MÉLENCHON",8.89
+"52","Left","POUTOU",1.33
+"52","Left","ARTHAUD",0.79
+"52",NA,"CHEMINADE",0.24
+"52","Right","BAYROU",7.97
+"52","Right","DUPONT-AIGNAN",2.41
+"52","Left","HOLLANDE",23.75
+"53","Left","JOLY",2.12
+"53","Right","LE PEN",14.77
+"53","Right","SARKOZY",30.69
+"53","Left","MÉLENCHON",8.3
+"53","Left","POUTOU",1.31
+"53","Left","ARTHAUD",0.78
+"53",NA,"CHEMINADE",0.23
+"53","Right","BAYROU",13.78
+"53","Right","DUPONT-AIGNAN",2.14
+"53","Left","HOLLANDE",25.87
+"54","Left","JOLY",1.81
+"54","Right","LE PEN",21.17
+"54","Right","SARKOZY",24.21
+"54","Left","MÉLENCHON",12.07
+"54","Left","POUTOU",1.28
+"54","Left","ARTHAUD",0.66
+"54",NA,"CHEMINADE",0.28
+"54","Right","BAYROU",8.69
+"54","Right","DUPONT-AIGNAN",1.91
+"54","Left","HOLLANDE",27.92
+"55","Left","JOLY",1.6
+"55","Right","LE PEN",25.82
+"55","Right","SARKOZY",26.56
+"55","Left","MÉLENCHON",8.85
+"55","Left","POUTOU",1.5
+"55","Left","ARTHAUD",0.7
+"55",NA,"CHEMINADE",0.31
+"55","Right","BAYROU",9.23
+"55","Right","DUPONT-AIGNAN",2.04
+"55","Left","HOLLANDE",23.4
+"56","Left","JOLY",2.81
+"56","Right","LE PEN",15.55
+"56","Right","SARKOZY",28.15
+"56","Left","MÉLENCHON",10.24
+"56","Left","POUTOU",1.37
+"56","Left","ARTHAUD",0.61
+"56",NA,"CHEMINADE",0.27
+"56","Right","BAYROU",10.85
+"56","Right","DUPONT-AIGNAN",1.85
+"56","Left","HOLLANDE",28.29
+"57","Left","JOLY",1.73
+"57","Right","LE PEN",24.73
+"57","Right","SARKOZY",25.93
+"57","Left","MÉLENCHON",9.52
+"57","Left","POUTOU",1.39
+"57","Left","ARTHAUD",0.76
+"57",NA,"CHEMINADE",0.27
+"57","Right","BAYROU",9.29
+"57","Right","DUPONT-AIGNAN",1.86
+"57","Left","HOLLANDE",24.53
+"58","Left","JOLY",1.64
+"58","Right","LE PEN",19.58
+"58","Right","SARKOZY",22.51
+"58","Left","MÉLENCHON",11.95
+"58","Left","POUTOU",1.28
+"58","Left","ARTHAUD",0.72
+"58",NA,"CHEMINADE",0.26
+"58","Right","BAYROU",7.46
+"58","Right","DUPONT-AIGNAN",1.96
+"58","Left","HOLLANDE",32.64
+"59","Left","JOLY",1.75
+"59","Right","LE PEN",21.91
+"59","Right","SARKOZY",24.7
+"59","Left","MÉLENCHON",12.62
+"59","Left","POUTOU",1.1
+"59","Left","ARTHAUD",0.7
+"59",NA,"CHEMINADE",0.23
+"59","Right","BAYROU",7.48
+"59","Right","DUPONT-AIGNAN",1.54
+"59","Left","HOLLANDE",27.97
+"06","Left","JOLY",2.15
+"06","Right","LE PEN",23.5
+"06","Right","SARKOZY",37.19
+"06","Left","MÉLENCHON",8.49
+"06","Left","POUTOU",0.69
+"06","Left","ARTHAUD",0.27
+"06",NA,"CHEMINADE",0.21
+"06","Right","BAYROU",6.69
+"06","Right","DUPONT-AIGNAN",1.59
+"06","Left","HOLLANDE",19.21
+"60","Left","JOLY",1.51
+"60","Right","LE PEN",25.08
+"60","Right","SARKOZY",26.59
+"60","Left","MÉLENCHON",10.11
+"60","Left","POUTOU",1.22
+"60","Left","ARTHAUD",0.78
+"60",NA,"CHEMINADE",0.25
+"60","Right","BAYROU",7.61
+"60","Right","DUPONT-AIGNAN",1.95
+"60","Left","HOLLANDE",24.9
+"61","Left","JOLY",1.79
+"61","Right","LE PEN",20
+"61","Right","SARKOZY",29.64
+"61","Left","MÉLENCHON",8.92
+"61","Left","POUTOU",1.45
+"61","Left","ARTHAUD",0.74
+"61",NA,"CHEMINADE",0.24
+"61","Right","BAYROU",10.55
+"61","Right","DUPONT-AIGNAN",2.4
+"61","Left","HOLLANDE",24.26
+"62","Left","JOLY",1.21
+"62","Right","LE PEN",25.53
+"62","Right","SARKOZY",21.86
+"62","Left","MÉLENCHON",11.54
+"62","Left","POUTOU",1.29
+"62","Left","ARTHAUD",0.85
+"62",NA,"CHEMINADE",0.21
+"62","Right","BAYROU",6.4
+"62","Right","DUPONT-AIGNAN",1.66
+"62","Left","HOLLANDE",29.44
+"63","Left","JOLY",2.04
+"63","Right","LE PEN",15.58
+"63","Right","SARKOZY",21.42
+"63","Left","MÉLENCHON",13.99
+"63","Left","POUTOU",1.24
+"63","Left","ARTHAUD",0.64
+"63",NA,"CHEMINADE",0.27
+"63","Right","BAYROU",9.95
+"63","Right","DUPONT-AIGNAN",1.77
+"63","Left","HOLLANDE",33.09
+"64","Left","JOLY",2.88
+"64","Right","LE PEN",12.15
+"64","Right","SARKOZY",23.62
+"64","Left","MÉLENCHON",11.88
+"64","Left","POUTOU",1.73
+"64","Left","ARTHAUD",0.46
+"64",NA,"CHEMINADE",0.22
+"64","Right","BAYROU",15.67
+"64","Right","DUPONT-AIGNAN",1.46
+"64","Left","HOLLANDE",29.93
+"65","Left","JOLY",2.08
+"65","Right","LE PEN",14.91
+"65","Right","SARKOZY",20.39
+"65","Left","MÉLENCHON",15.16
+"65","Left","POUTOU",1.36
+"65","Left","ARTHAUD",0.54
+"65",NA,"CHEMINADE",0.21
+"65","Right","BAYROU",10.55
+"65","Right","DUPONT-AIGNAN",1.64
+"65","Left","HOLLANDE",33.16
+"66","Left","JOLY",2.11
+"66","Right","LE PEN",24.23
+"66","Right","SARKOZY",25.31
+"66","Left","MÉLENCHON",12.77
+"66","Left","POUTOU",1.24
+"66","Left","ARTHAUD",0.49
+"66",NA,"CHEMINADE",0.22
+"66","Right","BAYROU",6.29
+"66","Right","DUPONT-AIGNAN",1.38
+"66","Left","HOLLANDE",25.96
+"67","Left","JOLY",2.76
+"67","Right","LE PEN",21.21
+"67","Right","SARKOZY",33.62
+"67","Left","MÉLENCHON",7.22
+"67","Left","POUTOU",1.02
+"67","Left","ARTHAUD",0.64
+"67",NA,"CHEMINADE",0.28
+"67","Right","BAYROU",11.94
+"67","Right","DUPONT-AIGNAN",1.73
+"67","Left","HOLLANDE",19.58
+"68","Left","JOLY",2.71
+"68","Right","LE PEN",23.43
+"68","Right","SARKOZY",31.91
+"68","Left","MÉLENCHON",7.42
+"68","Left","POUTOU",1.19
+"68","Left","ARTHAUD",0.64
+"68",NA,"CHEMINADE",0.33
+"68","Right","BAYROU",11.39
+"68","Right","DUPONT-AIGNAN",2.1
+"68","Left","HOLLANDE",18.89
+"69","Left","JOLY",2.9
+"69","Right","LE PEN",15.09
+"69","Right","SARKOZY",30.77
+"69","Left","MÉLENCHON",10.74
+"69","Left","POUTOU",0.84
+"69","Left","ARTHAUD",0.48
+"69",NA,"CHEMINADE",0.26
+"69","Right","BAYROU",10.3
+"69","Right","DUPONT-AIGNAN",1.72
+"69","Left","HOLLANDE",26.91
+"07","Left","JOLY",2.8
+"07","Right","LE PEN",20.04
+"07","Right","SARKOZY",23.76
+"07","Left","MÉLENCHON",14.07
+"07","Left","POUTOU",1.37
+"07","Left","ARTHAUD",0.63
+"07",NA,"CHEMINADE",0.26
+"07","Right","BAYROU",9.15
+"07","Right","DUPONT-AIGNAN",1.94
+"07","Left","HOLLANDE",25.98
+"70","Left","JOLY",1.58
+"70","Right","LE PEN",25.12
+"70","Right","SARKOZY",25.23
+"70","Left","MÉLENCHON",9.64
+"70","Left","POUTOU",1.36
+"70","Left","ARTHAUD",0.77
+"70",NA,"CHEMINADE",0.28
+"70","Right","BAYROU",7.61
+"70","Right","DUPONT-AIGNAN",2.03
+"70","Left","HOLLANDE",26.38
+"71","Left","JOLY",1.67
+"71","Right","LE PEN",20.03
+"71","Right","SARKOZY",26.01
+"71","Left","MÉLENCHON",10.64
+"71","Left","POUTOU",1.22
+"71","Left","ARTHAUD",0.63
+"71",NA,"CHEMINADE",0.25
+"71","Right","BAYROU",8.83
+"71","Right","DUPONT-AIGNAN",2.03
+"71","Left","HOLLANDE",28.69
+"72","Left","JOLY",1.89
+"72","Right","LE PEN",19.17
+"72","Right","SARKOZY",26.43
+"72","Left","MÉLENCHON",10.78
+"72","Left","POUTOU",1.34
+"72","Left","ARTHAUD",0.75
+"72",NA,"CHEMINADE",0.23
+"72","Right","BAYROU",9.14
+"72","Right","DUPONT-AIGNAN",2.15
+"72","Left","HOLLANDE",28.13
+"73","Left","JOLY",3.42
+"73","Right","LE PEN",18.92
+"73","Right","SARKOZY",28.61
+"73","Left","MÉLENCHON",11.47
+"73","Left","POUTOU",1.19
+"73","Left","ARTHAUD",0.5
+"73",NA,"CHEMINADE",0.27
+"73","Right","BAYROU",9.89
+"73","Right","DUPONT-AIGNAN",2.11
+"73","Left","HOLLANDE",23.64
+"74","Left","JOLY",3.59
+"74","Right","LE PEN",16.56
+"74","Right","SARKOZY",34.06
+"74","Left","MÉLENCHON",9.23
+"74","Left","POUTOU",1.12
+"74","Left","ARTHAUD",0.45
+"74",NA,"CHEMINADE",0.31
+"74","Right","BAYROU",11.83
+"74","Right","DUPONT-AIGNAN",2.32
+"74","Left","HOLLANDE",20.52
+"75","Left","JOLY",4.18
+"75","Right","LE PEN",6.2
+"75","Right","SARKOZY",32.19
+"75","Left","MÉLENCHON",11.09
+"75","Left","POUTOU",0.67
+"75","Left","ARTHAUD",0.27
+"75",NA,"CHEMINADE",0.23
+"75","Right","BAYROU",9.34
+"75","Right","DUPONT-AIGNAN",1
+"75","Left","HOLLANDE",34.83
+"76","Left","JOLY",1.63
+"76","Right","LE PEN",18.9
+"76","Right","SARKOZY",25.02
+"76","Left","MÉLENCHON",13.2
+"76","Left","POUTOU",1.28
+"76","Left","ARTHAUD",0.71
+"76",NA,"CHEMINADE",0.24
+"76","Right","BAYROU",7.83
+"76","Right","DUPONT-AIGNAN",1.79
+"76","Left","HOLLANDE",29.4
+"77","Left","JOLY",1.96
+"77","Right","LE PEN",19.65
+"77","Right","SARKOZY",27.27
+"77","Left","MÉLENCHON",11.01
+"77","Left","POUTOU",1.02
+"77","Left","ARTHAUD",0.46
+"77",NA,"CHEMINADE",0.26
+"77","Right","BAYROU",8.55
+"77","Right","DUPONT-AIGNAN",2.18
+"77","Left","HOLLANDE",27.65
+"78","Left","JOLY",2.5
+"78","Right","LE PEN",12.44
+"78","Right","SARKOZY",34.24
+"78","Left","MÉLENCHON",9.11
+"78","Left","POUTOU",0.8
+"78","Left","ARTHAUD",0.35
+"78",NA,"CHEMINADE",0.28
+"78","Right","BAYROU",11.24
+"78","Right","DUPONT-AIGNAN",1.73
+"78","Left","HOLLANDE",27.32
+"79","Left","JOLY",2.02
+"79","Right","LE PEN",13.57
+"79","Right","SARKOZY",25.01
+"79","Left","MÉLENCHON",10.24
+"79","Left","POUTOU",1.6
+"79","Left","ARTHAUD",0.73
+"79",NA,"CHEMINADE",0.26
+"79","Right","BAYROU",11
+"79","Right","DUPONT-AIGNAN",2.23
+"79","Left","HOLLANDE",33.34
+"08","Left","JOLY",1.22
+"08","Right","LE PEN",24.5
+"08","Right","SARKOZY",24.43
+"08","Left","MÉLENCHON",9.28
+"08","Left","POUTOU",1.29
+"08","Left","ARTHAUD",0.77
+"08",NA,"CHEMINADE",0.24
+"08","Right","BAYROU",7.52
+"08","Right","DUPONT-AIGNAN",1.81
+"08","Left","HOLLANDE",28.93
+"80","Left","JOLY",1.22
+"80","Right","LE PEN",23.77
+"80","Right","SARKOZY",23.9
+"80","Left","MÉLENCHON",11
+"80","Left","POUTOU",1.28
+"80","Left","ARTHAUD",0.89
+"80",NA,"CHEMINADE",0.22
+"80","Right","BAYROU",7.31
+"80","Right","DUPONT-AIGNAN",2.02
+"80","Left","HOLLANDE",28.37
+"81","Left","JOLY",2.14
+"81","Right","LE PEN",18.93
+"81","Right","SARKOZY",23.28
+"81","Left","MÉLENCHON",12.17
+"81","Left","POUTOU",1.25
+"81","Left","ARTHAUD",0.51
+"81",NA,"CHEMINADE",0.23
+"81","Right","BAYROU",9.18
+"81","Right","DUPONT-AIGNAN",1.63
+"81","Left","HOLLANDE",30.69
+"82","Left","JOLY",1.97
+"82","Right","LE PEN",22.1
+"82","Right","SARKOZY",25.14
+"82","Left","MÉLENCHON",11.19
+"82","Left","POUTOU",1.21
+"82","Left","ARTHAUD",0.48
+"82",NA,"CHEMINADE",0.25
+"82","Right","BAYROU",8.28
+"82","Right","DUPONT-AIGNAN",1.76
+"82","Left","HOLLANDE",27.63
+"83","Left","JOLY",1.89
+"83","Right","LE PEN",24.83
+"83","Right","SARKOZY",34.83
+"83","Left","MÉLENCHON",9.08
+"83","Left","POUTOU",0.87
+"83","Left","ARTHAUD",0.35
+"83",NA,"CHEMINADE",0.21
+"83","Right","BAYROU",6.66
+"83","Right","DUPONT-AIGNAN",1.63
+"83","Left","HOLLANDE",19.65
+"84","Left","JOLY",2.26
+"84","Right","LE PEN",27.03
+"84","Right","SARKOZY",27.45
+"84","Left","MÉLENCHON",11.15
+"84","Left","POUTOU",0.95
+"84","Left","ARTHAUD",0.39
+"84",NA,"CHEMINADE",0.21
+"84","Right","BAYROU",6.73
+"84","Right","DUPONT-AIGNAN",1.5
+"84","Left","HOLLANDE",22.33
+"85","Left","JOLY",1.88
+"85","Right","LE PEN",15.18
+"85","Right","SARKOZY",32.89
+"85","Left","MÉLENCHON",8.46
+"85","Left","POUTOU",1.45
+"85","Left","ARTHAUD",0.63
+"85",NA,"CHEMINADE",0.24
+"85","Right","BAYROU",12.13
+"85","Right","DUPONT-AIGNAN",2.33
+"85","Left","HOLLANDE",24.81
+"86","Left","JOLY",2.17
+"86","Right","LE PEN",16.41
+"86","Right","SARKOZY",24.5
+"86","Left","MÉLENCHON",11
+"86","Left","POUTOU",1.35
+"86","Left","ARTHAUD",0.71
+"86",NA,"CHEMINADE",0.23
+"86","Right","BAYROU",9.59
+"86","Right","DUPONT-AIGNAN",2.05
+"86","Left","HOLLANDE",31.99
+"87","Left","JOLY",1.8
+"87","Right","LE PEN",16.44
+"87","Right","SARKOZY",19.83
+"87","Left","MÉLENCHON",14.36
+"87","Left","POUTOU",1.21
+"87","Left","ARTHAUD",0.66
+"87",NA,"CHEMINADE",0.24
+"87","Right","BAYROU",7.89
+"87","Right","DUPONT-AIGNAN",1.67
+"87","Left","HOLLANDE",35.9
+"88","Left","JOLY",1.76
+"88","Right","LE PEN",24.18
+"88","Right","SARKOZY",25.32
+"88","Left","MÉLENCHON",9.68
+"88","Left","POUTOU",1.56
+"88","Left","ARTHAUD",0.75
+"88",NA,"CHEMINADE",0.29
+"88","Right","BAYROU",9.4
+"88","Right","DUPONT-AIGNAN",2.38
+"88","Left","HOLLANDE",24.68
+"89","Left","JOLY",1.76
+"89","Right","LE PEN",23.68
+"89","Right","SARKOZY",27.62
+"89","Left","MÉLENCHON",10.05
+"89","Left","POUTOU",1.27
+"89","Left","ARTHAUD",0.68
+"89",NA,"CHEMINADE",0.25
+"89","Right","BAYROU",8.47
+"89","Right","DUPONT-AIGNAN",2.22
+"89","Left","HOLLANDE",24
+"09","Left","JOLY",2.85
+"09","Right","LE PEN",16.79
+"09","Right","SARKOZY",18.72
+"09","Left","MÉLENCHON",16.86
+"09","Left","POUTOU",1.45
+"09","Left","ARTHAUD",0.55
+"09",NA,"CHEMINADE",0.23
+"09","Right","BAYROU",6.67
+"09","Right","DUPONT-AIGNAN",1.51
+"09","Left","HOLLANDE",34.36
+"90","Left","JOLY",2.02
+"90","Right","LE PEN",23.74
+"90","Right","SARKOZY",23.88
+"90","Left","MÉLENCHON",11.41
+"90","Left","POUTOU",1.32
+"90","Left","ARTHAUD",0.7
+"90",NA,"CHEMINADE",0.29
+"90","Right","BAYROU",8.85
+"90","Right","DUPONT-AIGNAN",1.79
+"90","Left","HOLLANDE",26.01
+"91","Left","JOLY",2.35
+"91","Right","LE PEN",15.2
+"91","Right","SARKOZY",25.46
+"91","Left","MÉLENCHON",12.26
+"91","Left","POUTOU",0.94
+"91","Left","ARTHAUD",0.41
+"91",NA,"CHEMINADE",0.24
+"91","Right","BAYROU",9.33
+"91","Right","DUPONT-AIGNAN",3.41
+"91","Left","HOLLANDE",30.39
+"92","Left","JOLY",2.74
+"92","Right","LE PEN",8.51
+"92","Right","SARKOZY",34.97
+"92","Left","MÉLENCHON",10.35
+"92","Left","POUTOU",0.69
+"92","Left","ARTHAUD",0.3
+"92",NA,"CHEMINADE",0.26
+"92","Right","BAYROU",10.69
+"92","Right","DUPONT-AIGNAN",1.34
+"92","Left","HOLLANDE",30.16
+"93","Left","JOLY",2.21
+"93","Right","LE PEN",13.55
+"93","Right","SARKOZY",19.48
+"93","Left","MÉLENCHON",16.99
+"93","Left","POUTOU",0.92
+"93","Left","ARTHAUD",0.51
+"93",NA,"CHEMINADE",0.24
+"93","Right","BAYROU",6.12
+"93","Right","DUPONT-AIGNAN",1.31
+"93","Left","HOLLANDE",38.68
+"94","Left","JOLY",2.63
+"94","Right","LE PEN",11.86
+"94","Right","SARKOZY",26.57
+"94","Left","MÉLENCHON",14
+"94","Left","POUTOU",0.84
+"94","Left","ARTHAUD",0.38
+"94",NA,"CHEMINADE",0.26
+"94","Right","BAYROU",8.86
+"94","Right","DUPONT-AIGNAN",1.66
+"94","Left","HOLLANDE",32.93
+"95","Left","JOLY",2.05
+"95","Right","LE PEN",15.6
+"95","Right","SARKOZY",26.25
+"95","Left","MÉLENCHON",11.95
+"95","Left","POUTOU",0.96
+"95","Left","ARTHAUD",0.44
+"95",NA,"CHEMINADE",0.25
+"95","Right","BAYROU",8.39
+"95","Right","DUPONT-AIGNAN",1.7
+"95","Left","HOLLANDE",32.41
+"ZA","Left","JOLY",1.47
+"ZA","Right","LE PEN",5.16
+"ZA","Right","SARKOZY",23.4
+"ZA","Left","MÉLENCHON",5.38
+"ZA","Left","POUTOU",0.79
+"ZA","Left","ARTHAUD",0.92
+"ZA",NA,"CHEMINADE",0.3
+"ZA","Right","BAYROU",4.73
+"ZA","Right","DUPONT-AIGNAN",0.85
+"ZA","Left","HOLLANDE",57
+"ZB","Left","JOLY",1.56
+"ZB","Right","LE PEN",4.76
+"ZB","Right","SARKOZY",26.28
+"ZB","Left","MÉLENCHON",5.88
+"ZB","Left","POUTOU",1.17
+"ZB","Left","ARTHAUD",0.99
+"ZB",NA,"CHEMINADE",0.38
+"ZB","Right","BAYROU",5.93
+"ZB","Right","DUPONT-AIGNAN",1.07
+"ZB","Left","HOLLANDE",51.98
+"ZC","Left","JOLY",2.25
+"ZC","Right","LE PEN",10.48
+"ZC","Right","SARKOZY",27.19
+"ZC","Left","MÉLENCHON",7.89
+"ZC","Left","POUTOU",1.28
+"ZC","Left","ARTHAUD",0.56
+"ZC",NA,"CHEMINADE",0.4
+"ZC","Right","BAYROU",6.23
+"ZC","Right","DUPONT-AIGNAN",1.11
+"ZC","Left","HOLLANDE",42.61
+"ZD","Left","JOLY",2.13
+"ZD","Right","LE PEN",10.31
+"ZD","Right","SARKOZY",17.96
+"ZD","Left","MÉLENCHON",6.73
+"ZD","Left","POUTOU",0.87
+"ZD","Left","ARTHAUD",0.6
+"ZD",NA,"CHEMINADE",0.29
+"ZD","Right","BAYROU",6.83
+"ZD","Right","DUPONT-AIGNAN",1
+"ZD","Left","HOLLANDE",53.29
+"ZM","Left","JOLY",2.19
+"ZM","Right","LE PEN",2.77
+"ZM","Right","SARKOZY",48.73
+"ZM","Left","MÉLENCHON",2.62
+"ZM","Left","POUTOU",0.83
+"ZM","Left","ARTHAUD",0.53
+"ZM",NA,"CHEMINADE",0.49
+"ZM","Right","BAYROU",4.18
+"ZM","Right","DUPONT-AIGNAN",1.1
+"ZM","Left","HOLLANDE",36.55
+"ZN","Left","JOLY",2.62
+"ZN","Right","LE PEN",11.66
+"ZN","Right","SARKOZY",49.63
+"ZN","Left","MÉLENCHON",3.28
+"ZN","Left","POUTOU",0.98
+"ZN","Left","ARTHAUD",0.54
+"ZN",NA,"CHEMINADE",0.31
+"ZN","Right","BAYROU",5.13
+"ZN","Right","DUPONT-AIGNAN",0.93
+"ZN","Left","HOLLANDE",24.91
+"ZP","Left","JOLY",3.78
+"ZP","Right","LE PEN",5.73
+"ZP","Right","SARKOZY",45.21
+"ZP","Left","MÉLENCHON",2.77
+"ZP","Left","POUTOU",0.59
+"ZP","Left","ARTHAUD",0.57
+"ZP",NA,"CHEMINADE",0.42
+"ZP","Right","BAYROU",5.72
+"ZP","Right","DUPONT-AIGNAN",2.77
+"ZP","Left","HOLLANDE",32.43
+"ZS","Left","JOLY",1.63
+"ZS","Right","LE PEN",15.81
+"ZS","Right","SARKOZY",18.55
+"ZS","Left","MÉLENCHON",15.17
+"ZS","Left","POUTOU",3.91
+"ZS","Left","ARTHAUD",0.87
+"ZS",NA,"CHEMINADE",0.49
+"ZS","Right","BAYROU",7.37
+"ZS","Right","DUPONT-AIGNAN",2.43
+"ZS","Left","HOLLANDE",33.75
+"ZW","Left","JOLY",1.56
+"ZW","Right","LE PEN",2.37
+"ZW","Right","SARKOZY",37.68
+"ZW","Left","MÉLENCHON",1.19
+"ZW","Left","POUTOU",0.66
+"ZW","Left","ARTHAUD",0.75
+"ZW",NA,"CHEMINADE",0.45
+"ZW","Right","BAYROU",6.4
+"ZW","Right","DUPONT-AIGNAN",0.67
+"ZW","Left","HOLLANDE",48.28
+"ZX","Left","JOLY",2.59
+"ZX","Right","LE PEN",12.14
+"ZX","Right","SARKOZY",43.62
+"ZX","Left","MÉLENCHON",5.89
+"ZX","Left","POUTOU",1.06
+"ZX","Left","ARTHAUD",0.55
+"ZX",NA,"CHEMINADE",0.35
+"ZX","Right","BAYROU",5.89
+"ZX","Right","DUPONT-AIGNAN",1.15
+"ZX","Left","HOLLANDE",26.78
+"ZZ","Left","JOLY",5.44
+"ZZ","Right","LE PEN",5.95
+"ZZ","Right","SARKOZY",38.01
+"ZZ","Left","MÉLENCHON",8.31
+"ZZ","Left","POUTOU",0.7
+"ZZ","Left","ARTHAUD",0.28
+"ZZ",NA,"CHEMINADE",0.36
+"ZZ","Right","BAYROU",11.37
+"ZZ","Right","DUPONT-AIGNAN",1.25
+"ZZ","Left","HOLLANDE",28.32
