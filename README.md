@@ -7,17 +7,6 @@ Code to estimate Bayesian ideal points for French politicians from Twitter data.
 - List of French first names by [Mike Campbell and Boris New](http://www.lexique.org/public/prenoms.php).
 - Population age group figures by [Irdes](https://www.data.gouv.fr/fr/datasets/population-par-tranche-d-age-et-sexe-estimations-localisees-de-population/).
 
-# DEPENDENCIES
-
-- `dplyr` and `readr` to manipulate results
-- `rvest` and `stringr` to scrape and extract details
-- `ROAuth` and `rjson` to access and parse Twitter data
-- `rstan` for the first stage of the model
-- `ggplot2` for graphs and `ggmap` for maps
-- `network`, `GGally` and `ergm` for network analysis
-
-<!-- - `arm`, `parallel` and `R2WinBUGS` for the second stage -->
-
 # SEEALSO
 
 - [This blog post](http://politbistro.hypotheses.org/2589) (in French) explains how to plot the data as a network.

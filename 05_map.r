@@ -21,9 +21,9 @@ library(rgeos)
 library(maptools)
 
 library(dplyr)
-library(knitr)
 library(readr)
 library(stringr)
+library(xtable)
 
 # map theme
 theme_mapped = theme_bw(14) +
@@ -379,11 +379,11 @@ g2 = ggplot(depggm, aes(map_id = id)) +
   theme(plot.margin = unit(c(0.5, 0, 0.5, -1), "cm")) +
   labs(y = NULL, x = NULL)
 
-pdf("plots/map_ratios.pdf", width = 10, height = 5)
+pdf("plots/map_ratios.pdf", width = 10, height = 6)
 grid.arrange(g1, g2, ncol = 2)
 dev.off()
 
-png("plots/map_ratios.png", width = 10, height = 5, units = "in", res = 300)
+png("plots/map_ratios.png", width = 10, height = 6, units = "in", res = 300)
 grid.arrange(g1, g2, ncol = 2)
 dev.off()
 
@@ -401,11 +401,15 @@ with(corr[ corr$id != 75, ], cor(users_ratio, pop_ratio))
 pop = read_csv("data/population2014.csv")
 pop = inner_join(select(pop, -dept), select(g, id, users), by = "id")
 
-corr = data.frame()
+tbl = data.frame()
 for(i in c("0_19", "20_39", "40_59", "60_74", "75")) {
-  corr = rbind(corr, data.frame(
+  tbl = rbind(tbl, data.frame(
     pop = gsub("_", "-", i),
     rho = as.numeric(cor(pop[, paste0("pop", i) ], pop$users))
   ))
 }
-print(kable(corr, digits = 2))
+tbl = xtable(select(tbl, `Age group` = pop, Correlation = rho),
+             digits = 2, caption = "Pearson’s correlation coefficients between age-group population estimates and Twitter users at the level of $N$ = 96 \\emph{départements}.", label = "tbl:pearson")
+
+print(tbl, booktabs = TRUE, include.rownames = FALSE,
+      file = "tables/population.tex")

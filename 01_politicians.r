@@ -12,7 +12,6 @@
 source('00_functions.r')
 
 library(dplyr)
-library(knitr)
 library(readr)
 library(xtable)
 
