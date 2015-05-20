@@ -188,6 +188,9 @@ g$ville = iconv(g$ville, to = "ASCII//TRANSLIT")        # accents to punctuation
 g$ville = gsub("[[:punct:]]", "", g$ville)              # accents out
 g$ville = tolower(str_trim(gsub("\\s+", " ", g$ville))) # spaces out
 
+# save for later use
+write_csv(g, "data/cities.csv")
+
 # the only cases that we miss are DOM-TOM and 'Saint-' homonyms:
 # Saint-Denis (93), Saint-Louis (69), Saint-André (59), etc.
 filter(u, !is.na(ville) & !ville %in% g$ville) %>%
@@ -277,7 +280,7 @@ n$users[ is.na(n$users) ] = 0 # unneeded, just to be safe
 n$add_reg[ is.na(n$add_reg) ] = 0
 n$total = n$total + n$add_reg
 
-# how many additional users did we geocode from their departement? just a few:
+# how many additional users did we geocode from their region? just a few:
 sum(n$total) - sum(n$add_dep) - sum(n$users)
 
 # and finally, we get the number of users by departement number
@@ -297,6 +300,8 @@ levels(g$Q) = c("< 100", "< 1000", "1000+")
 # add population figures
 dept = depts[, c("numero", "pop2011") ]
 names(dept)[1] = "id"
+
+# correct the departement numbers to match the map data
 dept$id[ nchar(dept$id) < 2 ] = paste0("0", dept$id[ nchar(dept$id) < 2 ])
 
 # % of total users located in each departement
@@ -313,8 +318,7 @@ depggm = left_join(depggm, g, by = "id")
 
 ggplot(depggm, aes(map_id = id)) +
   geom_map(aes(fill = Q), map = depggm, color = "white", size = 1) +
-  expand_limits(x = depggm$long,
-                y = depggm$lat) +
+  expand_limits(x = depggm$long, y = depggm$lat) +
   scale_fill_brewer("Followers", palette = "Reds", na.value = "grey") +
   coord_equal() +
   theme_mapped +
@@ -374,6 +378,10 @@ g2 = ggplot(depggm, aes(map_id = id)) +
   theme_mapped +
   theme(plot.margin = unit(c(0.5, 0, 0.5, -1), "cm")) +
   labs(y = NULL, x = NULL)
+
+pdf("plots/map_ratios.pdf", width = 10, height = 5)
+grid.arrange(g1, g2, ncol = 2)
+dev.off()
 
 png("plots/map_ratios.png", width = 10, height = 5, units = "in", res = 300)
 grid.arrange(g1, g2, ncol = 2)

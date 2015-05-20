@@ -283,7 +283,7 @@ start.phi = start.phi[ names(start.phi) %in% d$twitter ]
 cat("  -", sum(rowSums(y) >= 10), "follow 10+ of", ncol(y), "politicians\n")
 y = y[ rowSums(y) >= 10, ]
 
-# subsample 5: politicians followed by 200+ of these users
+# subsample 4: politicians followed by 200+ of these users
 cat("  -", sum(colSums(y) >= 200), "politicians followed by 200+ of these\n")
 start.phi = start.phi[ colSums(y) >= 200 ]
 y = y[ , colSums(y) >= 200 ]
