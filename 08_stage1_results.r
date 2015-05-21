@@ -81,7 +81,7 @@ colnames(y)[ which(hd_pol[4, ] != 1) ]
 #==============================================================================
 
 d = read_csv("data/politicians.csv", col_types = list(id = col_character())) %>%
-  select(name, gender, party, twitter)
+  select(name, gender, party, twitter, mandates)
 
 phis = data.frame(twitter = colnames(y),
                   phat = apply(phis$phi, 2, mean),
@@ -152,6 +152,45 @@ ggsave("plots/ideal_points_parties.png", width = 10, height = 5)
 #   melt(., c("party", "mu")) %>%
 #   qplot(data = ., x = value, y = mu, label = party, geom = "text") +
 #   facet_wrap(~ variable) +
+#   theme_paper
+
+#==============================================================================
+# SELECTED ELITES
+#==============================================================================
+
+# full distribution with former Prime Ministers or Presidents
+qplot(data = phis, y = reorder(name, phat), x = phat,
+      color = party, alpha = I(.25)) +
+  geom_segment(aes(x = phat_q025, xend = phat_q975, yend = reorder(name, phat)), alpha = .25) +
+  geom_text(data = filter(phis, grepl("Raffarin|Villepin|Fillon|Ayrault|Valls|Camba|Sarko|Hollande|(ne |al-)Le Pen|Cosse|Duflot|Voynet|ian Paul",
+                                      name, ignore.case = TRUE)), aes(label = name), alpha = 1) +
+  scale_color_manual("", values = colors, breaks = pm$party[ order(pm$mu) ]) +
+  labs(y = NULL, x = "\n Twitter-based ideal point") +
+  theme_paper +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.key = element_blank(),
+        legend.position = "bottom")
+
+ggsave("plots/ideal_points_elites.pdf", width = 8, height = 16)
+ggsave("plots/ideal_points_elites.png", width = 8, height = 16)
+
+# # governments
+#
+# min = read_csv("data/governments.csv") %>% filter(gov != "Ayrault-1")
+# min = left_join(min, d, by = "name")
+#
+# min$status[ min$status == "in" ] = ""
+# min$status[ min$status != "" ] = "replaced/resigned"
+#
+# left_join(min, select(phis, twitter, phat, phat_q025, phat_q975),
+#           by = "twitter") %>%
+#   filter(!is.na(phat)) %>%
+#   arrange(phat) %>%
+#   qplot(data = ., y = reorder(name, phat), x = phat, color = party) +
+#   geom_segment(aes(x = phat_q025, xend = phat_q975, yend = reorder(name, phat))) +
+#   scale_color_manual("", values = colors) +
+#   facet_grid(gov ~ ., scales = "free") +
 #   theme_paper
 
 #==============================================================================
