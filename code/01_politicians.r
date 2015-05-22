@@ -5,7 +5,7 @@
 # The script scrapes politicians' details from the Elus 2.0 website, selects
 # those with Twitter accounts, and recodes their party affiliations. The file
 # data/politicians.csv is based on extensive checks of that initial list and on
-# over 200 manual additions. The final sample size is N = 1,008.
+# over 200 manual additions. The final sample size is currently N = 1,008.
 #
 #==============================================================================
 
@@ -229,7 +229,8 @@ stopifnot(!duplicated(d$twitter))
 stopifnot(!is.na(d$party))
 stopifnot(unique(d$party) %in% read_csv("data/parties.csv")$party)
 
-cat("\n-", nrow(d), "politicians from", n_distinct(d$party), "parties")
+cat("\n-", nrow(d), "politicians from", n_distinct(d$party) - 1, "parties,",
+    sum(d$party == "IND"), "independents")
 
 # gender
 cat("\n-", round(100 * prop.table(table(d$gender))["f"], 1), "% females, ")
@@ -239,32 +240,56 @@ cat(round(sum(d$gender == "m") / sum(d$gender == "f"), 1), "males for 1 female\n
 m = table(unlist(strsplit(d$mandates, ", ")))
 m[ m > 50 ]
 
-# MPs
-s = m[ grepl("D(é|e)puté(e)?$|Assemblée Nationale", names(m)) ]
+# identify MPs, Senator, MEPs and non-parliamentarians
+d$is_mp  = grepl("D(é|e)puté(e)?(,|$)|Assemblée Nationale", d$mandates)
+d$is_sen = grepl("S(e|é)nat(eur|rice)?", d$mandates)
+d$is_mep = grepl("europ", d$mandates)
+d$is_loc = !grepl("D(é|e)puté(e)?|Assemblée Nat|S(e|é)nat(eur|rice)?", d$mandates) &
+  d$mandates != "Sans mandat électif courant"
+d$is_else = (d$mandates == "Sans mandat électif courant")
 
-cat("-", sum(s), "MPs", sum(s) - s["Députée"], "males", s["Députée"], "females",
-    round(100 * sum(s) / 577, 1), "% of chamber\n")
+# no overlap between categories
+stopifnot(d$is_mp + d$is_sen + d$is_mep + d$is_loc + d$is_else == 1)
+
+# collapse in a single variable
+d$type = NA
+d$type[ d$is_mp ] = "MP"
+d$type[ d$is_sen ] = "Senator"
+d$type[ d$is_mep ] = "MEP"
+d$type[ d$is_loc ] = "Local"
+d$type[ d$is_else ] = "Else"
+d$type = factor(d$type, levels = c("MP", "Senator", "MEP", "Local", "Else"))
+
+# party/mandate breakdown
+table(d$party, d$type)
+
+# party/gender breakdowns
+table(d$gender, d$type)
+
+# MPs
+cat("-",
+    sum(d$type == "MP"), "MPs",
+    sum(d$type == "MP" & d$gender == "m"), "male",
+    sum(d$type == "MP" & d$gender == "f"), "female",
+    round(100 * sum(d$type == "MP") / 577, 1), "% of chamber\n")
 
 # Senators
-s = m[ grepl("S(e|é)nat(eur|rice)?$", names(m)) ]
-
-cat("-", sum(s), "senators", sum(s) - s["Sénatrice"], "males", s["Sénatrice"], "females",
-    round(100 * sum(s) / 348, 1), "% of chamber\n")
+cat("-",
+    sum(d$type == "Senator"), "Senators",
+    sum(d$type == "Senator" & d$gender == "m"), "male",
+    sum(d$type == "Senator" & d$gender == "f"), "female",
+    round(100 * sum(d$type == "Senator") / 348, 1), "% of chamber\n")
 
 # MEPs
-s = m[ grepl("europ", names(m)) ]
+cat("-",
+    sum(d$type == "MEP"), "MEPs",
+    sum(d$type == "MEP" & d$gender == "m"), "male",
+    sum(d$type == "MEP" & d$gender == "f"), "female",
+    round(100 * sum(d$type == "MEP") / 74, 1), "% of approportionment\n")
 
-cat("-", sum(s), "MEPs", sum(s) - s["Députée européenne"], "males",
-    s["Députée européenne"], "females", round(100 * sum(s) / 74, 1),
-    "% of national apportionment\n")
-
-s = table(grepl("europ", d$mandates), d$party)
-round(prop.table(s, 2), 2)
-
-# all others
-cat("-", filter(d, !grepl("D(é|e)puté(e)?|Assemblée Nat|S(e|é)nat(eur|rice)?|europ", mandates)) %>%
-      nrow, "politicians with no parliamentarian mandate\n-",
-    m[ names(m) == "Sans mandat électif courant" ], "with no electoral mandate\n")
+# else
+cat("-", sum(d$type == "Local"), "strictly local,",
+    sum(d$type == "Else"), "non-elected politicians\n")
 
 if(!file.exists("model/politicians.rda")) {
 

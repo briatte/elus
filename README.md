@@ -3,14 +3,19 @@ Code to estimate Bayesian ideal points for French politicians from Twitter data.
 # SOURCES
 
 - Initial politicians' Twitter accounts from [Elus 2.0](http://www.elus20.fr/elus-web-facebook-twitter/).
-- Follower maps based on French administrative units from Insee via [Wikipedia Francophone](https://fr.wikipedia.org/wiki/), geocodes from [Google Maps](https://developers.google.com/maps/), and GEOFLA shapefiles from [IGN](http://professionnels.ign.fr/geofla).
-- List of French first names by [Mike Campbell and Boris New](http://www.lexique.org/public/prenoms.php).
-- Population age group figures by [Irdes](https://www.data.gouv.fr/fr/datasets/population-par-tranche-d-age-et-sexe-estimations-localisees-de-population/).
+- Election results from Ministère de l'Intérieur via [Data.gouv.fr](https://www.data.gouv.fr).
+- French administrative units from Insee via [Wikipedia Francophone](https://fr.wikipedia.org/wiki/).
+- Geocodes from [Google Maps](https://developers.google.com/maps/).
+- GEOFLA shapefiles from [IGN](http://professionnels.ign.fr/geofla) (not included).
+- Government composition by Premier ministre via [Data.gouv.fr](https://www.data.gouv.fr).
+- List of French first names by [Mike Campbell and Boris New](http://www.lexique.org/public/prenoms.php) (not included).
+- Population age group figures by [Irdes](https://www.data.gouv.fr/fr/datasets/population-par-tranche-d-age-et-sexe-estimations-localisees-de-population/) (not included).
 
 # SEEALSO
 
 - [This blog post](http://politbistro.hypotheses.org/2589) (in French) explains how to plot the data as a network.
+- [This blog post](http://politbistro.hypotheses.org/2604) (in French) shows some intermediary results of the model.
 - [This paper](https://files.nyu.edu/pba220/public/barbera_twitter_ideal_points.pdf) by [pablobarbera](https://github.com/pablobarbera) explains the nuts and bolts of the model.
 - [This blog post](http://stats2u.blogspot.fr/2015/03/ideologia-de-politicos-usando-o-twitter.html) (in Portuguese) does something similar with Brazilian politicians.
-- [This paper](http://dx.doi.org/10.1017/S0003055414000525) does something similar with Facebook likes.
+- [This paper](http://dx.doi.org/10.1017/S0003055414000525) reviews the relevant literature and does something quite similar with Facebook "likes".
 - [This blog post](http://blogs.lse.ac.uk/europpblog/2014/12/09/political-discussions-on-twitter-during-elections-are-dominated-by-those-with-extreme-views/) by [pablobarbera](https://github.com/pablobarbera) and [griverorz](https://github.com/griverorz) discusses partisan polarisation on Twitter.

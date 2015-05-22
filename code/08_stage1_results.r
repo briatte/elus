@@ -130,6 +130,9 @@ qplot(data = pm, x = reorder(party, mu), color = party,
   geom_point(aes(y = mu), shape = 1, size = 4) +
   geom_point(aes(y = parlgov), shape = 4, size = 4) +
   scale_color_manual("", values = colors) +
+  scale_x_discrete(breaks = with(pm, reorder(party, mu)),
+                   labels = with(pm, paste0(reorder(party, mu), "\nn = ",
+                                            reorder(n, mu)))) +
   guides(color = FALSE) +
   labs(x = NULL, y = paste("Twitter-based mean ideal points (o)\n",
                            "and ParlGov Left/Right scores (x)\n")) +
@@ -154,6 +157,10 @@ ggsave("plots/ideal_points_parties.png", width = 10, height = 5)
 #   facet_wrap(~ variable) +
 #   theme_paper
 
+# remember, n = 10
+with(pm, cor(mu, chess, use = "pairwise.complete.obs"))   # rho ~ .94
+with(pm, cor(mu, parlgov, use = "pairwise.complete.obs")) # rho ~ .93
+
 #==============================================================================
 # SELECTED ELITES
 #==============================================================================
@@ -175,23 +182,39 @@ qplot(data = phis, y = reorder(name, phat), x = phat,
 ggsave("plots/ideal_points_elites.pdf", width = 8, height = 16)
 ggsave("plots/ideal_points_elites.png", width = 8, height = 16)
 
-# # governments
-#
-# min = read_csv("data/governments.csv") %>% filter(gov != "Ayrault-1")
-# min = left_join(min, d, by = "name")
-#
-# min$status[ min$status == "in" ] = ""
-# min$status[ min$status != "" ] = "replaced/resigned"
-#
-# left_join(min, select(phis, twitter, phat, phat_q025, phat_q975),
-#           by = "twitter") %>%
-#   filter(!is.na(phat)) %>%
-#   arrange(phat) %>%
-#   qplot(data = ., y = reorder(name, phat), x = phat, color = party) +
-#   geom_segment(aes(x = phat_q025, xend = phat_q975, yend = reorder(name, phat))) +
-#   scale_color_manual("", values = colors) +
-#   facet_grid(gov ~ ., scales = "free") +
-#   theme_paper
+# governments
+
+min = read_csv("data/governments.csv") %>% filter(gov != "Ayrault-1")
+min = left_join(min, d, by = "name")
+
+min$status[ min$status == "in" ] = ""
+min$status[ min$status != "" ] = "replaced/resigned"
+
+left_join(min, select(phis, twitter, phat, phat_q025, phat_q975),
+          by = "twitter") %>%
+  filter(!is.na(phat)) %>%
+  select(-ministry, -status) %>%
+  unique %>%
+  arrange(phat) %>%
+  qplot(data = ., y = reorder(name, phat), x = phat, color = party) +
+  geom_segment(aes(x = phat_q025, xend = phat_q975, yend = reorder(name, phat))) +
+  geom_text(aes(label = name, x = phat_q025 * 1.025), hjust = 1, size = 4) +
+  geom_text(aes(label = name, x = phat_q025 * 1.025), color = "black", alpha = .5, hjust = 1, size = 4) +
+  geom_vline(data = left_join(min, select(phis, twitter, phat, phat_q025, phat_q975),
+                              by = "twitter") %>%
+               group_by(gov) %>%
+               summarise(mu = median(phat, na.rm = TRUE)),
+             aes(xintercept = mu), lty = "dashed", color = "grey50") +
+  scale_color_manual("", values = colors) +
+  guides(color = FALSE) +
+  labs(y = "Government member", x = "\nTwitter-based ideal point (dashed line at median)") +
+  xlim(-3, 0) +
+  facet_grid(gov ~ ., scales = "free", space = "free") +
+  theme_paper +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+
+ggsave("plots/ideal_points_governments.pdf", width = 10, height = 10)
+ggsave("plots/ideal_points_governments.png", width = 10, height = 10)
 
 #==============================================================================
 # IDEAL POINTS FOR FOLLOWERS

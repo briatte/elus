@@ -23,11 +23,9 @@ my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCur
 save(my_oauth, file = "credentials/oauth_youraccount.rda")
 ```
 
-# 2. Running the code
+# 2. Getting seed politicians
 
-Run all scripts in R in the indicated order.
-
-`data/politicians.csv` contains edited results of script 01 as of May 2015, with additional accounts retrieved either by parsing the followers and appending all verified accounts that corresponded to individual politicians, or by adding them manually after checking the friends of selected Twitter accounts.
+The `data/politicians.csv` file contains an edited version of the results produced by the script `code/01_politicians.r` as of May 2015, with additional accounts retrieved either by parsing the followers and appending all verified accounts that corresponded to individual politicians, or by adding them manually after checking the friends of selected Twitter accounts.
 
 The code to find politicians in the verified accounts was:
 
@@ -44,3 +42,11 @@ filter(u, verified &
 ```
 
 Please let use know if you improve the contents of that file!
+
+# 3. Running the code
+
+To replicate, move all scripts from the `code` folder to the root repository, and run them in the indicated order. Package dependencies are indicated at the beginning of each script.
+
+Most scripts will require a few days to run in full, either because of time limits imposed by the Twitter EST API, or because of the very slow Bayesian estimation procedure.
+
+We recommend going through the [replication material](http://dx.doi.org/10.7910/DVN/26589) for Pablo Barberá's paper to anyone who would be seriously interested in replicating the analysis.
