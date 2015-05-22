@@ -15,6 +15,8 @@ library(dplyr)
 library(readr)
 library(xtable)
 
+dir.create("tables", showWarnings = FALSE)
+
 if(!file.exists("data/politicians.csv")) {
 
   dir.create("politicians", showWarnings = FALSE)

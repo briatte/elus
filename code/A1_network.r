@@ -66,7 +66,8 @@ if(!file.exists("model/network.rda")) {
   }
 
   # remove self-loops and null ties
-  e = filter(e, w < 1 & n != 0)
+  e = filter(e, w < 1 & n != 0) %>%
+    arrange(i, j)
 
   cat(date(), ": building network object...\n")
 
@@ -92,21 +93,11 @@ if(!file.exists("model/network.rda")) {
 # PLOT ONE-MODE NETWORK
 # ==============================================================================
 
-colors = c(
-  "FDG"   = "#E41A1C", # red
-  "EELV"  = "#4DAF4A", # green
-  "DVG"   = "#FB8072", # light red
-  "PRG"   = "#FFFF33", # yellow
-  "PS"    = "#F781BF", # pink
-  "MODEM" = "#FDB462", # light orange
-  "UDI"   = "#FF7F00", # orange
-  "DVD"   = "#80B1D3", # light blue
-  "UMP"   = "#377EB8", # blue
-  "FN"    = "#A65628", # brown
-  "IND"   = "#AAAAAA"  # light grey
-)
+p = read_csv("data/parties.csv")
+colors = p$color
+names(colors) = p$party
 
-# plot high tie strength networks
+# plot two networks at high tie strength
 for(w in c(.66, .5)) {
 
   edges = e[ e$w > w, ]
