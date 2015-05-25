@@ -4,8 +4,9 @@
 #
 # The script scrapes politicians' details from the Elus 2.0 website, selects
 # those with Twitter accounts, and recodes their party affiliations. The file
-# data/politicians.csv is based on extensive checks of that initial list and on
-# over 200 manual additions. The final sample size is currently N = 1,008.
+# data/politicians.csv is based on extensive checks of that initial list, on
+# additional accounts retrieved from Regards Citoyens (see A0_additions.r), and
+# on over 200 manual additions.
 #
 #==============================================================================
 
@@ -344,7 +345,8 @@ p$last_tweeted = as.POSIXct(p$last_tweeted, format = "%a %b %d %H:%M:%S %z %Y")
 p$last_tweeted = as.Date(p$last_tweeted)
 
 write_csv(left_join(select(d, name, gender, party, twitter, mandates),
-                    p, by = "twitter"),
+                    p, by = "twitter") %>%
+            arrange(twitter),
           "data/politicians.csv")
 
 rm(list = ls())

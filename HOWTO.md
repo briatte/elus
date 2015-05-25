@@ -1,6 +1,7 @@
 # 1. Storing Twitter credentials
 
-Create a `credentials` folder and use it to save your credentials to the [Twitter REST API](https://dev.twitter.com/) as `my_oauth` objects stored in `rda` files:
+Most scripts require scraping Twitter data with the functions written into `code/00_functions.r`. In order for the functions to run properly, c
+reate a `credentials` folder and use it to save your credentials to the [Twitter REST API](https://dev.twitter.com/) as `my_oauth` objects stored in `rda` files:
 
 ```{r}
 library(ROAuth)
@@ -25,7 +26,8 @@ save(my_oauth, file = "credentials/oauth_youraccount.rda")
 
 # 2. Getting seed politicians
 
-The `data/politicians.csv` file contains an edited version of the results produced by the script `code/01_politicians.r` as of May 2015, with additional accounts retrieved either by parsing the followers and appending all verified accounts that corresponded to individual politicians, or by adding them manually after checking the friends of selected Twitter accounts.
+The `data/politicians.csv` file contains an edited version of the results produced by the scripts `code/01_politicians.r` and `code/A0_additions.r` as of May 2015, with additional accounts retrieved either by parsing their "4+" followers (produced by `code/
+03_users.r`) and appending all verified accounts that corresponded to individual politicians, or by adding them manually after checking the friends of selected Twitter accounts.
 
 The code to find politicians in the verified accounts was:
 
@@ -41,7 +43,8 @@ filter(u, verified &
   select(name, party, twitter, description)
 ```
 
-Please let use know if you improve the contents of that file!
+Please let use know if you improve the contents of that file, which is released under [ODBL](http://www.vvlibri.org/node/61) to match the [requirements of Regards Citoyens](https://github.com/regardscitoyens/twitter-parlementaires/blob/master/README.md).
+
 
 # 3. Running the code
 
