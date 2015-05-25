@@ -82,8 +82,8 @@ for(i in length(filesList):1) {
 
 }
 
-mean(sapply(followers_m, length)) # ~ 12,500
-median(sapply(followers_m, length)) # ~ 1,500
+mean(sapply(followers_m, length)) # ~ 11,000
+median(sapply(followers_m, length)) # ~ 1,350
 
 # re-save politicians dataset with followers counts
 data.frame(twitter = gsub("(.*)/(.*).rda", "\\2", filesList),
@@ -95,25 +95,25 @@ data.frame(twitter = gsub("(.*)/(.*).rda", "\\2", filesList),
 all_users_list = unlist(followers_m)
 
 cat("- Users following at least 1 of", length(followers_m), "accounts:",
-    n_distinct(all_users_list), "\n") # 3.16 million
+    n_distinct(all_users_list), "\n") # 3.17 million
 
 userlistfollowers = table(all_users_list)
 
-quantile(as.vector(userlistfollowers), .99) # top 1% follows 44+ accounts
-summary(as.vector(userlistfollowers[ userlistfollowers < 44 ])) # mean ~ 3
+quantile(as.vector(userlistfollowers), .99) # top 1% follows 45+ accounts
+summary(as.vector(userlistfollowers[ userlistfollowers < 45 ])) # mean ~ 3
 summary(as.vector(userlistfollowers)) # mean ~ 4
 
 options(scipen = 30)
 names(userlistfollowers) = as.numeric(names(userlistfollowers))
 
-# option 1: users following 4+ politicians ~ 725,000
+# option 1: users following 4+ politicians ~ 730,000
 length(userlistfollowers[ userlistfollowers >= 4 ])
 
-# option 2: users following 3 to 43 politicians ~ 938,000
-length(userlistfollowers[ userlistfollowers >= 3 & userlistfollowers < 44 ])
+# option 2: users following 3 to 43 politicians ~ 943,000
+length(userlistfollowers[ userlistfollowers >= 3 & userlistfollowers < 45 ])
 
-# option 3: users following 4 to 43 politicians ~ 693,000
-length(userlistfollowers[ userlistfollowers >= 4 & userlistfollowers < 44 ])
+# option 3: users following 4 to 43 politicians ~ 698,000
+length(userlistfollowers[ userlistfollowers >= 4 & userlistfollowers < 45 ])
 
 # using option 1 (equivalent to Barberá's)
 userlistfollowers = userlistfollowers[ userlistfollowers >= 4 ]
@@ -125,14 +125,14 @@ userlist = names(userlistfollowers)
 save(followers_m, filesList, userlist, file = "model/userlist.rda")
 
 #==============================================================================
-# CENSUS (POLITICIANS): M = 1,008
+# CENSUS (POLITICIANS): M = 1,167
 #==============================================================================
 
 census = gsub("followers/|\\.rda$", "", filesList)
 m = length(census)
 
 #==============================================================================
-# USERS (FOLLOWERS): N = 725,390
+# USERS (FOLLOWERS): N = 729,670
 #==============================================================================
 
 users = as.character(userlist)
