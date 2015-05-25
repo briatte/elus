@@ -194,7 +194,7 @@ if(!file.exists("data/politicians.csv")) {
 
 }
 
-d = read_csv("data/politicians.csv")
+d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 
 # remove unused accounts from original spreadsheet
 if("source" %in% names(d))

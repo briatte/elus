@@ -22,7 +22,7 @@ library(stringr)
 
 source("00_functions.r")
 
-p = read_csv("data/politicians.csv")
+p = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 
 u = read_csv("data/users.csv", col_types = list(id = col_character()))
 y = na.omit(u$id[ u$sample ])

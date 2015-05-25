@@ -47,6 +47,6 @@ Please let use know if you improve the contents of that file!
 
 To replicate, move all scripts from the `code` folder to the root repository, and run them in the indicated order. Package dependencies are indicated at the beginning of each script.
 
-Most scripts will require a few days to run in full, either because of time limits imposed by the Twitter EST API, or because of the very slow Bayesian estimation procedure.
+Most scripts will require a few days to run in full, either because of time limits imposed by the Twitter REST API, or because of the very slow Bayesian estimation procedure.
 
 We recommend going through the [replication material](http://dx.doi.org/10.7910/DVN/26589) for Pablo Barberá's paper to anyone who would be seriously interested in replicating the analysis.

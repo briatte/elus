@@ -295,7 +295,8 @@ cat("  ...", paste0(tail(colnames(y)), collapse = ", "), "\n")
 cat("\nSampled parties:\n")
 print(table(d$party[ d$twitter %in% colnames(y) ]))
 
-t = table(read_csv("data/politicians.csv")$party)
+t = read_csv("data/politicians.csv", col_types = list(id = col_character()))
+t = table(t$party)
 t = t[ names(t) != "IND" ]
 
 cat("\nPercentages of full sample:\n")
