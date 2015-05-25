@@ -40,6 +40,9 @@ s = read_csv("draft/twitter-parlementaires-master/data/senateurs.csv",
 # remove François Baroin from MPs (he became a Senator in October 2014)
 d = filter(d, name != "François BAROIN")
 
+# remove Julien Aubert from MPs (closed his account in 2013)
+d = filter(d, name != "Julien AUBERT")
+
 # bind both sources
 rc = rbind(d, s)
 
@@ -59,23 +62,23 @@ p = rbind(read_csv("draft/rattachement-financier-parlementaires-master/data/1412
 stopifnot(!duplicated(p$slug))
 
 p$party[ p$party == "Europe Écologie Les Verts" ] = "EELV"
-
-# adding MIP (single MP from DOM-TOM)
-p$party[ p$party %in% c("Forces de Gauche", "Parti communiste Français",
-                        "Mouvement Initiative Populaire") ] = "FDG"
+p$party[ p$party %in% c("Forces de Gauche", "Parti communiste Français") ] = "FDG"
 p$party[ p$party == "Front National" ] = "FN"
 p$party[ p$party %in% c("Non rattaché", "Non rattachée") ] = "IND"
 p$party[ p$party == "Le Centre pour la France" ] = "MODEM"
 p$party[ p$party == "Parti radical de gauche" ] = "PRG"
-
-# adding GUSR (Gillot, S, SOC) and PPM (Letchimy, AN, app. SRC, and Antiste, S, SOC)
-p$party[ p$party %in% c("Parti socialiste", "Guadeloupe Unie Socialisme et Réalité",
-                        "Parti progressiste Martiniquais") ] = "PS"
+p$party[ p$party == "Parti socialiste" ] = "PS"
 p$party[ p$party %in% c("Association PSLE - Nouveau Centre",
                         "Union des Radicaux, Centristes, Indépendants et Démocrates") ] = "UDI"
 p$party[ p$party == "Union pour un Mouvement Populaire" ] = "UMP"
 
-table(p$party)
+# mixed-left
+p$party[ p$slug == "bruno-nestor-azerot" ] = "DVG" # Mouvement Initiative Populaire
+p$party[ p$slug == "jacques-gillot" ] = "PS" # Guadeloupe Unie Socialisme et Réalité, sitting with PS
+p$party[ p$slug == "serge-letchimy" ] = "PS" # GParti progressiste Martiniquais, sitting with PS
+# p$party[ p$slug == "ary-chalus" ] = "PRG" # Guadeloupe Unie Socialisme et Réalité, sitting with PRG
+
+print(table(p$party, exclude = NULL))
 
 # ==============================================================================
 # KEEP ONLY NEW ACCOUNTS

@@ -304,7 +304,7 @@ if(!file.exists("model/politicians.rda")) {
 load("model/politicians.rda")
 
 j = unique(d$twitter)
-j = j[ !j %in% names(politicians) & j != "pozmentier" ] # skip closed account
+j = j[ !j %in% names(politicians) ] # skip closed account
 
 for(i in rev(j)) {
 
