@@ -164,6 +164,7 @@ pre = subset(pre, !(prenom %in% c("asa", "celestine", "daniele", "irene", "miche
 
 # vector of names
 name = tolower(gsub("[[:punct:]]|[0-9]", "", u$name))
+name = stringi::stri_enc_toutf8(name, validate = TRUE)
 name = str_trim(gsub("\\s+", " ", name))
 name = iconv(name, to = "ASCII//TRANSLIT")
 name = gsub("[[:punct:]]", "", name)
