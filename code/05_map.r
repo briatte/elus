@@ -110,7 +110,7 @@ geocodes = left_join(geocodes, n, by = "ville") %>%
 geocodes = arrange(geocodes, -users) %>%
   select(ville, lon, lat, users, address)
 
-# shown in map: metropolitan France, ~ 65,000 users
+# shown in map: metropolitan France, ~ 66,000 users
 sum(subset(geocodes, grepl("france", address))$users)
 
 # excluded: DOM-TOM
@@ -413,3 +413,6 @@ tbl = xtable(select(tbl, `Age group` = pop, Correlation = rho),
 
 print(tbl, booktabs = TRUE, include.rownames = FALSE,
       file = "tables/population.tex")
+
+rm(list = ls())
+gc()

@@ -20,6 +20,8 @@ library(ggplot2)
 library(dplyr)
 library(readr)
 
+library(Matrix)
+
 d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 
 # ==============================================================================
@@ -30,40 +32,55 @@ if(!file.exists("model/network.rda")) {
 
   load("model/userlist.rda")
 
+  cat(date(), ": working on", length(filesList), "politicians x", length(userlist), "users\n")
+
   # sanity check
   stopifnot(length(followers_m) == length(filesList))
 
-  cat(date(), ": building adjacency matrix of",
-      length(filesList), "politicians x", length(userlist), "users...\n")
+  cat(date(), ": building adjacency matrix...\n")
 
   M = list()
 
-  for(i in 1:length(followers_m))
+  pb = txtProgressBar(min = 1, max = length(followers_m))
+
+  for(i in 1:length(followers_m)) {
+
     M[[i]] = as.numeric(userlist %in% followers_m[[i]])
+    setTxtProgressBar(pb, i)
+
+  }
 
   M = sapply(M, rbind)
+  M = Matrix(M)
 
   colnames(M) = gsub("followers/|\\.rda", "", filesList)
   rownames(M) = userlist
 
   cat(date(), ": collapsing two-mode to one-mode...\n")
 
-  # collapse to one-mode (politicians)
+  # collapse to primary mode (politicians, columns)
   m = t(M) %*% M
 
   cat(date(), ": building weighted edge list...\n")
 
-  e = data.frame()
-  for(i in nrow(m):1) {
-    e = rbind(e, data.frame(
+  e = list()
+
+  pb = txtProgressBar(min = 1, max = nrow(m))
+
+  for(i in 1:nrow(m)) {
+
+    e[[i]] = data_frame(
       i = rownames(m)[i],
       j = colnames(m),
       n = m[i, ],
-      w = m[i, ] / m[i , i],
-      stringsAsFactors = FALSE,
-      row.names = NULL
-    ))
+      w = m[i, ] / m[i , i]
+    )
+
+    setTxtProgressBar(pb, i)
+
   }
+
+  e = bind_rows(e)
 
   # remove self-loops and null ties
   e = filter(e, w < 1 & n != 0) %>%
@@ -88,6 +105,8 @@ if(!file.exists("model/network.rda")) {
   load("model/network.rda")
 
 }
+
+stop('temp: done')
 
 # ==============================================================================
 # PLOT ONE-MODE NETWORK
@@ -116,7 +135,7 @@ for(w in c(.66, .5)) {
           legend.key = element_blank(),
           legend.justification = c(1, 1), legend.position = c(1, 1))
 
-  ggsave(paste0("plots/network_", w, "_", network.size(net), "_nodes.pdf"),
+  ggsave(paste0("plots/network_", gsub("\\.", "_", w), "_", network.size(net), "_nodes.pdf"),
          g, width = 10, height = 9)
 
 }
@@ -144,9 +163,9 @@ coefs[ coefs == "gwdsp.fixed.1" ] = "GWDSP"
 coefs[ coefs == "gwidegree" ] = "GW in-degree"
 coefs[ coefs == "gwodegree" ] = "GW out-degree"
 
-texreg(E, single.row = TRUE, custom.model.names = "ERGM",
-       custom.coef.names = coefs,
-       file = "tables/ergm.tex", caption = "Exponential random graph model of the shared followers network. Alpha and decay parameters set at 1 for the geometrically weighted terms.",
-       label = "tbl:ergm", booktabs = TRUE, dcolumn = TRUE)
+texreg(E, single.row = TRUE, custom.model.names = "ERGM", custom.coef.names = coefs,
+       caption = paste("Exponential random graph model of the shared followers network.",
+                       "Alpha and decay parameters set at 1 for the geometrically weighted terms."),
+       file = "tables/ergm.tex", label = "tbl:ergm", booktabs = TRUE, dcolumn = TRUE)
 
 save(edges, w, E, net, file = "model/ergm.rda")

@@ -177,3 +177,6 @@ stopifnot(!duplicated(u$id))
 
 write_csv(u, "data/users.csv")
 cat(date(), ":", nrow(u), "users in dataset.\n")
+
+rm(list = ls())
+gc()
