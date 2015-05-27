@@ -11,18 +11,14 @@
 #
 # ==============================================================================
 
+library(dplyr)
+library(readr)
+
 library(ergm)
 library(network)
 
 library(GGally)
 library(ggplot2)
-
-library(dplyr)
-library(readr)
-
-library(Matrix)
-
-d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 
 # ==============================================================================
 # BUILD ADJACENCY MATRIX
@@ -51,7 +47,7 @@ if(!file.exists("model/network.rda")) {
   }
 
   M = sapply(M, rbind)
-  M = Matrix(M)
+  M = Matrix::Matrix(M)
 
   colnames(M) = gsub("followers/|\\.rda", "", filesList)
   rownames(M) = userlist
@@ -86,51 +82,58 @@ if(!file.exists("model/network.rda")) {
   e = filter(e, w < 1 & n != 0) %>%
     arrange(i, j)
 
-  cat(date(), ": building network object...\n")
+  # save network constructors
+  save(M, m, e, file = "model/network.rda")
 
-  n = network(e[, 1:2 ], directed = TRUE)
-  set.edge.attribute(n, "count", e[, 3])
-  set.edge.attribute(n, "weight", e[, 4])
+  cat(date(), ": saved.\n")
 
-  tw = d$party
-  names(tw) = d$twitter
-  n %v% "party" = as.character(tw[ network.vertex.names(n) ])
-
-  save(M, m, n, e, file = "model/network.rda")
-
-  cat(date(), ": done.\n")
-
-} else {
-
-  load("model/network.rda")
+  # save memory
+  rm(list = ls())
+  gc()
 
 }
 
-stop('temp: done')
+load("model/network.rda")
+rm(M) # not used below
+rm(m) # not used below
 
-# ==============================================================================
-# PLOT ONE-MODE NETWORK
-# ==============================================================================
+d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
+party = d$party
+names(party) = d$twitter
 
 p = read_csv("data/parties.csv")
 colors = p$color
 names(colors) = p$party
 
+# ==============================================================================
+# PLOT ONE-MODE NETWORK
+# ==============================================================================
+
 # plot two networks at high tie strength
 for(w in c(.66, .5)) {
 
-  edges = e[ e$w > w, ]
-  net = network(edges[, 1:2 ], directed = TRUE)
-  set.edge.attribute(net, "count", edges[ , 3])
-  set.edge.attribute(net, "weight", edges[ , 4])
+  cat(date(), ": building network at w >", w, "...\n")
 
-  a = d$party
-  names(a) = d$twitter
-  net %v% "party" = as.character(a[ network.vertex.names(net) ])
+  edges = e[ e$w > w, ]
+
+  net = network(edges[, 1:2 ], directed = TRUE)
+  cat("Dimensions", network.size(net), "nodes,", network.edgecount(net), "edges\n")
+
+  set.edge.attribute(net, "count", edges$n)
+  cat("Mean edge count:", round(mean(edges$n), 2),
+      "min:", min(edges$n),
+      "max:", max(edges$n), "\n")
+
+  set.edge.attribute(net, "weight", edges$w)
+  cat("Mean edge weight:", round(mean(edges$w), 2),
+      "min:", round(min(edges$w), 2),
+      "max:", round(max(edges$w), 2), "\n")
+
+  net %v% "party" = as.character(party[ network.vertex.names(net) ])
 
   g = ggnet(net, node.group = net %v% "party", node.color = colors,
             segment.alpha = .5, size = 3, label.nodes = FALSE) +
-    scale_color_manual("", values = colors, limits = names(colors)) +
+    scale_color_manual("", values = colors, breaks = names(colors)) +
     theme(text = element_text(size = 14),
           legend.key = element_blank(),
           legend.justification = c(1, 1), legend.position = c(1, 1))
@@ -144,8 +147,10 @@ for(w in c(.66, .5)) {
 # DEMO ERGM RESULTS
 # ==============================================================================
 
+cat(date(), ": modeling network at w >", w, "...\n")
+
 E = ergm(net ~ edges +
-           nodefactor("party", base = 6) + # baseline = independents
+           nodefactor("party", base = which(names(table(net %v% "party")) == "IND")) +
            nodematch("party") +
            mutual +
            gwesp(alpha = 1, fixed = TRUE) +
@@ -169,3 +174,8 @@ texreg(E, single.row = TRUE, custom.model.names = "ERGM", custom.coef.names = co
        file = "tables/ergm.tex", label = "tbl:ergm", booktabs = TRUE, dcolumn = TRUE)
 
 save(edges, w, E, net, file = "model/ergm.rda")
+
+cat(date(), ": done.\n")
+
+rm(list = ls())
+gc()
