@@ -3,7 +3,7 @@
 # 02_followers.r -- download lists of Twitter users who follow politicians
 #
 # The script selects all users who follow 4+ of these accounts to create the
-# [ 725390 followers x 1008 politicians ] adjacency matrix, and sets the
+# [ 729846 followers x 1167 politicians ] adjacency matrix, and sets the
 # starting values for the model based on the politicians' party affiliation
 # (-1 for leftwing, +1 for rightwing, 0 for independents).
 #
