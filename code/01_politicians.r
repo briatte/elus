@@ -344,7 +344,7 @@ p$created = as.integer(substring(p$created, first = nchar(p$created) - 3))
 p$last_tweeted = as.POSIXct(p$last_tweeted, format = "%a %b %d %H:%M:%S %z %Y")
 p$last_tweeted = as.Date(p$last_tweeted)
 
-write_csv(left_join(select(d, name, gender, party, twitter, mandates),
+write_csv(left_join(select(d, name, gender, party, twitter, mandates, type),
                     p, by = "twitter") %>%
             arrange(twitter),
           "data/politicians.csv")
