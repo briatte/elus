@@ -1,7 +1,8 @@
 # 1. Storing Twitter credentials
 
-Most scripts require scraping Twitter data with the functions written into `code/00_functions.r`. In order for the functions to run properly, c
-reate a `credentials` folder and use it to save your credentials to the [Twitter REST API](https://dev.twitter.com/) as `my_oauth` objects stored in `rda` files:
+Most scripts require scraping Twitter data with the functions available in `code/00_functions.r`, most of which come from the code published by  [pablobarbera](https://github.com/pablobarbera).
+
+In order for the functions to run properly, create a `credentials` folder and use it to save your credentials to the [Twitter REST API](https://dev.twitter.com/) as `my_oauth` objects stored in `rda` files:
 
 ```{r}
 library(ROAuth)
@@ -24,10 +25,11 @@ my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCur
 save(my_oauth, file = "credentials/oauth_youraccount.rda")
 ```
 
-# 2. Getting seed politicians
+This step has to be completed manually. We strongly recommend using multiple Twitter credentials to speed up the data collection procedure.
 
-The `data/politicians.csv` file contains an edited version of the results produced by the scripts `code/01_politicians.r` and `code/A0_additions.r` as of May 2015, with additional accounts retrieved either by parsing their "4+" followers (produced by `code/
-03_users.r`) and appending all verified accounts that corresponded to individual politicians, or by adding them manually after checking the friends of selected Twitter accounts.
+# 2. Getting politician accounts
+
+The `data/politicians.csv` file contains an edited version of the results produced by the scripts `code/01_politicians.r` and `code/A0_additions.r` as of May 2015, with additional accounts retrieved either by parsing the followers produced by `code/03_users.r` and appending all verified accounts that corresponded to individual politicians, or by adding accounts manually after checking the friends of official party accounts.
 
 The code to find politicians in the verified accounts was:
 
@@ -53,3 +55,5 @@ To replicate, move all scripts from the `code` folder to the root repository, an
 Most scripts will require a few days to run in full, either because of time limits imposed by the Twitter REST API, or because of the very slow Bayesian estimation procedure.
 
 We recommend going through the [replication material](http://dx.doi.org/10.7910/DVN/26589) for Pablo Barberá's paper to anyone who would be seriously interested in replicating the analysis.
+
+Last, some scripts are moderately verbose, in order to help the user to monitor the rate limits of the Twitter API, to understand the rate of success of geographical and gender imputation, and to understand the subsampling procedure.
