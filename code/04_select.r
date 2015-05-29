@@ -324,18 +324,14 @@ print(table(d$party[ d$twitter %in% colnames(y) ]))
 # (re)load politicians and their followers lists
 d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 
-t = table(d$party)
-
 cat("\nPercentages of full sample:\n")
-print(100 * table(d$party[ d$twitter %in% colnames(y) ]) / t, digits = 1)
+print(100 * table(d$party[ d$twitter %in% colnames(y) ]) / table(d$party), digits = 1)
 
 cat("\nSampled mandates:\n")
 print(table(d$type[ d$twitter %in% colnames(y) ]))
 
-t = table(d$type)
-
 cat("\nPercentages of full sample:\n")
-print(100 * table(d$type[ d$twitter %in% colnames(y) ]) / t, digits = 1)
+print(100 * table(d$type[ d$twitter %in% colnames(y) ]) / table(d$type), digits = 1)
 
 # sanity checks
 stopifnot(colnames(y) == names(start.phi))
@@ -344,12 +340,6 @@ stopifnot(ncol(y) == length(start.phi))
 save(y, start.phi, file = "model/matrix_selected.rda")
 
 d$sample = d$twitter %in% colnames(y)
-
-with(d, table(party, sample))
-100 * round(with(d, prop.table(table(party, sample), 1)), 2)
-
-with(d, table(type, sample))
-100 * round(with(d, prop.table(table(type, sample), 1)), 2)
 
 write_csv(d, "data/politicians.csv")
 
