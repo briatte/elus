@@ -23,10 +23,10 @@ library(texreg)
 
 dir.create("tables", showWarnings = FALSE)
 
-load('draft/stanfit/stanfit.rda')
-load('draft/stanfit/matrix_selected.rda')
+load('draft-models/stanfit-04/stanfit.rda')
+load('draft-models/stanfit-04/matrix_selected.rda')
 
-load('tweets_april.rda')
+load('tweets-04.rda')
 
 theme_paper =  theme_bw(14) +
   theme(panel.grid = element_blank(),

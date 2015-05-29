@@ -22,13 +22,27 @@ library(stringr)
 
 u = read_csv("data/users.csv", col_types = list(id = col_character()))
 
+cat(date(), ": parsing", nrow(u), "users...\n")
+
 #==============================================================================
 # SELECT ACTIVE USERS
 #==============================================================================
 
-# sample users with 25+ followers, 100+ statuses, who tweeted in last 6 months
-u$active = with(u, followers >= 25 & statuses >= 100 & Sys.Date() - last_tweeted <= 200)
+cat("-", round(100 * sum(u$followers >= 25) / nrow(u), 1),
+    "% of users have 25+ followers\n")
+
+cat("-", round(100 * sum(u$statuses >= 100) / nrow(u), 1),
+    "% of users have 100+ statuses\n")
+
+# six months since first round of last local elections (April 22, 2015)
+cat("-", round(100 * sum(u$last_tweeted >= as.Date("2014-09-22"), na.rm = TRUE) / nrow(u), 1),
+    "% of users have tweeted in the last six months\n")
+
+u$active = with(u, followers >= 25 & statuses >= 100 & last_tweeted >= as.Date("2014-09-22"))
 # table(u$active, exclude = NULL)
+
+cat("-", round(100 * sum(u$active, na.rm = TRUE) / nrow(u), 1),
+    "% of users match all activity criteria\n")
 
 #==============================================================================
 # SELECT USERS LOCATED IN FRANCE
@@ -67,8 +81,8 @@ regex = paste0("^", regex, "$|^", regex, "\\s|\\s", regex, "$|\\s", regex, "\\s"
 regex = tolower(paste0(regex, collapse = "|"))
 u$departement = str_trim(str_extract(locs, regex))
 
-cat("-", round(100 * sum(!is.na(u$departement), na.rm = TRUE) / nrow(u), 1),
-    "% of users located in a département\n")
+cat("-", round(100 * sum(!is.na(u$departement)) / nrow(u), 1),
+    "% of users located in a French département\n")
 
 # préfectures et sous-préfectures 2014 (inclut les chefs-lieu régionaux)
 regex = c(geo$prefecture, unlist(strsplit(geo$sousprefs, ",")))
@@ -109,8 +123,8 @@ u$ville[ u$ville == "laval" & grepl("canada|qu(é|e)bec|qc", u$location, ignore.
 # other possible exceptions (not exhaustive)
 # Algérie|Belgique|Canada|Congo|Mali|Maroc|Qu(e|é)bec|Sénégal|Suisse|Tunisie|Togo
 
-cat("-", round(100 * sum(!is.na(u$ville), na.rm = TRUE) / nrow(u), 1),
-    "% of users located in a city\n")
+cat("-", round(100 * sum(!is.na(u$ville)) / nrow(u), 1),
+    "% of users located in a French city\n")
 
 # régions
 regex = c("Mayotte", na.omit(unique(geo$region))) # n = 28 (one blank)
@@ -122,20 +136,26 @@ regex = paste0("^", regex, "$|^", regex, "\\s|\\s", regex, "$|\\s", regex, "\\s"
 regex = tolower(paste0(regex, collapse = "|"))
 u$region = str_trim(str_extract(locs, regex))
 
-cat("-", round(100 * sum(!is.na(u$region), na.rm = TRUE) / nrow(u), 1),
-    "% of users located in a region\n")
+cat("-", round(100 * sum(!is.na(u$region)) / nrow(u), 1),
+    "% of users located in a French region\n")
 
 # France
 u$france = str_detect(locs, "^france$|^france\\s|\\sfrance$|\\sfrance\\s")
 
-cat("-", round(100 * sum(u$france, na.rm = TRUE) / sum(!is.na(u$france)), 1),
+cat("-", round(100 * sum(u$france, na.rm = TRUE) / nrow(u), 1),
     "% of users located in France\n")
 
 # sample active users who mention France or any French geographical location
-u$located = u$france | !is.na(u$departement) | !is.na(u$region) | !is.na(u$ville)
+u$located = isTRUE(u$france) | !is.na(u$departement) | !is.na(u$region) | !is.na(u$ville)
 
-cat("-", round(100 * sum(u$located, na.rm = TRUE) / sum(!is.na(u$located)), 1),
-    "% of users located somewhere in France\n")
+cat("-", round(100 * sum(u$located) / nrow(u), 1),
+    "% of users located somewhere inside of France\n")
+
+cat("-", round(100 * sum(!u$located & !is.na(u$location)) / nrow(u), 1),
+    "% of users located somewhere outside of France\n")
+
+cat("-", round(100 * sum(is.na(u$location)) / nrow(u), 1),
+    "% of users with no location at all\n")
 
 # final sample: active and located users
 u$sample = u$active & u$located
@@ -159,8 +179,8 @@ pre$prenom = gsub("[[:punct:]]", "", pre$prenom)
 pre = unique(pre[, c("prenom", "genre") ])
 
 # get rid of duplicates
-# subset(pre, prenom %in% pre$prenom[ duplicated(pre$prenom) ])
-pre = subset(pre, !(prenom %in% c("asa", "celestine", "daniele", "irene", "michele") & genre == "m"))
+# filter(pre, prenom %in% pre$prenom[ duplicated(pre$prenom) ])
+pre = filter(pre, !(prenom %in% c("asa", "celestine", "daniele", "irene", "michele") & genre == "m"))
 
 # vector of names
 name = tolower(gsub("[[:punct:]]|[0-9]", "", u$name))
@@ -181,10 +201,16 @@ name[ !name %in% names(prenoms) ] = NA
 name = prenoms[ name ]
 u$gender = ifelse(name %in% c("m", "f"), name, NA)
 
-cat("-", round(100 * sum(!is.na(u$gender), na.rm = TRUE) / nrow(u), 1),
+cat("-", round(100 * sum(!is.na(u$gender)) / nrow(u), 1),
     "% of users assigned a gender\n")
 
-cat("- Overall male-to-female ratio:",
+cat("-", round(100 * sum(u$gender == "m", na.rm = TRUE) / nrow(u), 1),
+    "% of users are males\n")
+
+cat("-", round(100 * sum(u$gender == "f", na.rm = TRUE) / nrow(u), 1),
+    "% of users are females\n")
+
+cat("- male-to-female ratio:",
     round(sum(u$gender == "m", na.rm = TRUE) / sum(u$gender == "f", na.rm = TRUE), 1),
     "\n")
 
@@ -264,18 +290,20 @@ stopifnot(!is.na(u$id) & !duplicated(u$id))
 stopifnot(u$id %in% rownames(y))
 
 # subsample 0: find selected users in matrix
+stopifnot(as.character(na.omit(u$id[ u$sample ])) %in% rownames(y))
 y = y[ rownames(y) %in% as.character(na.omit(u$id[ u$sample ])), ]
 
-cat("- Selected", sum(u$sample, na.rm = TRUE), "users:\n")
+stopifnot(sum(u$sample, na.rm = TRUE) == nrow(y))
+cat("- selected", nrow(y), "active users in France:\n")
 
 # subsample 1: ignore independents (for now)
 cat("  - removing", sum(d$party == "IND"), "unaffiliated politicians\n")
 
 # subsample 2: ignore politicians with no recent tweets
-cat("  - removing", sum(!d$statuses | d$last_tweeted <= as.Date("2014-10-22"), na.rm = TRUE),
-    "silent politicians\n")
+cat("  - removing", sum(!d$statuses | d$last_tweeted < as.Date("2014-09-22"), na.rm = TRUE),
+    "inactive politicians\n")
 
-d = filter(d, party != "IND" & statuses > 0 & last_tweeted > as.Date("2014-10-22"))
+d = filter(d, party != "IND" & statuses > 0 & last_tweeted >= as.Date("2014-09-22"))
 
 y = y[, colnames(y) %in% d$twitter ]
 start.phi = start.phi[ names(start.phi) %in% d$twitter ]
@@ -299,7 +327,16 @@ print(table(d$party[ d$twitter %in% colnames(y) ]))
 # (re)load politicians and their followers lists
 d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 
-t = table(t$party)
+t = table(d$party)
+t = t[ names(t) != "IND" ]
+
+cat("\nPercentages of full sample:\n")
+print(100 * table(d$party[ d$twitter %in% colnames(y) ]) / t, digits = 1)
+
+cat("\nSampled mandates:\n")
+print(table(d$type[ d$twitter %in% colnames(y) ]))
+
+t = table(d$type)
 t = t[ names(t) != "IND" ]
 
 cat("\nPercentages of full sample:\n")

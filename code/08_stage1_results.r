@@ -22,8 +22,8 @@ library(ggplot2)
 library(gridExtra)
 library(reshape2)
 
-load('draft/stanfit/matrix_selected.rda')
-load('draft/stanfit/stanfit.rda')
+load('draft-models/stanfit-05/matrix_selected.rda')
+load('draft-models/stanfit-05/stanfit.rda')
 
 theme_paper =  theme_bw(14) +
   theme(panel.grid = element_blank(),
@@ -158,8 +158,8 @@ ggsave("plots/ideal_points_parties.png", width = 10, height = 5)
 #   theme_paper
 
 # remember, n = 10
-with(pm, cor(mu, chess, use = "pairwise.complete.obs"))   # rho ~ .94
-with(pm, cor(mu, parlgov, use = "pairwise.complete.obs")) # rho ~ .93
+with(pm, cor(mu, chess, use = "pairwise.complete.obs"))   # rho ~ .96
+with(pm, cor(mu, parlgov, use = "pairwise.complete.obs")) # rho ~ .95
 
 #==============================================================================
 # SELECTED ELITES

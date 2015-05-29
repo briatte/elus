@@ -1,4 +1,4 @@
-Code to estimate Bayesian ideal points for French politicians from Twitter data. Forked from [pablobarbera](https://github.com/pablobarbera)'s code at [`twitter_ideology`](https://github.com/pablobarbera/twitter_ideology/). Edits by [briatte](https://github.com/briatte) and [3wen](https://github.com/3wen). See the [HOWTO](HOWTO.md) file for details on how to run the code.
+Code to estimate Bayesian ideal points for French politicians from Twitter data. Forked from [pablobarbera](https://github.com/pablobarbera)'s code at [`twitter_ideology`](https://github.com/pablobarbera/twitter_ideology/). Edits by [briatte](https://github.com/briatte) and [3wen](https://github.com/3wen). See the [HOWTO](HOWTO.md) file for details on how to run the code, and feel free to [suggest improvements or report bugs](issues).
 
 # SOURCES
 

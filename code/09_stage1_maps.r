@@ -97,7 +97,7 @@ depggm = fortify(depmap, region = "CODE_DEPT")
 depggm = left_join(depggm, rename(depts, id = departement_id), by = "id")
 
 # add panel title
-depggm$panel = "Mean Twitter-based ideal points"
+depggm$panel = "Mean Twitter-based ideal point"
 
 # mean ideal point by departement, colored from red (left) to blue (right)
 g1 = ggplot(depggm, aes(map_id = id)) +

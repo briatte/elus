@@ -67,7 +67,6 @@ while(length(accounts.left) > 0) {
 # SELECT FOLLOWERS WHO FOLLOW 4+ POLITICIANS
 #==============================================================================
 
-cat("- Loading followers...\n")
 filesList = list.files("followers", full.names = TRUE)
 followers_m = list(NULL)
 
@@ -142,7 +141,7 @@ n = length(users)
 # COMPLETE N x M MATRIX
 #==============================================================================
 
-cat("- Creating matrix of", n, "x", m, "\n")
+cat("- Creating matrix of", n, "followers x", m, "politicians\n")
 y = matrix(NA, nrow = n, ncol = m)
 rownames(y) = users
 colnames(y) = census
@@ -166,7 +165,6 @@ save(y, users, n, file = "model/matrix.rda")
 # CHOOSE STARTING VALUES
 #==============================================================================
 
-cat("\n- Saving starting values...\n")
 d = merge(data.frame(twitter = census, stringsAsFactors = FALSE),
           d, sort = FALSE)
 
@@ -175,7 +173,10 @@ start.phi = ifelse(d$party %in% c("FDG", "EELV", "DVG", "PRG", "PS"), -1, 1)
 start.phi[ d$party == "IND" ] = 0
 names(start.phi) = d$twitter
 
-print(table(start.phi))
+cat("-", sum(start.phi == -1), "starting values at -1 (left-wing)\n")
+cat("-", sum(start.phi == 1), "starting values at +1 (right-wing)\n")
+cat("-", sum(start.phi == 0), "starting values at 0 (independent)\n")
+
 save(start.phi, file = "model/startingvalues.rda")
 
 rm(list = ls())

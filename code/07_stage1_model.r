@@ -94,8 +94,8 @@ stan.fit = stan(model_code = stan.code,
                  init = inits,
                  seed = 83398)
 
-# save results with initial matrix
-save(y, stan.fit, file = "model/stanfit.rda")
+# save results
+save(stan.fit, file = "model/stanfit.rda")
 
 cat(date(), ": finished.\n")
 print(Sys.time() - timing)
