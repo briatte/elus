@@ -296,23 +296,20 @@ y = y[ rownames(y) %in% as.character(na.omit(u$id[ u$sample ])), ]
 stopifnot(sum(u$sample, na.rm = TRUE) == nrow(y))
 cat("- selected", nrow(y), "active users in France:\n")
 
-# subsample 1: ignore independents (for now)
-cat("  - removing", sum(d$party == "IND"), "unaffiliated politicians\n")
-
-# subsample 2: ignore politicians with no recent tweets
+# subsample 1: ignore politicians with no recent tweets
 cat("  - removing", sum(!d$statuses | d$last_tweeted < as.Date("2014-09-22"), na.rm = TRUE),
     "inactive politicians\n")
 
-d = filter(d, party != "IND" & statuses > 0 & last_tweeted >= as.Date("2014-09-22"))
+d = filter(d, statuses > 0 & last_tweeted >= as.Date("2014-09-22"))
 
 y = y[, colnames(y) %in% d$twitter ]
 start.phi = start.phi[ names(start.phi) %in% d$twitter ]
 
-# subsample 3: "informative" users who follow 10+ politicians
+# subsample 2: "informative" users who follow 10+ politicians
 cat("  -", sum(rowSums(y) >= 10), "follow 10+ of", ncol(y), "politicians\n")
 y = y[ rowSums(y) >= 10, ]
 
-# subsample 4: politicians followed by 200+ of these users
+# subsample 3: politicians followed by 200+ of these users
 cat("  -", sum(colSums(y) >= 200), "politicians followed by 200+ of these\n")
 start.phi = start.phi[ colSums(y) >= 200 ]
 y = y[ , colSums(y) >= 200 ]
@@ -328,7 +325,6 @@ print(table(d$party[ d$twitter %in% colnames(y) ]))
 d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
 
 t = table(d$party)
-t = t[ names(t) != "IND" ]
 
 cat("\nPercentages of full sample:\n")
 print(100 * table(d$party[ d$twitter %in% colnames(y) ]) / t, digits = 1)
@@ -337,10 +333,9 @@ cat("\nSampled mandates:\n")
 print(table(d$type[ d$twitter %in% colnames(y) ]))
 
 t = table(d$type)
-t = t[ names(t) != "IND" ]
 
 cat("\nPercentages of full sample:\n")
-print(100 * table(d$party[ d$twitter %in% colnames(y) ]) / t, digits = 1)
+print(100 * table(d$type[ d$twitter %in% colnames(y) ]) / t, digits = 1)
 
 # sanity checks
 stopifnot(colnames(y) == names(start.phi))
