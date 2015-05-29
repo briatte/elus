@@ -310,7 +310,7 @@ g = inner_join(g, dept, by = "id") %>%
   arrange(-ratio)
 
 # IGN shapefiles: http://professionnels.ign.fr/geofla
-depmap = readOGR(dsn = "GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2014-12-05/GEOFLA/1_DONNEES_LIVRAISON_2014-12-00068/GEOFLA_2-0_SHP_LAMB93_FR-ED141/DEPARTEMENT", layer = "DEPARTEMENT")
+depmap = readOGR(dsn = "maps/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2014-12-05/GEOFLA/1_DONNEES_LIVRAISON_2014-12-00068/GEOFLA_2-0_SHP_LAMB93_FR-ED141/DEPARTEMENT", layer = "DEPARTEMENT")
 depggm = fortify(depmap, region = "CODE_DEPT")
 
 # add users variables
