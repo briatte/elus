@@ -81,8 +81,8 @@ for(i in length(filesList):1) {
 
 }
 
-mean(sapply(followers_m, length)) # ~ 11,000
-median(sapply(followers_m, length)) # ~ 1,350
+mean(sapply(followers_m, length))   # ~ 10,800
+median(sapply(followers_m, length)) # ~ 1,300
 
 # re-save politicians dataset with followers counts
 data.frame(twitter = gsub("(.*)/(.*).rda", "\\2", filesList),
@@ -94,7 +94,7 @@ data.frame(twitter = gsub("(.*)/(.*).rda", "\\2", filesList),
 all_users_list = unlist(followers_m)
 
 cat("- Users following at least 1 of", length(followers_m), "accounts:",
-    n_distinct(all_users_list), "\n") # 3.17 million
+    n_distinct(all_users_list), "\n") # 3.18 million
 
 userlistfollowers = table(all_users_list)
 
@@ -105,13 +105,13 @@ summary(as.vector(userlistfollowers)) # mean ~ 4
 options(scipen = 30)
 names(userlistfollowers) = as.numeric(names(userlistfollowers))
 
-# option 1: users following 4+ politicians ~ 730,000
+# option 1: users following 4+ politicians ~ 732,000
 length(userlistfollowers[ userlistfollowers >= 4 ])
 
-# option 2: users following 3 to 43 politicians ~ 943,000
+# option 2: users following 3 to 45 politicians ~ 945,000
 length(userlistfollowers[ userlistfollowers >= 3 & userlistfollowers < 45 ])
 
-# option 3: users following 4 to 43 politicians ~ 698,000
+# option 3: users following 4 to 45 politicians ~ 700,000
 length(userlistfollowers[ userlistfollowers >= 4 & userlistfollowers < 45 ])
 
 # using option 1 (equivalent to Barberá's)
@@ -124,14 +124,14 @@ userlist = names(userlistfollowers)
 save(followers_m, filesList, userlist, file = "model/userlist.rda")
 
 #==============================================================================
-# CENSUS (POLITICIANS): M = 1,167
+# CENSUS (POLITICIANS): M = 1,206
 #==============================================================================
 
 census = gsub("followers/|\\.rda$", "", filesList)
 m = length(census)
 
 #==============================================================================
-# USERS (FOLLOWERS): N = 729,670
+# USERS (FOLLOWERS): N = 732,634
 #==============================================================================
 
 users = as.character(userlist)

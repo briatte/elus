@@ -5,8 +5,8 @@
 # The script scrapes politicians' details from the Elus 2.0 website, selects
 # those with Twitter accounts, and recodes their party affiliations. The file
 # data/politicians.csv is based on extensive checks of that initial list, on
-# additional accounts retrieved from Regards Citoyens (see A0_additions.r), and
-# on over 200 manual additions.
+# additional accounts retrieved from Regards Citoyens using code/A0_additions.r,
+# and on over 300 manual additions.
 #
 #==============================================================================
 
@@ -247,9 +247,8 @@ m[ m > 50 ]
 d$is_mp  = grepl("D(é|e)puté(e)?(,|$)|Assemblée Nationale", d$mandates)
 d$is_sen = grepl("S(e|é)nat(eur|rice)?", d$mandates)
 d$is_mep = grepl("europ", d$mandates)
-d$is_loc = !grepl("D(é|e)puté(e)?|Assemblée Nat|S(e|é)nat(eur|rice)?", d$mandates) &
-  d$mandates != "Sans mandat électif courant"
-d$is_else = (d$mandates == "Sans mandat électif courant")
+d$is_else = (d$is_mp + d$is_sen + d$is_mep == 0) & grepl("Sans mandat électif courant|Responsable politique|Président de la République|Ministre|Secrétaire d'État", d$mandates)
+d$is_loc = d$is_mp + d$is_sen + d$is_mep + d$is_else == 0
 
 # no overlap between categories
 stopifnot(d$is_mp + d$is_sen + d$is_mep + d$is_loc + d$is_else == 1)
