@@ -20,6 +20,8 @@ library(network)
 library(GGally)
 library(ggplot2)
 
+library(Matrix)
+
 # ==============================================================================
 # BUILD ADJACENCY MATRIX
 # ==============================================================================
@@ -46,8 +48,10 @@ if(!file.exists("model/network.rda")) {
 
   }
 
+  cat("\n", date(), ": binding rows and converting...\n")
+
   M = sapply(M, rbind)
-  M = Matrix::Matrix(M)
+  M = Matrix(M)
 
   colnames(M) = gsub("followers/|\\.rda", "", filesList)
   rownames(M) = userlist
@@ -149,6 +153,18 @@ for(w in c(.66, .5)) {
 
 cat(date(), ": modeling network at w >", w, "...\n")
 
+# baseline model
+B = ergm(net ~ edges +
+           nodefactor("party", base = which(names(table(net %v% "party")) == "IND")) +
+           nodematch("party") +
+           mutual,
+	         control = control.ergm(seed = 3726,
+	                                parallel = parallel::detectCores() %/% 2,
+    		 													MCMLE.maxit = 50))
+
+print(summary(B))
+
+# baseline model with controls
 E = ergm(net ~ edges +
            nodefactor("party", base = which(names(table(net %v% "party")) == "IND")) +
            nodematch("party") +
@@ -156,7 +172,12 @@ E = ergm(net ~ edges +
            gwesp(alpha = 1, fixed = TRUE) +
            gwdsp(alpha = 1, fixed = TRUE) +
            gwidegree(decay = 1, fixed = TRUE) +
-           gwodegree(decay = 1, fixed = TRUE))
+           gwodegree(decay = 1, fixed = TRUE),
+           control = control.ergm(seed = 3726,
+                                  parallel = parallel::detectCores() %/% 2,
+                                  MCMLE.maxit = 50))
+
+print(summary(E))
 
 # export
 coefs = gsub("nodefactor.party.", "Main effect: ", names(coef(E)))
@@ -168,12 +189,13 @@ coefs[ coefs == "gwdsp.fixed.1" ] = "GWDSP"
 coefs[ coefs == "gwidegree" ] = "GW in-degree"
 coefs[ coefs == "gwodegree" ] = "GW out-degree"
 
-texreg(E, single.row = TRUE, custom.model.names = "ERGM", custom.coef.names = coefs,
+texreg(E, single.row = TRUE, custom.coef.names = coefs,
+			 custom.model.names = "ERGM",
        caption = paste("Exponential random graph model of the shared followers network.",
-                       "Alpha and decay parameters set at 1 for the geometrically weighted terms."),
+                       "Alpha or decay parameters set at 1 for the geometrically weighted terms."),
        file = "tables/ergm.tex", label = "tbl:ergm", booktabs = TRUE, dcolumn = TRUE)
 
-save(edges, w, E, net, file = "model/ergm.rda")
+save(edges, w, net, B, E, file = "model/ergm-exp.rda")
 
 cat(date(), ": done.\n")
 

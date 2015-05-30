@@ -160,6 +160,9 @@ cat("-", round(100 * sum(is.na(u$location)) / nrow(u), 1),
 # final sample: active and located users
 u$sample = u$active & u$located
 
+# discards users with no most recent tweet
+u$sample[ is.na(u$sample) ] = FALSE
+
 #==============================================================================
 # GENDERIZE USERS
 #==============================================================================
