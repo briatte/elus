@@ -135,7 +135,7 @@ qplot(data = pm, x = reorder(party, mu), color = party,
                                             reorder(n, mu)))) +
   guides(color = FALSE) +
   labs(x = NULL, y = paste("Twitter-based mean ideal points (o)\n",
-                           "and ParlGov Left/Right scores (x)\n")) +
+                           "and normalized ParlGov Left/Right scores (x)\n")) +
   theme_paper
 
 ggsave("plots/ideal_points_parties.pdf", width = 10, height = 5)
@@ -251,13 +251,13 @@ key = select(est, screen_name, phat) %>%
 #   Manifpourtous84, JEavecSarkozy, ump84vaucluse
 # View(filter(est, verified, phat > 1))
 
-key$ycoord = c(0.1, 0.1, 0.12, 0.1, 0.12, 0.12, 0.1, 0.1)
-key$xcoord = 0.5 # in case you need horizontal adjustment
+key$ycoord = c(0.1, 0.1, 0.12, 0.1, 0.12, 0.12, 0.1,  0.1)
+key$xcoord = c(  1, 0.5,  0.5,   1,  0.5,  0.5, 0.5, -0.1)
 
 qplot(data = filter(phis, party %in% c("UMP", "PS")),
       x = phat, fill = party, alpha = I(.5), geom = "density") +
-  annotate("text", x = -1.9, y = 1.1, label = "Socialists (PS)") +
-  annotate("text", x = +2.1, y = 1.1, label = "Conservatives (UMP)") +
+  annotate("text", x = -1.8, y = 1.3, label = "Socialists (PS)") +
+  annotate("text", x = +2.0, y = 1.1, label = "Conservatives (UMP)") +
   scale_fill_manual("Twitter-based ideal points of politicians", values = colors) +
   geom_point(data = key, aes(y = 0, x = phat, fill = NULL)) +
   geom_segment(data = key, aes(y = -4.5 * ycoord, yend = 0,
@@ -265,7 +265,7 @@ qplot(data = filter(phis, party %in% c("UMP", "PS")),
   geom_text(data = key, aes(y = -5 * ycoord, hjust = xcoord, x = phat,
                             fill = NULL, label = screen_name), size = 3.5) +
   labs(x = "\nTwitter-based ideal points", y = "Distribution density\n") +
-  ylim(-0.7, 1.2) +
+  ylim(-0.7, 1.4) +
   theme_paper +
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
