@@ -212,9 +212,9 @@ tbl = group_by(d, party) %>%
   select(party, n, m, f, ratio, percent)
 
 # export table
-tbl = select(tbl, Party = party, Accounts = n, Males = m, Females = f, `Sample weight (%)` = percent)
+tbl = select(tbl, Party = party, Accounts = n, Males = m, Females = f, `Sample (%)` = percent)
 tbl = xtable(tbl, digits = 1, caption = "Politicians sample, by party affiliation.", label = "tbl:sample")
-print(tbl, booktabs = TRUE, include.rownames = FALSE, file = "tables/sample.tex")
+print(tbl, booktabs = TRUE, include.rownames = FALSE, file = "tables/politicians.tex")
 
 # check for unique names
 stopifnot(!is.na(d$name))
@@ -342,6 +342,12 @@ p$created = as.integer(substring(p$created, first = nchar(p$created) - 3))
 # date of last tweet (when available)
 p$last_tweeted = as.POSIXct(p$last_tweeted, format = "%a %b %d %H:%M:%S %z %Y")
 p$last_tweeted = as.Date(p$last_tweeted)
+
+# proportions of all parliamentarians who tweeted this year
+a = filter(d, twitter %in% p$twitter[ p$last_tweeted >= as.Date("2015-01-01") ]) %>%
+  filter(type %in% c("MP", "Senator", "MEP"))
+
+cat("-", round(100 * nrow(a) / (577 + 348 + 74), 1), "% of all parliamentarians actively tweeting")
 
 write_csv(left_join(select(d, name, gender, party, twitter, mandates, type),
                     p, by = "twitter") %>%

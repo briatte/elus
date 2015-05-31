@@ -193,7 +193,9 @@ texreg(E, single.row = TRUE, custom.coef.names = coefs,
 			 custom.model.names = "ERGM",
        caption = paste("Exponential random graph model of the shared followers network.",
                        "Alpha or decay parameters set at 1 for the geometrically weighted terms."),
-       file = "tables/ergm.tex", label = "tbl:ergm", booktabs = TRUE, dcolumn = TRUE)
+			 label = "tbl:ergm",
+			 booktabs = TRUE, dcolumn = TRUE, use.packages = FALSE,
+       file = "tables/ergm.tex")
 
 save(edges, w, net, B, E, file = "model/ergm-exp.rda")
 

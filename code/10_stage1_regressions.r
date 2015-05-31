@@ -259,9 +259,12 @@ texreg(list(M1, M2, M3, M4),
        custom.coef.names = c("Intercept", "Far-left", "Far-right",
                              "Account age", "Male user", "Tweets (log-10)"),
        include.rsquared = FALSE, include.adjrs = FALSE,
-       file = "tables/ols_activity.tex", label = "tbl:ols_activity",
-       caption = "Regression estimates of Twitter activity by ideological status, with standard errors in brackets. All dependent variables are logged at base 10.",
-       booktabs = TRUE, dcolumn = TRUE)
+       caption = paste("Regression estimates of Twitter activity by ideological status,",
+                       "with standard errors in brackets.",
+                       "All dependent variables are logged at base 10."),
+       label = "tbl:ols_activity",
+       booktabs = TRUE, dcolumn = TRUE, use.packages = FALSE,
+       file = "tables/ols_activity.tex")
 
 # MENTIONS: Greens, Socialists, Conservatives, Extreme-Right
 P1 = lm(log10(1 + n_eelv) ~ log10(1 + n_mentions) + position + age + gender, data = s)
@@ -283,6 +286,9 @@ texreg(list(P1, P2, P3, P4),
        custom.model.names = c("EELV", "PS", "UMP", "FN"),
        custom.coef.names = c("Intercept", "Far-left", "Far-right", "Account age", "Male user", "Tweets (log-10)"),
        include.rsquared = FALSE, include.adjrs = FALSE,
-       file = "tables/ols_mentions.tex", label = "tbl:ols_mentions",
-       caption = "Regression estimates of Twitter mentions by ideological status, with standard errors in brackets. All dependent variables are logged at base 10.",
-       booktabs = TRUE, dcolumn = TRUE)
+       caption = paste("Regression estimates of Twitter mentions by ideological status,",
+                       "with standard errors in brackets.",
+                       "All dependent variables are logged at base 10."),
+			 label = "tbl:ols_mentions",
+			 booktabs = TRUE, dcolumn = TRUE, use.packages = FALSE,
+       file = "tables/ols_mentions.tex")
