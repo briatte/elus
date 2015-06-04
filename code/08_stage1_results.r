@@ -48,7 +48,7 @@ examples = data.frame(
   mlp_officiel = phis[[1]][, which(colnames(y) == "mlp_officiel") ],
   nicolassarkozy = phis[[1]][, which(colnames(y) == "nicolassarkozy") ],
   fhollande = phis[[1]][, which(colnames(y) == "fhollande") ],
-  jlmelenchon = phis[[1]][, which(colnames(y) == "jlmelenchon") ],
+  plaurent_pcf = phis[[1]][, which(colnames(y) == "plaurent_pcf") ],
   random_user = thetas[[1]][, sample(1:ncol(thetas[[1]]), 1) ]
 )
 
@@ -60,7 +60,7 @@ qplot(data = melt(examples, "iteration") %>%
         mutate(heidelberger = heidelberger[ variable ]),
       y = value, x = iteration, lty = heidelberger, geom = "line") +
   facet_grid(variable ~ ., scales = "free_y") +
-  scale_y_continuous(breaks = scales::pretty_breaks(n = 1)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 2)) +
   scale_linetype_manual(values = c("TRUE" = "solid", "FALSE" = "dashed")) +
   guides(linetype = FALSE) +
   labs(y = "Twitter-based ideal point\n", x = "\nIteration (after thinning)") +
@@ -73,15 +73,15 @@ ggsave("plots/stage1_heidelberger.png", width = 10, height = 10)
 hd_pol = apply(phis[[1]], 2, heidel.diag)
 table(hd_pol[4, ], exclude = NULL)
 
-# problems: @jnguerini and @olivierfalorni
+# problems: @jnguerini and @m_chamussy
 colnames(y)[ which(hd_pol[4, ] != 1) ]
 
 #==============================================================================
-# IDEAL POINTS FOR POLITICIANS
+# IDEAL POINTS FOR POLITICIANS (equivalent to Barberá 2015, Appendix Figure 3)
 #==============================================================================
 
 d = read_csv("data/politicians.csv", col_types = list(id = col_character())) %>%
-  select(name, gender, party, twitter, mandates)
+  select(name, gender, party, twitter, type, followers)
 
 phis = data.frame(twitter = colnames(y),
                   phat = apply(phis$phi, 2, mean),
@@ -93,17 +93,80 @@ phis = data.frame(twitter = colnames(y),
   inner_join(d, ., by = "twitter") %>%
   arrange(-phat)
 
-#==============================================================================
-# PARTY POSITIONS (equivalent to Barberá 2015, Fig. 3)
-#==============================================================================
-
 # party colors
 
 p = read_csv("data/parties.csv")
 colors = p$color
 names(colors) = p$party
 
-# party means
+# ideal points for most followed MEPs, MPs and Senators
+
+qplot(data = group_by(phis, type) %>%
+        arrange(-followers) %>%
+        mutate(order = 1:n()) %>%
+        filter(order %in% 1:50 & type %in% c("MEP", "MP", "Senator")),
+      y = reorder(twitter, phat), x = phat, color = party) +
+  # almost invisible error bars
+  # geom_segment(aes(x = phat_q025, xend = phat_q975, yend = reorder(twitter, phat))) +
+  facet_wrap(~ type, nrow = 1, scales = "free_y") +
+  scale_color_manual("", values = colors, breaks = p$party) +
+  labs(y = NULL, x = "\nTwitter-based ideal point") +
+  theme_paper +
+  theme(legend.key = element_blank(),
+        axis.text.y = element_text(size = rel(3/4)),
+        legend.position = "bottom")
+
+ggsave("plots/ideal_points_politicians.pdf", width = 10, height = 10)
+ggsave("plots/ideal_points_politicians.png", width = 10, height = 10)
+
+#==============================================================================
+# PARTY POSITIONS (equivalent to Barberá 2015, Fig. 3)
+#==============================================================================
+
+# range plot with Chapel Hill scores (0-10)
+
+std01 <- function(x) { (x - min(x)) / (max(x) - min(x)) }
+
+pm = group_by(mutate(phis, phat = 10 * std01(phat)), party) %>%
+  summarise(n = n(), mu = mean(phat), sd = sd(phat)) %>%
+  left_join(., p, by = "party")
+
+pm$party = factor(pm$party, levels = pm$party[ order(pm$mu) ])
+
+qplot(data = pm, x = "A", xend = "A", y = mu - 2 *sd, yend = mu + 2 * sd,
+      lty = "Ideal point (Twitter)", geom = "segment") +
+  geom_point(aes(y = mu), size = 2) +
+  geom_segment(aes(x = "B", xend = "B", y = chess - 2 * chess_sd, yend = chess + 2 * chess_sd,
+                   lty = "Party position (Chapel Hill)")) +
+  geom_point(aes(x = "B", y = chess), size = 2) +
+  geom_text(aes(y = -1.5, label = n)) +
+  scale_color_manual("", values = colors) +
+  scale_linetype_manual("", values = c("solid", "dashed")) +
+  facet_grid(. ~ party, scales = "free_x") +
+  labs(x = NULL, y = "Mean score ± 2 standard deviations\n") +
+  theme_paper +
+  theme(legend.key = element_blank(),
+        strip.background = element_blank(),
+        axis.text.x = element_blank(),
+        legend.position = "bottom")
+
+ggsave("plots/ideal_points_parties_chess.pdf", width = 10, height = 5)
+ggsave("plots/ideal_points_parties_chess.png", width = 10, height = 5)
+
+# violin plot with Chapel Hill scores (0-10)
+
+qplot(data = mutate(phis, phat = 10 * std01(phat)),
+                    x = reorder(party, phat, mean), y = phat,
+                    fill = party, color = I("grey50"), alpha = I(.5), geom = "violin") +
+  geom_point(data = pm, aes(x = reorder(party, mu), y = mu), shape = 1, size = 4) +
+  geom_point(data = pm, aes(x = reorder(party, mu), y = chess), shape = 4, size = 4) +
+  scale_fill_manual("", values = colors) +
+  guides(fill = FALSE) +
+  labs(x = NULL, y = paste("Twitter-based mean ideal points (o)\n",
+                           "and Chapel Hill Left/Right scores (x)\n")) +
+  theme_paper
+
+# range plot with normalized ParlGov scores
 
 normalize <- function(x){ (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE) }
 
@@ -111,19 +174,6 @@ pm = group_by(mutate(phis, phat = normalize(phat)), party) %>%
   summarise(n = n(), mu = mean(phat), min = min(phat), max = max(phat)) %>%
   left_join(., mutate(p, parlgov = normalize(parlgov)), by = "party")
 
-# # violins plot
-# qplot(data = mutate(phis, phat = normalize(phat)),
-#                     x = reorder(party, phat, mean), y = phat,
-#                     color = party, geom = "violin") +
-#   geom_point(data = pm, aes(x = reorder(party, mu), y = mu), shape = 1, size = 4) +
-#   geom_point(data = pm, aes(x = reorder(party, mu), y = parlgov), shape = 4, size = 4) +
-#   scale_color_manual("", values = colors) +
-#   guides(color = FALSE) +
-#   labs(x = NULL, y = paste("Twitter-based mean ideal points (o)\n",
-#                            "and ParlGov Left/Right scores (x)\n")) +
-#   theme_paper
-
-# range plot
 qplot(data = pm, x = reorder(party, mu), color = party,
       y = mu, ymin = min, ymax = max, geom = "pointrange") +
   geom_point(aes(y = mu), size = 4, color = "white") +
@@ -134,12 +184,17 @@ qplot(data = pm, x = reorder(party, mu), color = party,
                    labels = with(pm, paste0(reorder(party, mu), "\nn = ",
                                             reorder(n, mu)))) +
   guides(color = FALSE) +
-  labs(x = NULL, y = paste("Twitter-based mean ideal points (o)\n",
+  labs(x = NULL, y = paste("Normalized Twitter-based mean ideal points (o)\n",
                            "and normalized ParlGov Left/Right scores (x)\n")) +
   theme_paper
 
-ggsave("plots/ideal_points_parties.pdf", width = 10, height = 5)
-ggsave("plots/ideal_points_parties.png", width = 10, height = 5)
+ggsave("plots/ideal_points_parties_parlgov.pdf", width = 10, height = 5)
+ggsave("plots/ideal_points_parties_parlgov.png", width = 10, height = 5)
+
+# largest differences (mean error = .66)
+mutate(pm, diff = mu - chess) %>%
+  filter(abs(diff) > mean(abs(diff), na.rm = TRUE)) %>%
+  arrange(diff)
 
 # # party orderings
 #
@@ -172,7 +227,7 @@ qplot(data = phis, y = reorder(name, phat), x = phat,
   geom_text(data = filter(phis, grepl("Raffarin|Villepin|Fillon|Ayrault|Valls|Camba|Sarko|Hollande|(ne |al-)Le Pen|Cosse|Duflot|Voynet|ian Paul",
                                       name, ignore.case = TRUE)), aes(label = name), alpha = 1) +
   scale_color_manual("", values = colors, breaks = pm$party[ order(pm$mu) ]) +
-  labs(y = NULL, x = "\n Twitter-based ideal point") +
+  labs(y = NULL, x = "\nTwitter-based ideal point") +
   theme_paper +
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
@@ -240,30 +295,31 @@ est = data.frame(id = names(stan.fit@stan_args[[1]]$init$beta),
 
 key = select(est, screen_name, phat) %>%
   filter(tolower(screen_name) %in%
-           tolower(c("SOS_Racisme", "Elysee", "partisocialiste", "FNJ_officiel",
-                     "PartiRadicalG", "NicolasSarkozy", "UDI_off", "ump")))
+           tolower(c("SOS_Racisme", "Elysee", "partisocialiste", "FN_officiel",
+                     "PartiRadicalG", "UDI_off", "ump", "NicolasSarkozy")))
 
 # other left-wing candidates: EELVToulouse, EELVCreteil, EELVIdF,
-#   JeunesSocialist, mairie18paris, MDM_France
+#   JeunesSocialist, mairie18paris, MDM_France, fhollande
 # View(filter(est, verified, phat < -1))
 
 # other right-wing candidates: CG06, JeunesUMP6006, JeunesUMP6007,
-#   Manifpourtous84, JEavecSarkozy, ump84vaucluse
+#   Manifpourtous84, JEavecSarkozy, ump84vaucluse,
+#   journalPresent, FN_Vannes, radiocourtoisie, RenaudCamus
 # View(filter(est, verified, phat > 1))
 
-key$ycoord = c(0.1, 0.1, 0.12, 0.1, 0.12, 0.12, 0.1,  0.1)
-key$xcoord = c(  1, 0.5,  0.5,   1,  0.5,  0.5, 0.5, -0.1)
+key$ycoord = c(0.08, 0.08, 0.12, 0.12, 0.12, 0.12, 0.08, 0.08)
+key$xcoord = c(   1,  0.5,  0.5,  0.5,  0.5,    1,  0.5, -0.1)
 
 qplot(data = filter(phis, party %in% c("UMP", "PS")),
-      x = phat, fill = party, alpha = I(.5), geom = "density") +
+      x = phat, group = party, alpha = I(.5), geom = "density") + # fill = party,
   annotate("text", x = -1.8, y = 1.3, label = "Socialists (PS)") +
   annotate("text", x = +2.0, y = 1.1, label = "Conservatives (UMP)") +
-  scale_fill_manual("Twitter-based ideal points of politicians", values = colors) +
-  geom_point(data = key, aes(y = 0, x = phat, fill = NULL)) +
+  # scale_fill_manual("Twitter-based ideal points of politicians", values = colors) +
+  geom_point(data = key, aes(y = 0, x = phat, group = NULL)) +
   geom_segment(data = key, aes(y = -4.5 * ycoord, yend = 0,
-                               x = phat, xend = phat, fill = NULL)) +
+                               x = phat, xend = phat, group = NULL)) +
   geom_text(data = key, aes(y = -5 * ycoord, hjust = xcoord, x = phat,
-                            fill = NULL, label = screen_name), size = 3.5) +
+                            group = NULL, label = screen_name), size = 3.5) +
   labs(x = "\nTwitter-based ideal points", y = "Distribution density\n") +
   ylim(-0.7, 1.4) +
   theme_paper +
