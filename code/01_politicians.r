@@ -346,7 +346,7 @@ a = filter(d, twitter %in% p$twitter[ p$last_tweeted >= as.Date("2015-01-01") ])
 
 cat("-", round(100 * nrow(a) / (577 + 348 + 74), 1), "% of all parliamentarians actively tweeting")
 
-write_csv(left_join(select(d, name, gender, party, twitter, mandates, type),
+write_csv(left_join(select(d, name, gender, party, twitter, mandates, ville, departement, type),
                     p, by = "twitter") %>%
             arrange(twitter),
           "data/politicians.csv")
