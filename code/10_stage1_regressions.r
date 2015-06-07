@@ -19,12 +19,14 @@ library(lubridate)
 library(stringr)
 
 library(rstan)
+
+library(MASS)
 library(texreg)
 
 dir.create("tables", showWarnings = FALSE)
 
-load('draft-models/stanfit-04/stanfit.rda')
-load('draft-models/stanfit-04/matrix_selected.rda')
+load('draft-models/stanfit-05/stanfit.rda')
+load('draft-models/stanfit-05/matrix_selected.rda')
 
 load('tweets-04.rda')
 
@@ -210,17 +212,39 @@ qplot(data = melt(p, c("ntile", "n")), x = ntile, y = value,
        x = "\nStandardized Twitter-based ideal point") +
   theme_paper
 
-ggsave("plots/mentions.pdf", width = 10, height = 5)
-ggsave("plots/mentions.png", width = 10, height = 5)
+ggsave("plots/mentions_party.pdf", width = 10, height = 5)
+ggsave("plots/mentions_party.png", width = 10, height = 5)
 
 # merge 2: user tweet counts and ideal points with gender and creation date
 u = read_csv("data/users.csv", col_types = list(id = col_character()))
-s = left_join(s, select(u, id, age, gender, followers), by = "id")
+s = left_join(s, select(u, id, age, gender, foll owers), by = "id")
 
 s$position = 0
 s$position[ s$phat < mean(s$phat) - sd(s$phat) ] = -1 # ~ 0 - 1 = -1
 s$position[ s$phat > mean(s$phat) + sd(s$phat) ] = 1  # ~ 0 + 1 = +1
 table(s$position)
+
+ggplot(data = select(s, id, position, gender,
+                     `Left-wing partisan mentions` =  n_left,
+                     `Right-wing partisan mentions` = n_right,
+                     `Total partisan mentions` = n_mentions) %>%
+         mutate(gender = factor(gender, levels = c("f", "m"),
+                                labels = c("Female", "Male"))) %>%
+         melt(c("id", "position", "gender")) %>%
+         filter(!is.na(gender))) +
+  aes(x = factor(position), y = 1 + value) +
+  scale_x_discrete(labels = c("Left", "Centre", "Right")) +
+  scale_y_log10() +
+  geom_boxplot(outlier.size = 1, aes(fill = gender), position = "dodge") +
+  scale_fill_brewer("", palette = "Greys") +
+  facet_grid(. ~ variable) +
+  labs(y = "Number of partisan mentions per follower\n",
+       x = "\nIdeological placement of follower") +
+  theme_paper +
+  theme(legend.position = "bottom")
+
+ggsave("plots/mentions_n.pdf", width = 10, height = 5)
+ggsave("plots/mentions_n.png", width = 10, height = 5)
 
 #==============================================================================
 # LINEAR REGRESSIONS (equivalent to Barberá and Rivero 2014, Table 3)
@@ -259,36 +283,91 @@ texreg(list(M1, M2, M3, M4),
        custom.coef.names = c("Intercept", "Far-left", "Far-right",
                              "Account age", "Male user", "Tweets (log-10)"),
        include.rsquared = FALSE, include.adjrs = FALSE,
-       caption = paste("Regression estimates of Twitter activity by ideological status,",
-                       "with standard errors in brackets.",
+       caption = paste("Ordinary least squares regression estimates of Twitter",
+                       "activity by ideological placement, with standard errors in brackets.",
                        "All dependent variables are logged at base 10."),
        label = "tbl:ols_activity",
        booktabs = TRUE, dcolumn = TRUE, use.packages = FALSE,
        file = "tables/ols_activity.tex")
 
-# MENTIONS: Greens, Socialists, Conservatives, Extreme-Right
-P1 = lm(log10(1 + n_eelv) ~ log10(1 + n_mentions) + position + age + gender, data = s)
-P2 = lm(log10(1 + n_ps)   ~ log10(1 + n_mentions) + position + age + gender, data = s)
-P3 = lm(log10(1 + n_ump)  ~ log10(1 + n_mentions) + position + age + gender, data = s)
-P4 = lm(log10(1 + n_fn)   ~ log10(1 + n_mentions) + position + age + gender, data = s)
+#==============================================================================
+# NEGATIVE BINOMIAL REGRESSIONS
+#==============================================================================
+
+# DV = count of mentions of Greens, Socialists, Conservatives and Extreme-Right
+
+# Using continuous estimated ideal points
+P1 = glm.nb(n_eelv ~ log10(1 + n_mentions) + phat + age + gender, data = s)
+P2 = glm.nb(n_ps ~ log10(1 + n_mentions) + phat + age + gender, data = s)
+P3 = glm.nb(n_ump ~ log10(1 + n_mentions) + phat + age + gender, data = s)
+P4 = glm.nb(n_fn ~ log10(1 + n_mentions) + phat + age + gender, data = s)
 
 # check: run on full sample without the gender variable
-F1 = lm(log10(1 + n_eelv) ~ log10(1 + n_mentions) + position + age, data = s)
-F2 = lm(log10(1 + n_ps)   ~ log10(1 + n_mentions) + position + age, data = s)
-F3 = lm(log10(1 + n_ump)  ~ log10(1 + n_mentions) + position + age, data = s)
-F4 = lm(log10(1 + n_fn)   ~ log10(1 + n_mentions) + position + age, data = s)
+F1 = glm.nb(n_eelv ~ log10(1 + n_mentions) + phat + age, data = s)
+F2 = glm.nb(n_ps ~ log10(1 + n_mentions) + phat + age, data = s)
+F3 = glm.nb(n_ump ~ log10(1 + n_mentions) + phat + age, data = s)
+F4 = glm.nb(n_fn ~ log10(1 + n_mentions) + phat + age, data = s)
 
 screenreg(list(P1, F1, P2, F2, P3, F3, P4, F4),
-          custom.coef.names = c("Intercept", "Mentions", "Far-left", "Far-right", "Account age", "Male user"),
+          custom.coef.names = c("Intercept", "Mentions", "Left-right placement",
+                                "Account age", "Male user"),
+          include.rsquared = FALSE)
+
+# predicted mean number of mentions
+sim = data.frame(n_mentions = mean(s$n_mentions), age = mean(s$age), gender = c("m", "f"))
+sim = rbind(
+  cbind(sim[1, ], data.frame(phat = seq(min(s$phat), max(s$phat), .1)), row.names = NULL),
+  cbind(sim[2, ], data.frame(phat = seq(min(s$phat), max(s$phat), .1)), row.names = NULL)
+)
+
+sim = rbind(
+  cbind(sim, response = "EELV", predict(P1, sim, type = "link", se.fit = TRUE), row.names = NULL),
+  cbind(sim, response = "PS", predict(P2, sim, type = "link", se.fit = TRUE), row.names = NULL),
+  cbind(sim, response = "UMP", predict(P3, sim, type = "link", se.fit = TRUE), row.names = NULL),
+  cbind(sim, response = "FN", predict(P4, sim, type = "link", se.fit = TRUE), row.names = NULL)
+)
+
+sim$gender  = ifelse(sim$gender == "f", "Females", "Males")
+
+ggplot(data = sim, aes(x = phat, y = exp(fit))) +
+  geom_ribbon(aes(ymin = exp(fit - 1.96 * se.fit),
+                  ymax = exp(fit + 1.96 * se.fit)),
+              fill = "grey85") +
+  geom_line() +
+  scale_fill_brewer(palette = "Greys") +
+  facet_grid(gender ~ response) +
+  labs(y = "Predicted number of partisan mentions\n",
+       x = "\nTwitter-based estimated ideal point") +
+  theme_paper
+
+ggsave("plots/mentions_predicted.pdf", width = 10, height = 6)
+ggsave("plots/mentions_predicted.png", width = 10, height = 6)
+
+# Using ideological points
+P1 = glm.nb(n_eelv ~ log10(1 + n_mentions) + position + age + gender, data = s)
+P2 = glm.nb(n_ps ~ log10(1 + n_mentions) + position + age + gender, data = s)
+P3 = glm.nb(n_ump ~ log10(1 + n_mentions) + position + age + gender, data = s)
+P4 = glm.nb(n_fn ~ log10(1 + n_mentions) + position + age + gender, data = s)
+
+# check: run on full sample without the gender variable
+F1 = glm.nb(n_eelv ~ log10(1 + n_mentions) + position + age, data = s)
+F2 = glm.nb(n_ps ~ log10(1 + n_mentions) + position + age, data = s)
+F3 = glm.nb(n_ump ~ log10(1 + n_mentions) + position + age, data = s)
+F4 = glm.nb(n_fn ~ log10(1 + n_mentions) + position + age, data = s)
+
+screenreg(list(P1, F1, P2, F2, P3, F3, P4, F4),
+          custom.coef.names = c("Intercept", "Mentions", "Far-left", "Far-right",
+                                "Account age", "Male user"),
           include.rsquared = FALSE)
 
 texreg(list(P1, P2, P3, P4),
        custom.model.names = c("EELV", "PS", "UMP", "FN"),
-       custom.coef.names = c("Intercept", "Far-left", "Far-right", "Account age", "Male user", "Tweets (log-10)"),
+       custom.coef.names = c("Intercept", "Mentions (log-10)", "Far-left", "Far-right",
+                             "Account age", "Male user"),
        include.rsquared = FALSE, include.adjrs = FALSE,
-       caption = paste("Regression estimates of Twitter mentions by ideological status,",
-                       "with standard errors in brackets.",
-                       "All dependent variables are logged at base 10."),
-			 label = "tbl:ols_mentions",
-			 booktabs = TRUE, dcolumn = TRUE, use.packages = FALSE,
-       file = "tables/ols_mentions.tex")
+       caption = paste("Negative binomial regression estimates of Twitter",
+                       "mentions by ideological placement, with standard errors in brackets.",
+                       "All dependent variables are counts of partisan mentions."),
+       label = "tbl:nb_mentions",
+       booktabs = TRUE, dcolumn = TRUE, use.packages = FALSE,
+       file = "tables/nb_mentions.tex")

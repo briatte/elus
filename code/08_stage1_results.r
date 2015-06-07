@@ -119,6 +119,21 @@ qplot(data = group_by(phis, type) %>%
 ggsave("plots/ideal_points_politicians.pdf", width = 10, height = 10)
 ggsave("plots/ideal_points_politicians.png", width = 10, height = 10)
 
+phis$type = reorder(phis$type, phis$phat, mean)
+
+qplot(data = phis, y = phat, x = type, colour = party, size = log10(followers)) +
+  geom_violin(aes(group = type), fill = NA) +
+  geom_hline(data = group_by(phis, type) %>%
+               summarise(phat = mean(phat)),
+             aes(yintercept = phat, color = NULL), lty = "dashed") +
+  scale_color_manual("", values = colors, breaks = p$party) +
+  facet_grid(. ~ type, scales = "free_x") +
+  labs(y = "Twitter-based ideal point\n", x = "\nType of mandate") +
+  theme_paper
+
+ggsave("plots/ideal_points_mandates.pdf", width = 10, height = 10)
+ggsave("plots/ideal_points_mandates.png", width = 10, height = 10)
+
 #==============================================================================
 # PARTY POSITIONS (equivalent to Barberá 2015, Fig. 3)
 #==============================================================================
@@ -298,13 +313,14 @@ key = select(est, screen_name, phat) %>%
            tolower(c("SOS_Racisme", "Elysee", "partisocialiste", "FN_officiel",
                      "PartiRadicalG", "UDI_off", "ump", "NicolasSarkozy")))
 
-# other left-wing candidates: EELVToulouse, EELVCreteil, EELVIdF,
-#   JeunesSocialist, mairie18paris, MDM_France, fhollande
+# other left-wing candidates (not all are verified accounts):
+#   EELVToulouse, EELVCreteil, EELVIdF, JeunesSocialist, mairie18paris,
+#   MDM_France, fhollande
 # View(filter(est, verified, phat < -1))
 
-# other right-wing candidates: CG06, JeunesUMP6006, JeunesUMP6007,
-#   Manifpourtous84, JEavecSarkozy, ump84vaucluse,
-#   journalPresent, FN_Vannes, radiocourtoisie, RenaudCamus
+# other right-wing candidates  (not all are verified accounts):
+#   CG06, JeunesUMP6006, JeunesUMP6007, Manifpourtous84, JEavecSarkozy,
+#   ump84vaucluse, journalPresent, FN_Vannes, radiocourtoisie, RenaudCamus
 # View(filter(est, verified, phat > 1))
 
 key$ycoord = c(0.08, 0.08, 0.12, 0.12, 0.12, 0.12, 0.08, 0.08)
@@ -342,11 +358,12 @@ ideal$panel = "Elite and Mass Ideal Points"
 # right panel
 est$profile = "No indication"
 est$profile[ grepl(paste0("#(", paste0(p$party[ p$side < 0 & p$party != "DVG" ], collapse = "|"), ")"),
-                   est$description) ] = "Left-wing"
+                   est$description, ignore.case = TRUE) ] = "Left-wing"
 est$profile[ grepl(paste0("#(", paste0(p$party[ p$side > 0 & p$party != "DVD" ], collapse = "|"), ")"),
-                   est$description) ] = "Right-wing"
+                   est$description, ignore.case = TRUE) ] = "Rright-wing"
 
-table(est$profile, exclude = NULL)
+table(est$profile)
+
 est$panel = "Mass Ideal Points"
 
 # merge and plot
