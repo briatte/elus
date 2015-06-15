@@ -94,27 +94,18 @@ data.frame(twitter = gsub("(.*)/(.*).rda", "\\2", filesList),
 all_users_list = unlist(followers_m)
 
 cat("- Users following at least 1 of", length(followers_m), "accounts:",
-    n_distinct(all_users_list), "\n") # 3.18 million
+    n_distinct(all_users_list), "\n") # 3.23 million
 
 userlistfollowers = table(all_users_list)
 
-quantile(as.vector(userlistfollowers), .99) # top 1% follows 45+ accounts
-summary(as.vector(userlistfollowers[ userlistfollowers < 45 ])) # mean ~ 3
+quantile(as.vector(userlistfollowers), .99) # top 1% follows 48+ accounts
+summary(as.vector(userlistfollowers[ userlistfollowers < 48 ])) # mean ~ 3
 summary(as.vector(userlistfollowers)) # mean ~ 4
 
 options(scipen = 30)
 names(userlistfollowers) = as.numeric(names(userlistfollowers))
 
-# option 1: users following 4+ politicians ~ 732,000
-length(userlistfollowers[ userlistfollowers >= 4 ])
-
-# option 2: users following 3 to 45 politicians ~ 945,000
-length(userlistfollowers[ userlistfollowers >= 3 & userlistfollowers < 45 ])
-
-# option 3: users following 4 to 45 politicians ~ 700,000
-length(userlistfollowers[ userlistfollowers >= 4 & userlistfollowers < 45 ])
-
-# using option 1 (equivalent to Barberá's)
+# using mean as cutoff point (equivalent to Barberá's)
 userlistfollowers = userlistfollowers[ userlistfollowers >= 4 ]
 
 cat("- Users following at least 4 of", length(followers_m), "accounts:",
@@ -124,14 +115,14 @@ userlist = names(userlistfollowers)
 save(followers_m, filesList, userlist, file = "model/userlist.rda")
 
 #==============================================================================
-# CENSUS (POLITICIANS): M = 1,206
+# CENSUS (POLITICIANS): M = 1,762
 #==============================================================================
 
 census = gsub("followers/|\\.rda$", "", filesList)
 m = length(census)
 
 #==============================================================================
-# USERS (FOLLOWERS): N = 732,634
+# USERS (FOLLOWERS): N = 749,262
 #==============================================================================
 
 users = as.character(userlist)
@@ -173,7 +164,7 @@ start.phi = ifelse(d$party %in% c("FDG", "EELV", "DVG", "PRG", "PS"), -1, 1)
 start.phi[ d$party == "IND" ] = 0
 names(start.phi) = d$twitter
 
-cat("-", sum(start.phi == -1), "starting values at -1 (left-wing)\n")
+cat("\n-", sum(start.phi == -1), "starting values at -1 (left-wing)\n")
 cat("-", sum(start.phi == 1), "starting values at +1 (right-wing)\n")
 cat("-", sum(start.phi == 0), "starting values at 0 (independent)\n")
 

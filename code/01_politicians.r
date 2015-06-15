@@ -216,6 +216,7 @@ print(tbl, booktabs = TRUE, include.rownames = FALSE, file = "tables/politicians
 # check for unique names
 stopifnot(!is.na(d$name))
 stopifnot(!duplicated(d$name))
+d$name[ duplicated(d$name) ]
 
 # check for gender codes
 stopifnot(!is.na(d$gender))
@@ -300,7 +301,7 @@ if(!file.exists("model/politicians.rda")) {
 load("model/politicians.rda")
 
 j = unique(d$twitter)
-j = j[ !j %in% names(politicians) ] # skip closed account
+j = j[ !j %in% names(politicians) ]
 
 for(i in rev(j)) {
 

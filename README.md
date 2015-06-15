@@ -2,7 +2,7 @@ Code to estimate Bayesian ideal points for French politicians from Twitter data.
 
 # SOURCES
 
-- Initial politicians' Twitter accounts from [Elus 2.0](http://www.elus20.fr/elus-web-facebook-twitter/) and [Regards Citoyens](http://www.regardscitoyens.org/).
+- Many Twitter accounts from [Elus 2.0](http://www.elus20.fr/elus-web-facebook-twitter/), [eTerritoire](http://www.eterritoire.fr/blog/category/statistiques-twitter/) and [Regards Citoyens](http://www.regardscitoyens.org/).
 - Election results from Ministère de l'Intérieur via [Data.gouv.fr](https://www.data.gouv.fr).
 - French administrative units from Insee via [Wikipedia Francophone](https://fr.wikipedia.org/wiki/).
 - Geocodes from [Google Maps](https://developers.google.com/maps/).
