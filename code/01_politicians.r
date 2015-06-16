@@ -1,12 +1,12 @@
 #==============================================================================
 #
-# 01_politicians.r -- create the initial list of politicians' Twitter accounts
+# 01_politicians.r -- create a dataset of politicians' Twitter accounts
 #
-# The script scrapes politicians' details from the Elus 2.0 website, selects
-# those with Twitter accounts, and recodes their party affiliations. The file
-# data/politicians.csv is based on extensive checks of that initial list, on
-# additional accounts retrieved from Regards Citoyens using code/A0_additions.r,
-# and on over 300 manual additions.
+# If the data/politicians.csv file does not exist, the script will create one
+# by scraping the Elus 2.0 website. The dataset provided in the repo is based
+# on extensive checks of that initial list, on additional accounts retrieved
+# from Regards Citoyens using the code/A0_additions.r script, on additional
+# accounts retrieved from the eTerritoire blog, and on many manual additions.
 #
 #==============================================================================
 
@@ -16,7 +16,12 @@ library(dplyr)
 library(readr)
 library(xtable)
 
-dir.create("tables", showWarnings = FALSE)
+dir.create("tables" , showWarnings = FALSE)
+dir.create("model"  , showWarnings = FALSE)
+
+# ==============================================================================
+# GET SOME INITIAL DATA
+# ==============================================================================
 
 if(!file.exists("data/politicians.csv")) {
 
@@ -165,24 +170,24 @@ if(!file.exists("data/politicians.csv")) {
 
   d$parti3[ d$parti3 == "MAR-I" ] = "DVG" # Martinique, independentist
   d$parti3[ d$parti3 == "MAR-P" ] = "DVG" # Martinique, progressist
-  d$parti3[ d$parti3 == "MRC" ] = "DVG" # Chevènement
-  d$parti3[ d$parti3 == "MUP" ] = "DVG" # Hue
-  d$parti3[ d$parti3 == "NPA" ] = "DVG" # far-left
-  d$parti3[ d$parti3 == "LO" ] = "DVG" # far-left
+  d$parti3[ d$parti3 == "MRC"   ] = "DVG" # Chevènement
+  d$parti3[ d$parti3 == "MUP"   ] = "DVG" # Hue
+  d$parti3[ d$parti3 == "NPA"   ] = "DVG" # far-left
+  d$parti3[ d$parti3 == "LO"    ] = "DVG" # far-left
 
-  d$parti3[ d$parti3 == "PG" ] = "FDG"  # Front de Gauche
+  d$parti3[ d$parti3 == "PG"  ] = "FDG"  # Front de Gauche
   d$parti3[ d$parti3 == "PCF" ] = "FDG" # Front de Gauche
 
-  d$parti3[ d$parti3 == "LP" ] = "UMP" # Besson
-  d$parti3[ d$parti3 == "LC" ] = "UMP" # Gaullists
+  d$parti3[ d$parti3 == "LP"   ] = "UMP" # Besson
+  d$parti3[ d$parti3 == "LC"   ] = "UMP" # Gaullists
   d$parti3[ d$parti3 == "CPNT" ] = "UMP" # since 2010
 
-  d$parti3[ d$parti3 == "PCD" ] = "DVD" # Poisson, Boutin
-  d$parti3[ d$parti3 == "DLR" ] = "DVD" # Dupont-Aignan
+  d$parti3[ d$parti3 == "PCD"   ] = "DVD" # Poisson, Boutin
+  d$parti3[ d$parti3 == "DLR"   ] = "DVD" # Dupont-Aignan
   d$parti3[ d$parti3 == "CAP21" ] = "DVD" # Lepage
-  d$parti3[ d$parti3 == "RS" ] = "DVD" # Villepin
-  d$parti3[ d$parti3 == "MPF" ] = "DVD" # de Villiers
-  d$parti3[ d$parti3 == "CNIP" ] = "DVD" # Bourdouleix
+  d$parti3[ d$parti3 == "RS"    ] = "DVD" # Villepin
+  d$parti3[ d$parti3 == "MPF"   ] = "DVD" # de Villiers
+  d$parti3[ d$parti3 == "CNIP"  ] = "DVD" # Bourdouleix
 
   d$parti3[ d$parti3 == "SP" ] = "IND" # Cheminade
 
@@ -242,8 +247,8 @@ m = table(unlist(strsplit(d$mandates, ", ")))
 m[ m > 50 ]
 
 # identify MPs, Senator, MEPs and non-parliamentarians
-d$is_mp  = grepl("D(é|e)puté(e)?(,|$)|Assemblée Nationale", d$mandates)
-d$is_sen = grepl("S(e|é)nat(eur|rice)?", d$mandates)
+d$is_mp  = grepl("Député(,|$)|Assemblée Nationale", d$mandates)
+d$is_sen = grepl("Sénateur(,|$)", d$mandates)
 d$is_mep = grepl("europ", d$mandates)
 d$is_else = (d$is_mp + d$is_sen + d$is_mep == 0) & grepl("Sans mandat électif courant|Responsable politique|Président de la République|Ministre|Secrétaire d'État", d$mandates)
 d$is_loc = d$is_mp + d$is_sen + d$is_mep + d$is_else == 0
@@ -345,7 +350,7 @@ p$last_tweeted = as.Date(p$last_tweeted)
 a = filter(d, twitter %in% p$twitter[ p$last_tweeted >= as.Date("2015-01-01") ]) %>%
   filter(type %in% c("MP", "Senator", "MEP"))
 
-cat("-", round(100 * nrow(a) / (577 + 348 + 74), 1), "% of all parliamentarians actively tweeting")
+cat("-", round(100 * nrow(a) / (577 + 348 + 74), 1), "% of all parliamentarians actively tweeting\n")
 
 write_csv(left_join(select(d, name, gender, party, twitter, mandates, ville, departement, type),
                     p, by = "twitter") %>%

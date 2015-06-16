@@ -6,11 +6,10 @@
 # last six months and who could be located in France based on their location
 # field. All users are saved to data/users.csv.
 #
-# The adjacency matrix that is sent to the model further restricts users to
-# those following at least 10 politicians, and politicians to those followed by
-# at least 200 "informative" users. The result, which contains 44,661 followers
-# and 869 politicians, is saved to model/matrix_selected.rda, with the starting
-# values for that subsample.
+# The adjacency matrix that is sent to the first stage of the model further 
+# restricts users to those following at least 10 politicians, and politicians
+# to those followed by at least 200 "informative" users. The result is saved to 
+# model/matrix_selected.rda, with the starting values for that subsample.
 #
 #==============================================================================
 

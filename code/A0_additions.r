@@ -74,8 +74,8 @@ p$party[ p$party == "Union pour un Mouvement Populaire" ] = "UMP"
 
 # mixed-left
 p$party[ p$slug == "bruno-nestor-azerot" ] = "DVG" # Mouvement Initiative Populaire
-p$party[ p$slug == "jacques-gillot" ] = "PS" # Guadeloupe Unie Socialisme et Réalité, sitting with PS
-p$party[ p$slug == "serge-letchimy" ] = "PS" # GParti progressiste Martiniquais, sitting with PS
+p$party[ p$slug == "jacques-gillot" ] = "DVG" # Guadeloupe Unie Socialisme et Réalité, sitting with PS
+p$party[ p$slug == "serge-letchimy" ] = "DVG" # Parti progressiste Martiniquais, sitting with PS
 # p$party[ p$slug == "ary-chalus" ] = "PRG" # Guadeloupe Unie Socialisme et Réalité, sitting with PRG
 
 print(table(p$party, exclude = NULL))

@@ -20,7 +20,6 @@
 source("00_functions.r")
 
 dir.create("followers", showWarnings = FALSE)
-dir.create("model", showWarnings = FALSE)
 
 library(dplyr)
 library(readr)
@@ -138,7 +137,7 @@ rownames(y) = users
 colnames(y) = census
 
 # filling in with zeros and ones
-pb = txtProgressBar(min = 1, max = m)
+pb = txtProgressBar(min = 1, max = m, style = 3)
 for (j in 1:m) {
 
   load(paste(getwd(), "/followers/", census[ j ], ".rda", sep=""))

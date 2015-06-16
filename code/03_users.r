@@ -82,7 +82,7 @@ while(length(left) > 0) {
   cat("Retrieving users:", length(users), "in total,",
       length(users) - sum(empty), "identified", length(left), "left\n")
 
-  left_sample = sample(left, ifelse(length(left) >= 1000, 1000, length(left)))
+  left_sample = sample(left, ifelse(length(left) >= 5000, 5000, length(left)))
 
   for(i in rev(left_sample)) {
 
@@ -113,8 +113,6 @@ while(length(left) > 0) {
   save(users, file = "model/users.rda")
 
   # loop over remaining users
-
-  cat(date(), ": looping...\n")
 
   empty = sapply(users, is.null)
   left = names(users)[ empty ]
