@@ -280,7 +280,7 @@ d = read_csv("data/politicians.csv", col_types = list(id = col_character())) %>%
 # partial matches for over half of sample
 table(!is.na(d$ville) | !is.na(d$departement))
 
-stopifnot(na.omit(d$departement) %in% g$departement)
+stopifnot(na.omit(d$departement[ !d$departement %in% c("DOM TOM", "ETRANGER", "EUROPE") ]) %in% g$departement)
 
 # create a vector of departement numbers
 depts = g$numero
@@ -330,15 +330,12 @@ depggm$panel = "Mean ideal point of followers"
 
 # median ideal point by departement, colored from red (left) to blue (right)
 g1 = ggplot(depggm, aes(map_id = id)) +
-  geom_map(aes(fill = m_users, alpha = cut(n_users, c(-Inf, 50, 100, 150, Inf),
-                                           labels = c("< 50", "< 100", "< 150", "150+"), right = FALSE)),
-           map = depggm, color = "white", size = 1) +
+  geom_map(aes(fill = m_users), map = depggm, color = "white", size = 1) +
   # geom_text(data = group_by(depggm, id) %>%
   #             summarise(long = mean(long), lat = mean(lat), n = unique(n)),
   #           aes(x = long, y = lat, label = n), color = "white") +
   expand_limits(x = depggm$long,
                 y = depggm$lat) +
-  scale_alpha_discrete("N") +
   scale_fill_gradient2("", na.value = "grey80",
                        limits = max(range(m$m_users)) * c(-1, 1),
                        low = "#B40F20", mid = "white",
