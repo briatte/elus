@@ -2,27 +2,22 @@
 #
 # 05_map.r -- plot maps of followers located in metropolitan France
 #
-# The script geocodes all available locations provided by the Twitter followers,
-# plots maps of the followers, and correlates the number of followers with age
-# groups and voter registration rates at the level of each département.
-#
-# Geocodes are taken from Google Maps, French administrative units from Insee,
-# population figures for age groups from Irdes and Insee, 2014, and voter
-# registration figures from the Ministère de l'Intérieur, 2013.
+# The script maps politicians and followers and correlates the number of
+# followers with age groups at the level of each metropolitan département.
 #
 #==============================================================================
 
-library(ggmap)
 library(ggplot2)
 library(gridExtra)
+
+library(dplyr)
+library(readr)
+library(stringr)
 
 library(rgdal)
 library(rgeos)
 library(maptools)
 
-library(dplyr)
-library(readr)
-library(stringr)
 library(xtable)
 
 # map theme
@@ -42,102 +37,18 @@ gpclibPermitStatus()
 
 dir.create("plots", showWarnings = FALSE)
 
+# load informative followers
 u = read_csv("data/users.csv", col_types = list(id = col_character()))
 
 # comment out to plot maps out of all users instead of sampled ones
 u = filter(u, sample)
 
-#==============================================================================
-# GEOCODE CITIES
-#==============================================================================
-
-if(!file.exists("data/geocodes.csv")) {
-
-  geocodes = as.data.frame(table(u$ville), stringsAsFactors = FALSE)
-  geocodes = cbind(geocodes, NA, NA, NA)
-  names(geocodes) = c("ville", "users", "lon", "lat", "address")
-
-  # note: 'baie mahault' needs to be added manually (Guadeloupe)
-  for(i in geocodes$ville) {
-    g = geocode(paste(i, "france"), "latlona")
-    if(!is.na(g$lon)) {
-      geocodes$lon[ geocodes$ville == i ] = g$lon
-      geocodes$lat[ geocodes$ville == i ] = g$lat
-      geocodes$address[ geocodes$ville == i ] = as.character(g$address)
-    }
-  }
-
-  # manual geocodes for DOM-TOM locations
-  geocodes$address[ geocodes$ville == "cayenne" ] = "cayenne, french guiana"
-  geocodes$lon[ geocodes$ville == "cayenne" ] = -52.32690
-  geocodes$lat[ geocodes$ville == "cayenne" ] = 4.92270
-  geocodes$address[ geocodes$ville == "la possession" ] = "la possession, reunion"
-  geocodes$lon[ geocodes$ville == "la possession" ] = 55.33570
-  geocodes$lat[ geocodes$ville == "la possession" ] = -20.93299
-  geocodes$address[ geocodes$ville == "le lamentin" ] = "le lamentin, martinique"
-  geocodes$lon[ geocodes$ville == "le lamentin" ] = -61.00000
-  geocodes$lat[ geocodes$ville == "le lamentin" ] = 14.60000
-  geocodes$address[ geocodes$ville == "le marin" ] = "le marin, martinique"
-  geocodes$lon[ geocodes$ville == "le marin" ] = -60.8658
-  geocodes$lat[ geocodes$ville == "le marin" ] = 14.4694
-  geocodes$address[ geocodes$ville == "saint andre" ] = "saint-andré, reunion"
-  geocodes$lon[ geocodes$ville == "saint andre" ] = 55.64727
-  geocodes$lat[ geocodes$ville == "saint andre" ] = -20.96373
-  geocodes$address[ geocodes$ville == "saint martin" ] = "saint martin"
-  geocodes$lon[ geocodes$ville == "saint martin" ] = -63.05225
-  geocodes$lat[ geocodes$ville == "saint martin" ] = 18.08255
-  geocodes$address[ geocodes$ville == "saint pierre" ] = "saint-pierre, reunion"
-  geocodes$lon[ geocodes$ville == "saint pierre" ] = 55.47184
-  geocodes$lat[ geocodes$ville == "saint pierre" ] = -21.33284
-
-  write_csv(geocodes[ !is.na(geocodes$lon), ], "data/geocodes.csv")
-
-}
-
-geocodes = read_csv("data/geocodes.csv")
-stopifnot(na.omit(u$ville) %in% geocodes$ville) # make sure all cities are found
-
-# get users
+# get follower counts
 n = as.data.frame(table(u$ville), stringsAsFactors = FALSE)
 names(n) = c("ville", "users")
 
-# update users column
-geocodes$users = NULL
-geocodes = left_join(geocodes, n, by = "ville") %>%
-  filter(!is.na(lon), !is.na(lat), !is.na(users))
-
-# order by descending users
-geocodes = arrange(geocodes, -users) %>%
-  select(ville, lon, lat, users, address)
-
-# shown in map: metropolitan France, ~ 66,000 users
-sum(subset(geocodes, grepl("france", address))$users)
-
-# excluded: DOM-TOM
-filter(geocodes, !grepl("france", address))
-
 #==============================================================================
-# MAP 1: DENSITY CURVES
-#==============================================================================
-
-fr = get_map(location = "france", zoom = 6, source = "stamen", maptype = "toner")
-
-ggmap(fr, darken = c(.5, "white")) +
-  geom_point(data = filter(geocodes, abs(lon) < 30),
-             aes(y = lat, x = lon, size = log10(users + 1)),
-             alpha = .75, color = "black") +
-  geom_density2d(data = filter(geocodes, abs(lon) < 30),
-                 aes(y = lat, x = lon, size = log10(users + 1)),
-                 size = 1) +
-  scale_size_area("Followers", max_size = 12,
-                  breaks = 1:3, labels = 10^(1:3)) +
-  labs(y = NULL, x = NULL) +
-  theme_mapped
-
-ggsave("plots/map_by_cities.png", width = 12, height = 12)
-
-#==============================================================================
-# MAP 2: CHOROPLETH
+# CHOROPOLETHS 1 AND 2: FOLLOWERS AND POLITICIANS
 #==============================================================================
 
 depts = read_csv("data/geo_departements.csv")
@@ -232,7 +143,7 @@ n$users[ is.na(n$users) ] = 0
 n$add_dep[ is.na(n$add_dep) ] = 0
 n$total = n$users + n$add_dep
 
-# how many additional users did we geocode from their departement? quite a few:
+# how many additional users did we add from their departement? quite a few:
 sum(n$total) - sum(n$users)
 
 # let's be thorough (2): some users have only the region informed
@@ -280,7 +191,7 @@ n$users[ is.na(n$users) ] = 0 # unneeded, just to be safe
 n$add_reg[ is.na(n$add_reg) ] = 0
 n$total = n$total + n$add_reg
 
-# how many additional users did we geocode from their region? just a few:
+# how many additional users did we add from their region? just a few:
 sum(n$total) - sum(n$add_dep) - sum(n$users)
 
 # and finally, we get the number of users by departement number
@@ -294,8 +205,8 @@ g = inner_join(g, select(n, ville, total), by = "ville") %>%
 g$id[ nchar(g$id) < 2 ] = paste0("0", g$id[ nchar(g$id) < 2 ])
 
 # log10 tiles
-g$Q = cut(g$users, c(0, 100, 1000, Inf), right = FALSE)
-levels(g$Q) = c("< 100", "< 1000", "1000+")
+g$Q = cut(g$users, c(0, 1, 100, 1000, Inf), right = FALSE)
+levels(g$Q) = c("0", "< 100", "< 1000", "1000+")
 
 # add population figures
 dept = depts[, c("numero", "pop2011") ]
@@ -314,20 +225,52 @@ depmap = readOGR(dsn = "maps/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2014-12-05/GE
 depggm = fortify(depmap, region = "CODE_DEPT")
 
 # add users variables
-depggm = left_join(depggm, g, by = "id")
+depggm = left_join(depggm, g, by = "id") %>%
+  mutate(panel = "Followers")
 
-ggplot(depggm, aes(map_id = id)) +
+g1 = ggplot(depggm, aes(map_id = id)) +
   geom_map(aes(fill = Q), map = depggm, color = "white", size = 1) +
   expand_limits(x = depggm$long, y = depggm$lat) +
-  scale_fill_brewer("Followers", palette = "Reds", na.value = "grey") +
+  scale_fill_brewer("", palette = "Greys", na.value = "white") +
   coord_equal() +
+  facet_grid(. ~ panel) +
   theme_mapped +
+  theme(plot.margin = unit(c(0.5, -1, 0.5, 0), "cm")) +
   labs(y = NULL, x = NULL)
 
-ggsave("plots/map_by_departements.png", width = 12, height = 12)
+d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
+
+# get politician counts
+p = as.data.frame(table(d$departement), stringsAsFactors = FALSE)
+names(p) = c("departement", "politicians")
+
+p = filter(p, departement != "") %>%
+  left_join(select(depts, id = numero, departement), by = "departement")
+
+# correct the departement numbers to match the map data
+p$id[ nchar(p$id) < 2 ] = paste0("0", p$id[ nchar(p$id) < 2 ])
+
+depggm = left_join(depggm, p, by = "id") %>%
+  mutate(panel = "Politicians")
+
+g2 = ggplot(depggm, aes(map_id = id)) +
+  geom_map(aes(fill = cut(politicians, c(0, 1, 10, 20, Inf),
+                          c("0", "< 10", "< 20", "20+"), right = FALSE)),
+           map = depggm, color = "white", size = 1) +
+  expand_limits(x = depggm$long, y = depggm$lat) +
+  scale_fill_brewer("", palette = "Greys", na.value = "white") +
+  coord_equal() +
+  facet_grid(. ~ panel) +
+  theme_mapped +
+  theme(plot.margin = unit(c(0.5, 0, 0.5, -1), "cm")) +
+  labs(y = NULL, x = NULL)
+
+png("plots/map_counts.png", width = 10, height = 6, units = "in", res = 300)
+grid.arrange(g1, g2, ncol = 2)
+dev.off()
 
 #==============================================================================
-# MAPS 3 AND 4: FOLLOWERS AND POPULATION RATIOS
+# CHOROPLETHS 3 AND 4: FOLLOWERS AND POPULATION (RATIOS)
 #==============================================================================
 
 dep = select(depts, departement, id = numero, pop_ratio = pop2011) %>%
@@ -379,10 +322,6 @@ g2 = ggplot(depggm, aes(map_id = id)) +
   theme(plot.margin = unit(c(0.5, 0, 0.5, -1), "cm")) +
   labs(y = NULL, x = NULL)
 
-pdf("plots/map_ratios.pdf", width = 10, height = 6)
-grid.arrange(g1, g2, ncol = 2)
-dev.off()
-
 png("plots/map_ratios.png", width = 10, height = 6, units = "in", res = 300)
 grid.arrange(g1, g2, ncol = 2)
 dev.off()
@@ -391,7 +330,7 @@ dev.off()
 # POPULATION CORRELATES
 #==============================================================================
 
-# Overall population distribution
+# overall population distribution
 corr = unique(depggm[, c("id", "users_ratio", "pop_ratio") ])
 with(corr, cor(users_ratio, pop_ratio)) # rho ~ .46 (main outlier: Paris)
 with(corr[ corr$id != 75, ], cor(users_ratio, pop_ratio))
