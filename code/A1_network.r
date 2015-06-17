@@ -7,14 +7,13 @@
 #
 # The network file (model/network.rda) contains the full network, whereas the
 # model results (model/ergm.rda) contain the subset network on which the ERGM
-# is run (number of shared followers >= 1000 and tie strength > 0.5).
+# is run (tie strength > 0.5).
 #
 # ==============================================================================
 
 library(dplyr)
 library(readr)
 
-library(ergm)
 library(network)
 
 library(GGally)
@@ -39,7 +38,7 @@ if(!file.exists("model/network.rda")) {
 
   M = list()
 
-  pb = txtProgressBar(min = 1, max = length(followers_m))
+  pb = txtProgressBar(min = 1, max = length(followers_m), style = 3)
 
   for(i in 1:length(followers_m)) {
 
@@ -65,7 +64,7 @@ if(!file.exists("model/network.rda")) {
 
   e = list()
 
-  pb = txtProgressBar(min = 1, max = nrow(m))
+  pb = txtProgressBar(min = 1, max = nrow(m), style = 3)
 
   for(i in 1:nrow(m)) {
 
@@ -146,60 +145,6 @@ for(w in c(.66, .5)) {
          g, width = 10, height = 9)
 
 }
-
-# ==============================================================================
-# DEMO ERGM RESULTS
-# ==============================================================================
-
-cat(date(), ": modeling network at w >", w, "...\n")
-
-# baseline model
-B = ergm(net ~ edges +
-           nodefactor("party", base = which(names(table(net %v% "party")) == "IND")) +
-           nodematch("party") +
-           mutual,
-	         control = control.ergm(seed = 3726,
-	                                parallel = parallel::detectCores() %/% 2,
-    		 													MCMLE.maxit = 50))
-
-print(summary(B))
-
-# baseline model with controls
-E = ergm(net ~ edges +
-           nodefactor("party", base = which(names(table(net %v% "party")) == "IND")) +
-           nodematch("party") +
-           mutual +
-           gwesp(alpha = 1, fixed = TRUE) +
-           gwdsp(alpha = 1, fixed = TRUE) +
-           gwidegree(decay = 1, fixed = TRUE) +
-           gwodegree(decay = 1, fixed = TRUE),
-           control = control.ergm(seed = 3726,
-                                  parallel = parallel::detectCores() %/% 2,
-                                  MCMLE.maxit = 50))
-
-print(summary(E))
-
-# export
-coefs = gsub("nodefactor.party.", "Main effect: ", names(coef(E)))
-coefs[ coefs == "edges" ] = "Edges"
-coefs[ coefs == "nodematch.party" ] = "Same party"
-coefs[ coefs == "mutual" ] = "Mutual ties"
-coefs[ coefs == "gwesp.fixed.1" ] = "GWESP"
-coefs[ coefs == "gwdsp.fixed.1" ] = "GWDSP"
-coefs[ coefs == "gwidegree" ] = "GW in-degree"
-coefs[ coefs == "gwodegree" ] = "GW out-degree"
-
-texreg(E, single.row = TRUE, custom.coef.names = coefs,
-			 custom.model.names = "ERGM",
-       caption = paste("Exponential random graph model of the shared followers network.",
-                       "Alpha or decay parameters set at 1 for the geometrically weighted terms."),
-			 label = "tbl:ergm",
-			 booktabs = TRUE, dcolumn = TRUE, use.packages = FALSE,
-       file = "tables/ergm.tex")
-
-save(edges, w, net, B, E, file = "model/ergm-exp.rda")
-
-cat(date(), ": done.\n")
 
 rm(list = ls())
 gc()
