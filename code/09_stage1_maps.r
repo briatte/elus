@@ -162,7 +162,7 @@ png("plots/map_vote.png", width = 10, height = 6, units = "in", res = 300)
 grid.arrange(g1, g2, ncol = 2)
 dev.off()
 
-tbl = data_frame(election = "Presidential election, Round 2 (2012)",
+tbl = data_frame(election = "Presidential, Round 2 (2012)",
                  correlate = c("Left-wing vote share",
                                "Right-wing vote share"),
                  rho = c(with(elec, cor(mu, p_hollande, use = "complete.obs")),
@@ -180,7 +180,7 @@ elec = inner_join(elec, rename(depts, id = departement_id), by = "id")
 with(elec, cor(mu, p_left))
 with(elec, cor(mu, p_right))
 
-tbl = rbind(tbl, data_frame(election = "Presidential election, Round 1 (2012)",
+tbl = rbind(tbl, data_frame(election = "Presidential, Round 1 (2012)",
                             correlate = c("Left-wing vote share",
                                           "Right-wing vote share"),
                             rho = c(with(elec, cor(mu, p_left)),
@@ -202,7 +202,7 @@ elec = inner_join(elec, rename(depts, id = departement_id), by = "id")
 with(elec, cor(mu, p_left))
 with(elec, cor(mu, p_right))
 
-tbl = rbind(tbl, data_frame(election = "Local elections, Round 1 (2015)",
+tbl = rbind(tbl, data_frame(election = "Local, Round 1 (2015)",
                             correlate = c("Left-wing vote share",
                                           "Right-wing vote share"),
                             rho = c(with(elec, cor(mu, p_left)),
@@ -220,7 +220,7 @@ elec = inner_join(elec, rename(depts, id = departement_id), by = "id")
 with(elec, cor(mu, p_left))
 with(elec, cor(mu, p_right))
 
-tbl = rbind(tbl, data_frame(election = "Local elections, Round 2 (2015)",
+tbl = rbind(tbl, data_frame(election = "Local, Round 2 (2015)",
                             correlate = c("Left-wing vote share",
                                           "Right-wing vote share"),
                             rho = c(with(elec, cor(mu, p_left)),
@@ -239,7 +239,7 @@ elec = inner_join(elec, rename(depts, id = departement_id), by = "id")
 with(elec, cor(mu, p_left))
 with(elec, cor(mu, p_right))
 
-tbl = rbind(tbl, data_frame(election = "Local elections, Round 2 (2011)",
+tbl = rbind(tbl, data_frame(election = "Local, Round 2 (2011)",
                             correlate = c("Left-wing vote share",
                                           "Right-wing vote share"),
                             rho = c(with(elec, cor(mu, p_left)),
@@ -257,15 +257,15 @@ elec = inner_join(elec, rename(depts, id = departement_id), by = "id")
 with(elec, cor(mu, p_left))
 with(elec, cor(mu, p_right))
 
-tbl = rbind(tbl, data_frame(election = "Local elections, Round 1 (2011)",
+tbl = rbind(tbl, data_frame(election = "Local, Round 1 (2011)",
                             correlate = c("Left-wing vote share",
                                           "Right-wing vote share"),
                             rho = c(with(elec, cor(mu, p_left)),
                                     with(elec, cor(mu, p_right)))))
 
 print(xtable(filter(tbl, correlate == "Right-wing vote share")[, -2] %>%
-               select(Correlate = election, Correlation = rho),
-             caption = "Correlation between mean ideological positions and vote shares in $N = 85$ \\emph{départements}.", label = "tbl:correlates"),
+               select(Election = election, Correlation = rho),
+             caption = "Pearson's correlation coefficients for associations between mean ideological positions and right-wing vote shares at the level of $N = 85$ \\emph{départements}.", label = "tbl:correlates"),
       include.rownames = FALSE, booktabs = TRUE,
       file = "tables/correlates.tex")
 

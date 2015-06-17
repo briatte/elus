@@ -348,7 +348,7 @@ for(i in c("0_19", "20_39", "40_59", "60_74", "75")) {
   ))
 }
 tbl = xtable(select(tbl, `Age group` = pop, Correlation = rho),
-             digits = 2, caption = "Pearson’s correlation coefficients between age-group population estimates and Twitter users at the level of $N$ = 96 \\emph{départements}.", label = "tbl:pearson")
+             digits = 2, caption = "Pearson’s correlation coefficients for the associations between age-group population estimates and Twitter users at the level of $N$ = 96 \\emph{départements}.", label = "tbl:pearson")
 
 print(tbl, booktabs = TRUE, include.rownames = FALSE,
       file = "tables/population.tex")
