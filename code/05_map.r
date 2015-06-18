@@ -426,7 +426,9 @@ if(!file.exists("data/geographic_correlates.csv")) {
 
 geo = read_csv("data/geographic_correlates.csv")
 
-filter(geo, located > 0, !departement %in% c("", "DOM TOM", "EUROPE", "ETRANGER")) %>%
+filter(geo, located > 0,
+       !departement %in% c("", "EUROPE", "ETRANGER"),
+       !grepl("^DOM TOM", departement)) %>%
   rename(Mandate = type) %>%
   mutate(Mandate = ifelse(Mandate %in% c("MP", "Senator", "Local"), Mandate, "Others")) %>%
   group_by(Mandate) %>%

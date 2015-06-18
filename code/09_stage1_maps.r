@@ -320,7 +320,9 @@ d = read_csv("data/politicians.csv", col_types = list(id = col_character())) %>%
 # partial matches for over half of sample
 table(!is.na(d$ville) | !is.na(d$departement))
 
-stopifnot(na.omit(d$departement[ !d$departement %in% c("DOM TOM", "ETRANGER", "EUROPE") ]) %in% g$departement)
+stopifnot(na.omit(d$departement[ !d$departement %in% c("ETRANGER", "EUROPE") &
+                                   !grepl("^DOM TOM", d$departement) ]) %in%
+            g$departement)
 
 # create a vector of departement numbers
 depts = g$numero
