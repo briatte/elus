@@ -6,9 +6,9 @@
 # last six months and who could be located in France based on their location
 # field. All users are saved to data/users.csv.
 #
-# The adjacency matrix that is sent to the first stage of the model further 
+# The adjacency matrix that is sent to the first stage of the model further
 # restricts users to those following at least 10 politicians, and politicians
-# to those followed by at least 200 "informative" users. The result is saved to 
+# to those followed by at least 200 "informative" users. The result is saved to
 # model/matrix_selected.rda, with the starting values for that subsample.
 #
 #==============================================================================
@@ -223,18 +223,20 @@ write_csv(u, "data/users.csv")
 # GENDER RATIOS
 #==============================================================================
 
-# load politicians and their followers lists
+# load politicians
 d = read_csv("data/politicians.csv", col_types = list(id = col_character()))
-load("model/userlist.rda")
 
 if(!file.exists("data/gender_ratios.csv")) {
+
+  # load lists of followers
+  load("model/userlist.rda")
 
   gnd = data.frame()
   for(i in 1:length(followers_m)) {
 
     f = followers_m[[ i ]]
-    g = u$gender[ u$id %in% f ]
-    s = u$gender[ u$id[ u$sample ] %in% f ]
+    g = u$gender[ which(u$id %in% f) ]
+    s = u$gender[ which(u$id[ u$sample ] %in% f) ]
 
     gnd = rbind(gnd, data.frame(
       twitter = gsub("followers/|\\.rda", "", filesList[ i ]),
@@ -263,16 +265,16 @@ gnd = read_csv("data/gender_ratios.csv")
 gnd = filter(gnd, !is.infinite(ratio), !is.infinite(ratio_sample))
 
 # average gender ratios
-round(mean(gnd$ratio, na.rm = TRUE), 1)
-round(mean(gnd$ratio_sample, na.rm = TRUE), 1)
+round(mean(gnd$ratio, na.rm = TRUE), 2)
+round(mean(gnd$ratio_sample, na.rm = TRUE), 2)
 
 # gender ratios of male politicians
-round(mean(gnd$ratio[ gnd$gender == "m" ], na.rm = TRUE), 1)
-round(mean(gnd$ratio_sample[ gnd$gender == "m" ], na.rm = TRUE), 1)
+round(mean(gnd$ratio[ gnd$gender == "m" ], na.rm = TRUE), 2)
+round(mean(gnd$ratio_sample[ gnd$gender == "m" ], na.rm = TRUE), 2)
 
 # gender ratios of female politicians
-round(mean(gnd$ratio[ gnd$gender == "f" ], na.rm = TRUE), 1)
-round(mean(gnd$ratio_sample[ gnd$gender == "f" ], na.rm = TRUE), 1)
+round(mean(gnd$ratio[ gnd$gender == "f" ], na.rm = TRUE), 2)
+round(mean(gnd$ratio_sample[ gnd$gender == "f" ], na.rm = TRUE), 2)
 
 # t-tests
 t.test(gnd$ratio[ gnd$gender == "m" ], gnd$ratio[ gnd$gender == "f" ])

@@ -221,7 +221,7 @@ g = inner_join(g, dept, by = "id") %>%
   arrange(-ratio)
 
 # IGN shapefiles: http://professionnels.ign.fr/geofla
-depmap = readOGR(dsn = "maps/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2014-12-05/GEOFLA/1_DONNEES_LIVRAISON_2014-12-00068/GEOFLA_2-0_SHP_LAMB93_FR-ED141/DEPARTEMENT", layer = "DEPARTEMENT")
+depmap = readOGR(dsn = "data-geofla/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2014-12-05/GEOFLA/1_DONNEES_LIVRAISON_2014-12-00068/GEOFLA_2-0_SHP_LAMB93_FR-ED141/DEPARTEMENT", layer = "DEPARTEMENT")
 depggm = fortify(depmap, region = "CODE_DEPT")
 
 # add users variables
@@ -352,6 +352,91 @@ tbl = xtable(select(tbl, `Age group` = pop, Correlation = rho),
 
 print(tbl, booktabs = TRUE, include.rownames = FALSE,
       file = "tables/population.tex")
+
+#==============================================================================
+# GEOGRAPHIC CORRELATES
+#==============================================================================
+
+if(!file.exists("data/geographic_correlates.csv")) {
+
+  # (re)load cities-to-département table
+  cities = read_csv("data/cities.csv")
+
+  v = cities$departement
+
+  # convert the names of the departements
+  v = gsub("[[:punct:]]|[0-9]", " ", v)       # unwanted symbols
+  v = iconv(v, to = "ASCII//TRANSLIT")        # accents to punctuation
+  v = gsub("[[:punct:]]", "", v)              # accents out
+  v = tolower(str_trim(gsub("\\s+", " ", v))) # spaces out
+
+  names(v) = cities$ville
+
+  # (re)load complete list of informative followers
+  u = read_csv("data/users.csv", col_types = list(id = col_character()))
+
+  # load follower lists
+  load("model/userlist.rda")
+
+  geo = data.frame()
+  for(i in 1:length(followers_m)) {
+
+    f = followers_m[[ i ]]
+
+    # get cities of followers
+    g1 = v[ u$ville[ which(u$id %in% f) ] ]
+    s1 = v[ u$ville[ which(u$id[ u$sample ] %in% f) ] ]
+
+    # get départements of followers
+    g2 = u$departement[ which(u$id %in% f) ]
+    s2 = u$departement[ which(u$id[ u$sample ] %in% f) ]
+
+    # complete list of départements (leaving regions side)
+    g2[ is.na(g2) ] = g1[ is.na(g2) ]
+    s2[ is.na(s2) ] = s1[ is.na(s2) ]
+
+    dept = as.character(d[ d$twitter == gsub("followers/|\\.rda", "", filesList[ i ]), "departement" ])
+
+    geo = rbind(geo, data.frame(
+      twitter = gsub("followers/|\\.rda", "", filesList[ i ]),
+      departement = dept,
+      followers = length(f),
+      users = length(g2),
+      located = length(na.omit(g2)),
+      same = sum(na.omit(g2) == dept),
+      diff = sum(na.omit(g2) != dept),
+      sample = length(s2),
+      located_sample = length(na.omit(s2)),
+      same_sample = sum(na.omit(s2) == dept),
+      diff_sample = sum(na.omit(s2) != dept),
+      stringsAsFactors = FALSE))
+
+    print(tail(geo, 1))
+
+  }
+
+  geo$p_same = geo$same / geo$located
+  geo$p_same_sample = geo$same_sample / geo$located_sample
+
+  geo = left_join(select(d, twitter, type, party), geo, by = "twitter")
+
+  write_csv(geo, "data/geographic_correlates.csv")
+
+}
+
+geo = read_csv("data/geographic_correlates.csv")
+
+filter(geo, located > 0, !departement %in% c("", "DOM TOM", "EUROPE", "ETRANGER")) %>%
+  rename(Mandate = type) %>%
+  mutate(Mandate = ifelse(Mandate %in% c("MP", "Senator", "Local"), Mandate, "Others")) %>%
+  group_by(Mandate) %>%
+  summarise(# `Politicians` = n(),
+            # `Median located followers` = as.integer(median(located)),
+            `Median \\% followers in same \\emph{département}` = median(100 * p_same)) %>%
+  arrange(-`Median \\% followers in same \\emph{département}`) %>%
+  xtable(digits = 1, caption = "Percentage of followers located in the same \\emph{département} as the politicians they follow, based on the subsets of politicians and followers that could be located at that geographical level.", label = "tbl:geography") %>%
+  print(booktabs = TRUE, include.rownames = FALSE, sanitize.text.function = function(x){ x },
+        file = "tables/geography.tex")
 
 rm(list = ls())
 gc()
