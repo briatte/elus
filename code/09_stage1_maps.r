@@ -92,7 +92,7 @@ depts = group_by(est, departement_id) %>%
   filter(n > 10)
 
 # IGN shapefiles: http://professionnels.ign.fr/geofla
-depmap = readOGR(dsn = "maps/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2014-12-05/GEOFLA/1_DONNEES_LIVRAISON_2014-12-00068/GEOFLA_2-0_SHP_LAMB93_FR-ED141/DEPARTEMENT", layer = "DEPARTEMENT")
+depmap = readOGR(dsn = "data-geofla/GEOFLA_2-0_DEPARTEMENT_SHP_LAMB93_FXX_2014-12-05/GEOFLA/1_DONNEES_LIVRAISON_2014-12-00068/GEOFLA_2-0_SHP_LAMB93_FR-ED141/DEPARTEMENT", layer = "DEPARTEMENT")
 depggm = fortify(depmap, region = "CODE_DEPT")
 
 # add mean thetas
@@ -121,7 +121,7 @@ g1 = ggplot(depggm, aes(map_id = id)) +
   labs(y = NULL, x = NULL)
 
 #==============================================================================
-# MAP OF IDEAL POINTS VERSUS SARKOZY VOTE SHARE
+# MAP OF IDEAL POINTS VERSUS RIGHT-WING VOTE SHARES
 #==============================================================================
 
 # round 2
@@ -187,7 +187,47 @@ tbl = rbind(tbl, data_frame(election = "Presidential, Round 1 (2012)",
                                     with(elec, cor(mu, p_right)))))
 
 #==============================================================================
-# CORRELATION TO LOCAL ELECTION VOTE SHARE
+# CORRELATION TO LEGISLATIVE ELECTION VOTE SHARES
+#==============================================================================
+
+# correlation to round 2
+elec = read_csv("data/elec_legis2012_2.csv", col_types = list(id = col_character()))
+
+elec = group_by(elec, id) %>%
+  summarise(p_left = sum(vote[ side == "Left" ], na.rm = TRUE),
+            p_right = sum(vote[ side == "Right" ], na.rm = TRUE))
+
+elec = inner_join(elec, rename(depts, id = departement_id), by = "id")
+
+with(elec, cor(mu, p_left))
+with(elec, cor(mu, p_right))
+
+tbl = rbind(tbl, data_frame(election = "Legislative, Round 2 (2012)",
+                            correlate = c("Left-wing vote share",
+                                          "Right-wing vote share"),
+                            rho = c(with(elec, cor(mu, p_left)),
+                                    with(elec, cor(mu, p_right)))))
+
+# correlation to round 1
+elec = read_csv("data/elec_legis2012_1.csv", col_types = list(id = col_character()))
+
+elec = group_by(elec, id) %>%
+  summarise(p_left = sum(vote[ side == "Left" ], na.rm = TRUE),
+            p_right = sum(vote[ side == "Right" ], na.rm = TRUE))
+
+elec = inner_join(elec, rename(depts, id = departement_id), by = "id")
+
+with(elec, cor(mu, p_left))
+with(elec, cor(mu, p_right))
+
+tbl = rbind(tbl, data_frame(election = "Legislative, Round 1 (2012)",
+                            correlate = c("Left-wing vote share",
+                                          "Right-wing vote share"),
+                            rho = c(with(elec, cor(mu, p_left)),
+                                    with(elec, cor(mu, p_right)))))
+
+#==============================================================================
+# CORRELATION TO LOCAL ELECTION VOTE SHARES
 #==============================================================================
 
 # 2015 round 1
