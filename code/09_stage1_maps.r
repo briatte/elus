@@ -305,7 +305,7 @@ tbl = rbind(tbl, data_frame(election = "Local, Round 1 (2011)",
 
 print(xtable(filter(tbl, correlate == "Right-wing vote share")[, -2] %>%
                select(Election = election, Correlation = rho),
-             caption = "Pearson's correlation coefficients for associations between mean ideological positions and right-wing vote shares at the level of $N = 85$ \\emph{départements}.", label = "tbl:correlates"),
+             caption = "Pearson's correlation coefficients for associations between mean ideological positions and right-wing vote shares at the level of $N = 96$ \\emph{départements}.", label = "tbl:correlates"),
       include.rownames = FALSE, booktabs = TRUE,
       file = "tables/correlates.tex")
 
