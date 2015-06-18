@@ -358,11 +358,34 @@ ideal$panel = "Elite and Mass Ideal Points"
 # right panel
 est$profile = "No indication"
 est$profile[ grepl(paste0("#(", paste0(p$party[ p$side < 0 & p$party != "DVG" ], collapse = "|"), ")"),
-                   est$description, ignore.case = TRUE) ] = "Left-wing"
+                   est$description, ignore.case = TRUE) |
+               grepl(paste0("(Adh(e|é)rent|Militant|Soutien(s|t) l)e?'?\\s?#?(",
+                            paste0(p$party[ p$side < 0 & p$party != "DVG" ], collapse = "|"), ")"),
+                     est$description, ignore.case = TRUE) ] = "Left-wing"
+
 est$profile[ grepl(paste0("#(", paste0(p$party[ p$side > 0 & p$party != "DVD" ], collapse = "|"), ")"),
-                   est$description, ignore.case = TRUE) ] = "Rright-wing"
+                   est$description, ignore.case = TRUE) |
+               grepl(paste0("(Adh(e|é)rent|Militant|Soutien(s|t) l)e?'?\\s?#?(",
+                            paste0(p$party[ p$side > 0 & p$party != "DVD" ], collapse = "|"), ")"),
+                     est$description, ignore.case = TRUE) ] = "Right-wing"
 
 table(est$profile)
+
+# find mentions of politicians in user profiles
+est$mentions = grepl("@", est$description)
+
+m = str_extract_all(est$description[ est$mentions ], paste0(d$twitter, collapse = "|"))
+m = lapply(m, function(x) unique(d$party[ d$twitter %in% x ]))
+m[ !sapply(m, length) ] = "No indication"
+m[ sapply(m, function(x) all(x %in% p$party[ p$side < 0 ])) ] = "Left-wing"
+m[ sapply(m, function(x) all(x %in% p$party[ p$side > 0 ])) ] = "Right-wing"
+
+# apply to users with no indication so far
+est$mentions[ est$mentions ] = unlist(m)
+est$mentions[ est$mentions == "FALSE" ] = "No indication"
+est$profile[ est$profile == "No indication" ] = est$mentions[ est$profile == "No indication" ]
+
+stopifnot(est$profile %in% c("Left-wing", "No indication", "Right-wing"))
 
 est$panel = "Mass Ideal Points"
 
