@@ -148,7 +148,7 @@ pm = group_by(mutate(phis, phat = 10 * std01(phat)), party) %>%
 
 pm$party = factor(pm$party, levels = pm$party[ order(pm$mu) ])
 
-qplot(data = pm, x = "A", xend = "A", y = mu - 2 *sd, yend = mu + 2 * sd,
+qplot(data = pm, x = "A", xend = "A", y = mu - 2 * sd, yend = mu + 2 * sd,
       lty = "Ideal point (Twitter)", geom = "segment") +
   geom_point(aes(y = mu), size = 2) +
   geom_segment(aes(x = "B", xend = "B", y = chess - 2 * chess_sd, yend = chess + 2 * chess_sd,

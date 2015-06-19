@@ -3,8 +3,8 @@
 # 06_tweets.r -- download tweets from selected Twitter users
 #
 # The script gets the last 200 tweets from every user included in the matrix
-# that is later sent to the model (model/matrix_selected.rda). The tweets are
-# stored as .rda files in the "tweets" folder.
+# that is sent to the model (model/matrix_selected.rda). The tweets are stored 
+# as .rda files in the "tweets" folder.
 #
 # The tweets are then parsed to CSV files that are saved to the "tweets-csv"
 # folder. The CSV files contain one "mention" column for each political party,
