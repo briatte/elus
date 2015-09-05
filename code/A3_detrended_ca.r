@@ -1,4 +1,4 @@
-#==============================================================================
+#===============================================================================
 #
 # A3_detrended_ca.r -- detrended correspondence analysis of the model matrix
 #
@@ -10,22 +10,21 @@
 # See Hill, M.O. and H.G. Gauch, Jr. 1980. Detrended Correspondence Analysis:
 # an improved ordination technique. Vegetatio 42:47-58.
 #
-#==============================================================================
+#===============================================================================
 
 library(dplyr)
 library(readr)
 
 library(ggplot2)
 
+# NOTE: the current CRAN version of the ca package (0.58) contains a small bug 
+# that affects the 'nd' argument, so make sure to install ca version >= 0.61 
+# from R-Forge: https://r-forge.r-project.org/projects/ca0/
+# install.packages("ca", repos = "http://www.r-forge.r-project.org", type = "source")
+
 # correspondence analysis
-
-# problem -- official package contains a small bug:
-# the ca function returns an error when nd != NA
-# library(ca)
-
-# solution -- install alternative version with a fix
-devtools::install_github("briatte/ca")
 library(ca)
+stopifnot(packageVersion("ca") >= 0.61)
 
 # detrended correspondence analysis
 library(vegan)
@@ -53,7 +52,7 @@ cat("Selected matrix:", nrow(y), "rows,", ncol(y), "cols\n")
 min(colSums(y)) # politicians: min. number of informative followers (200)
 min(rowSums(y)) # users: min. number of politicians followed (3)
 
-# works only with the fixed version of the ca package
+# works only with ca >= 0.61
 ca_2d = ca(y, nd = 2)
 
 r = data_frame(twitter = ca_2d$colnames,
